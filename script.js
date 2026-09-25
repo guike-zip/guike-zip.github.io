@@ -123,6 +123,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.164.1/
   const nav = document.getElementById('nav');
   const toggle = document.getElementById('nav-toggle');
   const links = document.getElementById('nav-links');
+  if (!nav) return;
 
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 12);

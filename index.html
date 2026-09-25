@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Guilherme Santos · guike.zip</title>
-<meta name="description" content="Engenheiro de software há +7 anos, criador do movase, iaura e Blindado. Guia Do Zero ao App Publicado: crie seu site ou app com IA, passo a passo, até as lojas." />
-<meta property="og:title" content="Guilherme Santos · guike.zip" />
-<meta property="og:description" content="Crie seu site ou app com IA, passo a passo, até as lojas. Guia por R$ 27." />
+<title>Guilherme Santos · Crio apps e sites</title>
+<meta name="description" content="Crio apps iOS/Android e sites para empresas e empreendedores — do desenho à publicação nas lojas. Engenheiro de software há +7 anos, criador do Blindado, movase e iaura." />
+<meta property="og:title" content="Guilherme Santos · Crio apps e sites" />
+<meta property="og:description" content="Apps iOS/Android e sites, do zero até as lojas. Criador do Blindado, movase e iaura." />
 <meta property="og:image" content="https://guike-zip.github.io/assets/guia-do-zero-ao-app-publicado.png" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧭</text></svg>" />
+<link rel="icon" href="assets/apps/blindado-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -17,6 +17,7 @@
 </head>
 <body>
 
+<div id="bg-canvas"></div>
 <div class="grain"></div>
 
 <main class="hub">
@@ -24,10 +25,82 @@
   <header class="hub-head">
     <div class="avatar" aria-hidden="true">G</div>
     <h1>Guilherme Santos</h1>
-    <p class="handle">@guike.zip</p>
+    <p class="handle">@guike.zip · Curitiba/PR</p>
     <p class="lead">Crio apps e sites para empresas e empreendedores — do desenho à publicação nas lojas.
-      Engenheiro de software há +7 anos, criador do movase, do iaura e do Blindado.</p>
+      Engenheiro de software há +7 anos. Três produtos próprios em produção.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://wa.me/5541995215486?text=Oi%20Guilherme%2C%20quero%20conversar%20sobre%20um%20app" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="btn btn-ghost" href="#apps">Ver os apps</a>
+    </div>
   </header>
+
+  <span class="hub-label" id="apps">Apps que eu construí e publiquei</span>
+
+  <section class="card app-card">
+    <div class="app-head">
+      <img class="app-icon-img" src="assets/apps/blindado-icon.png" alt="Ícone do Blindado" width="64" height="64" />
+      <div>
+        <h2>Blindado</h2>
+        <p class="app-sub">iOS · macOS · Privacidade</p>
+      </div>
+    </div>
+    <p>DNS criptografado no iPhone inteiro — Wi-Fi e rede celular — e bloqueador de conteúdo nativo
+      para o Safari. Zero coleta de dados, sem servidor próprio, pagamento único.</p>
+    <div class="shots">
+      <img src="assets/apps/blindado-1.jpg" alt="Blindado — tela inicial protegida" loading="lazy" />
+      <img src="assets/apps/blindado-2.jpg" alt="Blindado — níveis de proteção" loading="lazy" />
+      <img src="assets/apps/blindado-3.jpg" alt="Blindado — bloqueador do Safari" loading="lazy" />
+    </div>
+    <div class="app-links">
+      <a href="https://github.com/guike-zip/blindado" target="_blank" rel="noopener">Código no GitHub</a>
+      <span class="chip">Swift · SwiftUI · Kotlin</span>
+    </div>
+  </section>
+
+  <section class="card app-card">
+    <div class="app-head">
+      <img class="app-icon-img" src="assets/apps/movase-icon.png" alt="Ícone do movase" width="64" height="64" />
+      <div>
+        <h2>movase</h2>
+        <p class="app-sub">iOS · Web · Fitness</p>
+      </div>
+    </div>
+    <p>Encontre academias e parceiros de treino perto de você — mapa, match por geolocalização,
+      chat, planos e pagamento no app.</p>
+    <div class="shots">
+      <img src="assets/apps/movase-1.jpg" alt="movase — explorar academias" loading="lazy" />
+      <img src="assets/apps/movase-2.jpg" alt="movase — mapa" loading="lazy" />
+      <img src="assets/apps/movase-3.jpg" alt="movase — matches" loading="lazy" />
+    </div>
+    <div class="app-links">
+      <a href="https://apps.apple.com/br/app/movase/id6799579336" target="_blank" rel="noopener">App Store</a>
+      <a href="https://movase.fit" target="_blank" rel="noopener">movase.fit</a>
+      <span class="chip">Next.js · Supabase · Stripe</span>
+    </div>
+  </section>
+
+  <section class="card app-card">
+    <div class="app-head">
+      <img class="app-icon-img" src="assets/apps/iaura-icon.png" alt="Ícone do iaura" width="64" height="64" />
+      <div>
+        <h2>iaura</h2>
+        <p class="app-sub">iOS · Android · Saúde mental</p>
+      </div>
+    </div>
+    <p>"Nenhum sentimento é final." Encontre psicólogos, veja perfil e formação, salve favoritos e
+      entre em contato — tudo num só app.</p>
+    <div class="shots">
+      <img src="assets/apps/iaura-1.jpg" alt="iaura — encontrar psicólogos" loading="lazy" />
+      <img src="assets/apps/iaura-2.jpg" alt="iaura — listagem" loading="lazy" />
+      <img src="assets/apps/iaura-3.jpg" alt="iaura — perfil do profissional" loading="lazy" />
+    </div>
+    <div class="app-links">
+      <a href="https://apps.apple.com/br/app/iaura/id6749513100" target="_blank" rel="noopener">App Store</a>
+      <a href="https://play.google.com/store/apps/details?id=com.iaura.app" target="_blank" rel="noopener">Google Play</a>
+      <a href="https://www.iaura.com.br" target="_blank" rel="noopener">iaura.com.br</a>
+      <span class="chip">Flutter · Node</span>
+    </div>
+  </section>
 
   <span class="hub-label">Precisa de um app ou site?</span>
   <section class="card product">
@@ -63,45 +136,6 @@
     <a class="more" href="https://go.hotmart.com/S107766721V" target="_blank" rel="noopener">ver o que tem dentro →</a>
   </section>
 
-  <span class="hub-label">Apps que eu construí</span>
-
-  <section class="card app">
-    <div class="app-icon" style="background:linear-gradient(135deg,#00e0c6,#0ea5e9)">M</div>
-    <div>
-      <h2>movase</h2>
-      <p>Encontre academias e parceiros fitness perto de você — planos, convites e pagamento no app.</p>
-      <div class="app-links">
-        <a href="https://apps.apple.com/br/app/movase/id6799579336" target="_blank" rel="noopener">App Store</a>
-        <a href="https://movase.fit" target="_blank" rel="noopener">movase.fit</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="card app">
-    <div class="app-icon" style="background:linear-gradient(135deg,#7c5cff,#a377ff)">i</div>
-    <div>
-      <h2>iaura</h2>
-      <p>"Nenhum sentimento é final." Encontre psicólogos e cuide da sua saúde mental.</p>
-      <div class="app-links">
-        <a href="https://apps.apple.com/br/app/iaura/id6749513100" target="_blank" rel="noopener">App Store</a>
-        <a href="https://play.google.com/store/apps/details?id=com.iaura.app" target="_blank" rel="noopener">Google Play</a>
-        <a href="https://www.iaura.com.br" target="_blank" rel="noopener">iaura.com.br</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="card app">
-    <div class="app-icon" style="background:linear-gradient(135deg,#22c55e,#0f766e)">B</div>
-    <div>
-      <h2>Blindado</h2>
-      <p>DNS criptografado no iPhone inteiro e bloqueador de conteúdo para o Safari. Zero coleta de dados, pagamento único.</p>
-      <div class="app-links">
-        <span class="chip">iOS · macOS</span>
-        <a href="https://github.com/guike-zip/blindado" target="_blank" rel="noopener">Código no GitHub</a>
-      </div>
-    </div>
-  </section>
-
   <span class="hub-label">Quem sou</span>
   <section class="card">
     <ul class="proof">
@@ -114,15 +148,16 @@
 
   <span class="hub-label">Fala comigo</span>
   <nav class="social">
+    <a href="https://wa.me/5541995215486" target="_blank" rel="noopener">WhatsApp</a>
     <a href="https://instagram.com/guike.zip" target="_blank" rel="noopener">Instagram</a>
     <a href="https://www.linkedin.com/in/guilherme-av-santos/" target="_blank" rel="noopener">LinkedIn</a>
     <a href="https://github.com/guike-zip" target="_blank" rel="noopener">GitHub</a>
-    <a href="mailto:guilherme.avieiras@gmail.com">E-mail</a>
   </nav>
 
-  <p class="hub-foot">Curitiba/PR, Brasil · <a href="curriculo/">currículo e portfólio</a></p>
+  <p class="hub-foot">guilherme.avieiras@gmail.com · <a href="curriculo/">currículo e portfólio</a></p>
 
 </main>
 
+<script type="module" src="script.js?v=2"></script>
 </body>
 </html>
