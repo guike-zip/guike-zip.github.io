@@ -1,7 +1,7 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"></head><body><title>Tingui Skills</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;600&display=swap">
 <style>
-/* Layout: one-screen phone app. Sticky header, scrolling content, fixed bottom tab bar. */
+/* Layout: one-screen phone app. Sticky header, scrolling content, fixed bottom tab bar with 3 tabs. */
 :root {
   --bg: #F4F6F9; --surface: #FFFFFF; --surface2: #EEF2F7;
   --ink: #1C2B40; --ink2: #93A3B8; --muted: #5B6B80; --line: #D9E0E9;
@@ -30,7 +30,7 @@ body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--b
 [hidden] { display: none !important; }
 h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; line-height: 1.1; }
 h1 { font-size: 26px; font-weight: 700; }
-h2 { font-size: 21px; font-weight: 700; margin-bottom: 8px; }
+h2 { font-size: 21px; font-weight: 700; }
 h3 { font-size: 17px; font-weight: 600; }
 p { margin: 0; }
 button { font: inherit; color: inherit; }
@@ -47,31 +47,26 @@ main { padding: 14px 16px calc(84px + env(safe-area-inset-bottom, 0px)); display
 .tab { display: grid; gap: 14px; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 10px; min-width: 0; }
 .card.accent { border-color: var(--accent); }
+.card.done { opacity: .72; }
 .eyebrow { font-family: var(--display); font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .muted { color: var(--muted); font-size: 14px; }
 .small { font-size: 13px; }
 .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .grow { flex: 1 1 auto; min-width: 0; }
-.btn { border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 9px 14px; font-weight: 600; cursor: pointer; }
+.btn { border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 10px 14px; font-weight: 600; cursor: pointer; }
 .btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.btn.good { background: var(--good); color: #fff; border-color: var(--good); }
 .btn.ghost { background: transparent; }
 .btn.sm { padding: 6px 10px; font-size: 13px; }
+.btn.big { padding: 14px; font-size: 17px; font-family: var(--display); }
 .pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--surface2); color: var(--muted); }
 .pill.good { background: var(--good-soft); color: var(--good); }
 .pill.warn { background: var(--warn-soft); color: var(--warn); }
 .pill.bad { background: var(--bad-soft); color: var(--bad); }
 .pill.on { background: var(--accent-soft); color: var(--accent); }
 
-.check { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line); }
-.check:first-of-type { border-top: 0; }
-.check input { width: 22px; height: 22px; margin: 2px 0 0; flex: 0 0 auto; accent-color: var(--accent); }
-.check label { flex: 1; min-width: 0; }
-.check .t { font-weight: 600; }
-.check.done .t { text-decoration: line-through; color: var(--muted); }
-
 .figs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .figs.three { grid-template-columns: repeat(3, 1fr); }
-.figs.four { grid-template-columns: 1fr 1fr; }
 .figbox { background: var(--surface2); border-radius: 10px; padding: 6px 6px 8px; display: grid; gap: 4px; min-width: 0; }
 .figbox .cap { font-size: 11.5px; line-height: 1.25; font-weight: 600; color: var(--muted); text-align: center; }
 .figbox .cap.bad { color: var(--bad); }
@@ -101,19 +96,36 @@ tr.hl td { background: var(--accent-soft); }
 .timer .t { font-family: var(--display); font-weight: 700; font-size: 52px; letter-spacing: .02em; }
 .bar { height: 8px; background: var(--surface2); border-radius: 999px; overflow: hidden; width: 100%; }
 .bar i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+.bar.good i { background: var(--good); }
+
+.sets { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: 8px; }
+.sets input { text-align: center; font-size: 18px; font-family: var(--display); font-weight: 600; padding: 10px 4px; }
+.sets .s { display: grid; gap: 3px; justify-items: center; }
+.sets .s span { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.lvl { display: flex; gap: 3px; }
+.lvl i { flex: 1; height: 5px; border-radius: 3px; background: var(--surface2); }
+.lvl i.on { background: var(--accent); }
+.lvl i.cur { background: var(--ink); }
 
 .phase { border-left: 3px solid var(--line); padding-left: 12px; display: grid; gap: 6px; }
 .phase.cur { border-left-color: var(--accent); }
+.phase.ok { border-left-color: var(--good); }
 .phase .ph { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
 .lbl { font-size: 12.5px; color: var(--muted); font-weight: 600; letter-spacing: .03em; text-transform: uppercase; }
+.crit { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; padding: 4px 0; }
+.crit input { width: 20px; height: 20px; margin: 1px 0 0; flex: 0 0 auto; accent-color: var(--good); }
+.crit .auto { font-size: 11px; color: var(--muted); }
+.crit.ok { color: var(--good); }
 
 .field { display: grid; gap: 4px; }
 .field label { font-size: 13px; color: var(--muted); font-weight: 600; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.testrow { display: grid; grid-template-columns: 1fr 86px; gap: 10px; align-items: end; padding: 8px 0; border-top: 1px solid var(--line); }
-.testrow:first-of-type { border-top: 0; }
-.testrow .how { font-size: 12.5px; color: var(--muted); }
 .spark { width: 100%; height: 70px; display: block; }
+.cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal div { aspect-ratio: 1; border-radius: 6px; background: var(--surface2); display: grid; place-items: center; font-size: 11px; color: var(--muted); }
+.cal div.on { background: var(--accent); color: var(--on-accent); font-weight: 600; }
+.cal div.hs { background: var(--accent-soft); color: var(--accent); }
+.cal div.today { outline: 2px solid var(--ink); }
 
 .subtabs { display: flex; gap: 6px; background: var(--surface2); padding: 4px; border-radius: 12px; }
 .subtabs button { flex: 1; border: 0; background: transparent; border-radius: 9px; padding: 8px; font-family: var(--display); font-weight: 600; font-size: 15px; cursor: pointer; color: var(--muted); }
@@ -123,316 +135,380 @@ nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; background: var(--surf
 nav.tabs button { flex: 1; border: 0; background: transparent; display: grid; justify-items: center; gap: 2px; padding: 4px 0; color: var(--muted); font-size: 11px; font-weight: 600; cursor: pointer; border-radius: 10px; }
 nav.tabs button svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 nav.tabs button.on { color: var(--accent); }
-.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(90px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 20; }
+.rest { position: fixed; left: 16px; right: 16px; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; z-index: 9; box-shadow: 0 6px 20px rgba(0,0,0,.25); max-width: 688px; margin: 0 auto; }
+.rest .t { font-family: var(--display); font-weight: 700; font-size: 28px; }
+.rest button { border: 0; background: rgba(255,255,255,.15); color: inherit; border-radius: 8px; padding: 6px 10px; font-weight: 600; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(90px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 20; max-width: 90vw; text-align: center; }
 .toast.show { opacity: 1; }
+.onb { display: grid; gap: 12px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-@media (min-width: 600px) { .figs.four { grid-template-columns: repeat(4, 1fr); } .kpis { grid-template-columns: repeat(6, 1fr); } }
+@media (min-width: 600px) { .kpis { grid-template-columns: repeat(6, 1fr); } }
 </style>
 
 <header class="hdr">
   <div>
     <h1>Tingui Skills</h1>
-    <p class="sub" id="hdrSub">Muscle-up e handstand walk</p>
+    <p class="sub" id="hdrSub">Rumo ao muscle-up e ao handstand walk</p>
   </div>
   <div class="chips" id="hdrChips"></div>
 </header>
 
 <main>
   <section class="tab" id="tab-hoje"></section>
-  <section class="tab" id="tab-semana" hidden></section>
-  <section class="tab" id="tab-trilhas" hidden></section>
-  <section class="tab" id="tab-exercicios" hidden></section>
-  <section class="tab" id="tab-eu" hidden></section>
+  <section class="tab" id="tab-progresso" hidden></section>
+  <section class="tab" id="tab-guia" hidden></section>
 </main>
 
 <nav class="tabs" id="nav">
-  <button data-tab="hoje" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Hoje</button>
-  <button data-tab="semana"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Semana</button>
-  <button data-tab="trilhas"><svg viewBox="0 0 24 24"><path d="M4 20l5-6 4 3 7-10"/><path d="M15 7h5v5"/></svg>Trilhas</button>
-  <button data-tab="exercicios"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><rect x="5" y="8" width="3" height="8" rx="1"/><rect x="16" y="8" width="3" height="8" rx="1"/></svg>Exercícios</button>
-  <button data-tab="eu"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Eu</button>
+  <button data-tab="hoje" class="on"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg>Hoje</button>
+  <button data-tab="progresso"><svg viewBox="0 0 24 24"><path d="M4 20l5-6 4 3 7-10"/><path d="M15 7h5v5"/></svg>Progresso</button>
+  <button data-tab="guia"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 012-2h12v16H6a2 2 0 00-2 2z"/><path d="M4 19a2 2 0 012-2h12"/></svg>Guia</button>
 </nav>
+<div class="rest" id="rest" hidden><span class="grow">Descanso</span><span class="t num" id="restT">1:30</span><button id="restPlus">+30 s</button><button id="restStop">Pular</button></div>
 <div class="toast" id="toast"></div>
 
 <script>
 const FIGS = {"Barra fixa": [["INÍCIO: pendurado, ombros ativos", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 22,8 L 22,97 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 92,8 L 92,97 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 18,97 L 96,97 Z\" style=\"stroke: var(--equip); stroke-linecap: round; stroke-width: 3;\"/> <path d=\"M 56,74 L 55.661241,84.994783 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 55.661241,84.994783 L 56,96.99 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,52 L 56,35 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,35 L 56,18 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,18 L 58.052121,12.361844 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,52 L 56,74 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"56.0\" cy=\"82.2\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 82,55 L 82,75 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"82 75, 78.8 71, 85.2 71\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["FIM: queixo acima da barra", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 22,8 L 22,97 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 92,8 L 92,97 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 18,97 L 96,97 Z\" style=\"stroke: var(--equip); stroke-linecap: round; stroke-width: 3;\"/> <path d=\"M 49.917426,90.916283 L 59.504623,85.52317 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 59.504623,85.52317 L 56,97 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 48,69 L 50.952019,52.258268 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 50.952019,52.258268 L 49.470371,35.322958 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 49.470371,35.322958 L 51.522492,29.684803 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 48,69 L 49.917426,90.916283 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"50.63210343097928\" cy=\"99.08507988237072\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 82,90 L 82,70 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"82 70, 78.8 74, 85.2 74\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]], "Remada": [["INÍCIO: braços estendidos, corpo reto", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 14,8 L 14,56 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 136,8 L 136,56 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 10,56 L 140,56 Z\" style=\"stroke: var(--equip); stroke-linecap: round; stroke-width: 3;\"/> <path d=\"M 47.601955,33.241345 L 46.144352,44.144344 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 46.144352,44.144344 L 48,56 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 68,25 L 83.762126,18.631688 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 83.762126,18.631688 L 99.524251,12.263376 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 99.524251,12.263376 L 102.524251,17.459528 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 68,25 L 47.601955,33.241345 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"39.99904759208302\" cy=\"36.313119121160554\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 28,30 L 28,46 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"28 46, 24.8 42, 31.2 42\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["FIM: peito na barra, escápulas juntas", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 14,8 L 14,56 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 136,8 L 136,56 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 10,56 L 140,56 Z\" style=\"stroke: var(--equip); stroke-linecap: round; stroke-width: 3;\"/> <path d=\"M 53.978655,44.118682 L 59.735043,53.492261 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 59.735043,53.492261 L 48,56 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 72,31.5 L 85.925585,21.749201 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 85.925585,21.749201 L 99.85117,11.998401 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 99.85117,11.998401 L 102.85117,17.194554 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 72,31.5 L 53.978655,44.118682 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"47.26160826247244\" cy=\"48.82200837780159\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 28,48 L 28,32 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"28 32, 24.8 36, 31.2 36\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]], "Flexão": [["INÍCIO: braços estendidos, corpo reto", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 59.749632,30.694019 L 62.880798,20.149077 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62.880798,20.149077 L 60,8.5 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 81,25 L 97.420739,20.600076 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 97.420739,20.600076 L 113.841478,16.200152 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 113.841478,16.200152 L 119.841478,16.200152 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 81,25 L 59.749632,30.694019 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"51.82904004607014\" cy=\"32.81633516209613\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 40,30 L 40,16 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"40 16, 36.8 20, 43.2 20\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["FIM: peito quase no chão, cotovelos 45°", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 60.214102,19.061808 L 70.296368,14.663181 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 70.296368,14.663181 L 60,8.5 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 82,16 L 98.976702,15.110289 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 98.976702,15.110289 L 115.953404,14.220577 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 115.953404,14.220577 L 121.953404,14.220577 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 82,16 L 60.214102,19.061808 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"52.093904324004576\" cy=\"20.203027648993974\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 40,16 L 40,30 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"40 30, 36.8 26, 43.2 26\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]], "Agachamento": [["INÍCIO: em pé, pés na largura dos ombros", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 62,66 L 63.91013,55.167115 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 63.91013,55.167115 L 65.993908,43.349422 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,44 L 62,27 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,27 L 62,10 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,10 L 68,10 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,44 L 62,66 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"62.0\" cy=\"74.2\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 92,60 L 92,44 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"92 44, 88.8 48, 95.2 48\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["FIM: coxa paralela, peito alto", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 58.297602,46.438771 L 69.297602,46.438771 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 69.297602,46.438771 L 81.297602,46.438771 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 49,26.5 L 43.072367,10.566916 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 43.072367,10.566916 L 60,9 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,9 L 66,9 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 49,26.5 L 58.297602,46.438771 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"61.76307150456912\" cy=\"53.870495168506835\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 100,28 L 100,44 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"100 44, 96.8 40, 103.2 40\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]], "Afundo": [["INÍCIO: passo à frente, tronco vertical", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 60,44 L 54.185658,28.025225 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 54.185658,28.025225 L 51.233639,11.283494 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 51.233639,11.283494 L 57.233639,11.283494 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,66 L 61.91013,55.167115 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 61.91013,55.167115 L 59.826352,43.349422 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,44 L 65.814342,28.025225 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 65.814342,28.025225 L 68.766361,11.283494 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 68.766361,11.283494 L 74.766361,11.283494 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,44 L 60,66 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"60.0\" cy=\"74.2\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 92,60 L 92,44 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"92 44, 88.8 48, 95.2 48\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["FIM: dois joelhos a 90°", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 60,29 L 60,12 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,12 L 43,12 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 43,12 L 47.242641,7.757359 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,51 L 61.91013,40.167115 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 61.91013,40.167115 L 59.826352,28.349422 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,29 L 77,29 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 77,29 L 77,12 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 77,12 L 83,12 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,29 L 60,51 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"60.0\" cy=\"59.2\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 95,30 L 95,46 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"95 46, 91.8 42, 98.2 42\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]], "Dip": [["INÍCIO: braços estendidos no banco", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <rect x=\"14\" y=\"8\" width=\"36\" height=\"22\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1; fill: var(--bench); fill-rule: evenodd;\"/> <path d=\"M 49.758655,54.398045 L 50.208426,43.407244 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 50.208426,43.407244 L 49.990818,31.409217 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 58,34 L 74.420739,29.600076 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 74.420739,29.600076 L 77.372758,12.858344 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 77.372758,12.858344 L 83.372758,12.858344 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 58,34 L 49.758655,54.398045 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"46.68688087883946\" cy=\"62.00095240791698\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 95,55 L 95,40 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"95 40, 91.8 44, 98.2 44\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["FIM: cotovelos a 90°, para trás", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <rect x=\"14\" y=\"8\" width=\"36\" height=\"22\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1; fill: var(--bench); fill-rule: evenodd;\"/> <path d=\"M 51.758655,42.398045 L 60.682548,35.96655 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60.682548,35.96655 L 50,30.5 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,22 L 77,22 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 77,22 L 86.750799,8.074415 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 86.750799,8.074415 L 92.750799,8.074415 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,22 L 51.758655,42.398045 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"48.68688087883946\" cy=\"50.00095240791698\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 95,38 L 95,54 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"95 54, 91.8 50, 98.2 50\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]], "Prancha": [["CORRETO: linha reta da cabeça ao calcanhar", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 52.034229,20.02026 L 52.000017,9.020313 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 52.000017,9.020313 L 64,9 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 73.7,16.2 L 90.441732,13.247981 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 90.441732,13.247981 L 107.315016,11.176202 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 107.315016,11.176202 L 113.315016,11.176202 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 73.7,16.2 L 52.034229,20.02026 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"43.95880585903132\" cy=\"21.444174965541293\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["ERRADO: quadril caído", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 51.961229,19.997602 L 52,8.99767 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 52,8.99767 L 64,9 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 71.9,10.7 L 88.83531,12.181648 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 88.83531,12.181648 L 105.577042,9.229629 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 105.577042,9.229629 L 111.577042,9.229629 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 71.9,10.7 L 51.961229,19.997602 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"44.52950483149317\" cy=\"23.463071504569125\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 68,20 L 76,28 Z\" style=\"stroke: var(--bad); stroke-linecap: butt; stroke-width: 2.2;\"/> <path d=\"M 68,28 L 76,20 Z\" style=\"stroke: var(--bad); stroke-linecap: butt; stroke-width: 2.2;\"/> </g> </g> </g> </svg> "]], "Elevação": [["INÍCIO: pendurado, sem balançar", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 22,8 L 22,97 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 92,8 L 92,97 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 18,97 L 96,97 Z\" style=\"stroke: var(--equip); stroke-linecap: round; stroke-width: 3;\"/> <path d=\"M 56,74 L 55.661241,84.994783 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 55.661241,84.994783 L 56,96.99 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,52 L 56,35 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,35 L 56,18 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,18 L 58.052121,12.361844 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,52 L 56,74 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"56.0\" cy=\"82.2\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 84,32 L 84,50 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"84 50, 80.8 46, 87.2 46\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["FIM: joelhos na altura do quadril", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 22,8 L 22,97 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 92,8 L 92,97 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 18,97 L 96,97 Z\" style=\"stroke: var(--equip); stroke-linecap: round; stroke-width: 3;\"/> <path d=\"M 52.082574,75.916283 L 49.860481,86.689505 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 49.860481,86.689505 L 56,97 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 54,54 L 70.741732,56.952019 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 70.741732,56.952019 L 70.741732,39.952019 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 70.741732,39.952019 L 73.741732,34.755867 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 54,54 L 52.082574,75.916283 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"51.36789656902072\" cy=\"84.08507988237072\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 86,40 L 86,56 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"86 56, 82.8 52, 89.2 52\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]], "Ponte": [["INÍCIO: deitado, pés perto do glúteo", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 35,11 L 45.892949,9.469096 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 45.892949,9.469096 L 57.892949,9.469096 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 57,11 L 65.5,25.722432 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 65.5,25.722432 L 68.452019,8.9807 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 68.452019,8.9807 L 74.452019,8.9807 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 57,11 L 35,11 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"26.8\" cy=\"11.000000000000005\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 57,30 L 57,44 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"57 44, 53.8 40, 60.2 40\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["FIM: linha reta dos joelhos aos ombros", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 34.861229,11.202398 L 45.694114,9.292268 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 45.694114,9.292268 L 57.694114,9.292268 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 54.8,20.5 L 70.131153,27.845458 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 70.131153,27.845458 L 68.70863,10.905079 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 68.70863,10.905079 L 74.70863,10.905079 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 54.8,20.5 L 34.861229,11.202398 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"27.429504831493166\" cy=\"7.736928495430883\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 54.8,30 L 54.8,44 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"54.8 44, 51.6 40, 58 40\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]], "Superman": [["INÍCIO: deitado de bruços", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 40,11 L 29,11 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 29,11 L 17,11 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,11 L 79,11 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 79,11 L 96,11 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 96,11 L 102,11 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,11 L 40,11 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"31.8\" cy=\"11.000000000000005\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 25,20 L 25,32 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"25 32, 21.8 28, 28.2 28\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> <path d=\"M 95,20 L 95,32 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"95 32, 91.8 28, 98.2 28\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["FIM: braços, peito e pernas elevados", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 40.749632,17.694019 L 30.413013,21.456241 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 30.413013,21.456241 L 19.136702,25.560482 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,12 L 78.628509,15.534499 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 78.628509,15.534499 L 95.257018,19.068997 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 95.257018,19.068997 L 101.257018,19.068997 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,12 L 40.749632,17.694019 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"32.82904004607014\" cy=\"19.816335162096134\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 25,34 L 25,46 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"25 46, 21.8 42, 28.2 42\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> <path d=\"M 95,34 L 95,46 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"95 46, 91.8 42, 98.2 42\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]], "_muscleup": [["1. Puxada explosiva até o peito", "<svg viewBox=\"0 0 150 135\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-135)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 22,8 L 22,85 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 92,8 L 92,85 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 18,85 L 96,85 Z\" style=\"stroke: var(--equip); stroke-linecap: round; stroke-width: 3;\"/> <path d=\"M 48.917426,84.916283 L 50.963257,74.108204 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 50.963257,74.108204 L 56,85 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 47,63 L 48.481648,46.06469 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 48.481648,46.06469 L 47,29.12938 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 47,29.12938 L 49.052121,23.491225 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 47,63 L 48.917426,84.916283 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"49.63210343097928\" cy=\"93.08507988237072\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 86,60 L 86,80 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"86 80, 82.8 76, 89.2 76\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["2. Transição: punhos giram, peito sobre a barra", "<svg viewBox=\"0 0 150 135\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-135)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 22,8 L 22,85 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 92,8 L 92,85 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 18,85 L 96,85 Z\" style=\"stroke: var(--equip); stroke-linecap: round; stroke-width: 3;\"/> <path d=\"M 57.798374,92.923243 L 46.800535,92.705183 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 46.800535,92.705183 L 56,85 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 51,72 L 53.952019,55.258268 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 53.952019,55.258268 L 52.470371,38.322958 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 52.470371,38.322958 L 54.522492,32.684803 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 51,72 L 57.798374,92.923243 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"60.33231323012342\" cy=\"100.72190679211364\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 86,85 L 86,100 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"86 100, 82.8 96, 89.2 96\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["3. Dip na barra reta até estender", "<svg viewBox=\"0 0 150 135\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-135)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 22,8 L 22,85 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 92,8 L 92,85 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 2;\"/> <path d=\"M 18,85 L 96,85 Z\" style=\"stroke: var(--equip); stroke-linecap: round; stroke-width: 3;\"/> <path d=\"M 56,107 L 59.350635,96.522727 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 59.350635,96.522727 L 56,85 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,85 L 56,68 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,68 L 56,51 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,51 L 58.052121,45.361844 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 56,85 L 56,107 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"56.0\" cy=\"115.2\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 86,95 L 86,112 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"86 112, 82.8 108, 89.2 108\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]], "_handstand": [["1. Parede, peito para a parede: 60 s", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 66,8 L 66,100 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 3;\"/> <path d=\"M 60,31 L 60,20 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,20 L 60,8 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,53 L 60.593291,69.989644 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60.593291,69.989644 L 61.186583,86.979288 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 61.186583,86.979288 L 66.824739,89.031409 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,53 L 60,31 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"60.0\" cy=\"22.8\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["2. Entrada com chute, parede de segurança", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 80,8 L 80,100 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 3;\"/> <path d=\"M 52,40 L 46.185658,55.974775 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 46.185658,55.974775 L 43.233639,72.716506 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 43.233639,72.716506 L 48.871794,74.768627 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 63,20.947441 L 52.978281,16.412559 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 52.978281,16.412559 L 62,8.5 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 52,40 L 60.5,25.277568 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60.5,25.277568 L 69,10.555136 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 69,10.555136 L 75,10.555136 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 52,40 L 63,20.947441 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"67.1\" cy=\"13.846032805709955\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 30,30 L 30,50 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"30 50, 26.8 46, 33.2 46\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "], ["3. Livre: 30 s em linha reta", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 60,31 L 60,20 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,20 L 60,8 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,53 L 60,70 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,70 L 60,87 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,87 L 65.638156,89.052121 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 60,53 L 60,31 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"60.0\" cy=\"22.8\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <text x=\"0.345947265625\" y=\"100\" style=\"font-family: DV; font-size: 5.5px;fill: var(--ink); stroke:none;\" transform=\"translate(0,200) scale(1,-1)\">hollow: costelas fechadas, glúteo contraído</text> </g> </g> </g> </svg> "], ["4. Caminhada: transferir peso e dar o passo", "<svg viewBox=\"0 0 150 112\" xmlns=\"http://www.w3.org/2000/svg\" class=\"fig\" aria-hidden=\"true\"> <g transform=\"scale(1,-1) translate(0,-112)\"> <g transform=\"\"> <g transform=\"\"> <path d=\"M 4,8 L 146,8 Z\" style=\"stroke: var(--equip); stroke-linecap: butt; stroke-width: 1.2;\"/> <path d=\"M 64.299626,31.120518 L 63.340913,20.162377 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 63.340913,20.162377 L 62.295044,8.20804 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,53 L 61.406709,69.989644 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 61.406709,69.989644 L 62,86.979288 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,86.979288 L 67.638156,89.031409 Z\" style=\"stroke: var(--ink2); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 64.299626,31.120518 L 68.944236,21.149179 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 68.944236,21.149179 L 73.36046,9.991358 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,53 L 63.481648,69.93531 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 63.481648,69.93531 L 62,86.87062 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,86.87062 L 67.638156,88.922741 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 3.2;\"/> <path d=\"M 62,53 L 64.299626,31.120518 Z\" style=\"stroke: var(--ink); stroke-linecap: round; stroke-width: 4.2;\"/> <circle cx=\"65.15675959068314\" cy=\"22.965438759878147\" r=\"5.2\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--ink); fill-rule: evenodd;\"/> <path d=\"M 80,4 L 96,4 Z\" style=\"stroke: var(--accent); stroke-linecap: butt; stroke-width: 2;\"/> <polygon points=\"98 4, 94 7, 94 1\" style=\"stroke: none; stroke-linecap: butt; stroke-width: 1; fill: var(--accent); fill-rule: evenodd;\"/> </g> </g> </g> </svg> "]]};
 
-// ---------------------------------------------------------------- data
-const WEEK = [
-  { d: "Domingo", local: "Casa", title: "Descanso", dur: "-", items: [
-    { t: "Descanso completo", s: "Caminhada longa se quiser. Sem barra, sem handstand pesado." }] },
-  { d: "Segunda", local: "Parque Tingui", title: "Handstand + Puxar (muscle-up)", dur: "60 a 70 min", items: [
-    { t: "Trajeto a pé como aquecimento", s: "1,8 km em linha reta até as barras do setor São João. Terços: caminhada, caminhada rápida, trote leve." },
-    { t: "Handstand 15 min", s: "Fase atual da trilha. Sempre antes do resto, descansado." },
-    { t: "Aquecimento de barra", s: "Pendurado 2 x 15 s, escapular pull 2 x 6, remada australiana leve 2 x 8." },
-    { t: "Barra principal (fase do muscle-up)", s: "MU", mu: true },
-    { t: "Barra sem carga", s: "2 x máximo menos 1. 2 min de descanso." },
-    { t: "Remada australiana, pés elevados, pausa 2 s", s: "3 x 8 a 12. 90 s." },
-    { t: "Elevação de joelhos pendurado", s: "3 x 8 a 12, sem balanço. 60 s." },
-    { t: "Pendurado passivo na cromada + alongamento de antebraço", s: "2 x 30 s." }] },
-  { d: "Terça", local: "Academia", title: "Handstand + Pernas", dur: "60 min", items: [
-    { t: "Handstand 10 min", s: "Parede ou mobilidade, conforme a fase." },
-    { t: "Agachamento livre ou hack", s: "3 x 6 a 8. 2 a 3 min." },
-    { t: "Terra romeno ou stiff", s: "3 x 8 a 10. 2 min." },
-    { t: "Afundo com halteres ou búlgaro", s: "2 x 8 a 10 por perna. 90 s." },
-    { t: "Panturrilha", s: "3 x 12 a 15. 60 s." },
-    { t: "Hollow hold + prancha lateral", s: "3 x 30 a 45 s cada." }] },
-  { d: "Quarta", local: "Parque ou academia", title: "Handstand + Empurrar", dur: "60 min", items: [
-    { t: "Handstand 15 min", s: "Fase atual da trilha." },
-    { t: "Dip em paralelas", s: "4 x 6 a 12. Com carga a partir de 12 estritos. 2 min." },
-    { t: "Pike push-up com pés elevados", s: "3 x 6 a 10. Prepara o ombro para o handstand." },
-    { t: "Flexão com pés elevados ou supino", s: "3 x 8 a 12." },
-    { t: "Face pull ou remada alta com elástico", s: "3 x 15. Obrigatório: equilibra o peitoral." },
-    { t: "Tríceps na polia ou dip no banco", s: "2 x 12 a 15." },
-    { t: "Alongamento de peitoral e punho", s: "3 min." }] },
-  { d: "Quinta", local: "Casa", title: "Handstand + mobilidade + cardio leve", dur: "30 a 40 min", items: [
-    { t: "Handstand 10 min", s: "Parede em casa, peito para a parede." },
-    { t: "Mobilidade de ombro 8 min", s: "Peitoral no batente, dorsal pendurado ou no batente alto, braços na parede." },
-    { t: "Punhos 5 min", s: "Círculos, flexão e extensão em quatro apoios, dedos para trás." },
-    { t: "Caminhada ou corrida leve", s: "Nike Run Club. Trajeto até o parque e volta fecha 4 a 5 km." }] },
-  { d: "Sexta", local: "Parque Tingui", title: "Handstand + Puxar (explosivo)", dur: "60 a 70 min", items: [
-    { t: "Trajeto a pé como aquecimento", s: "Mesmo caminho de segunda, para comparar tempos." },
-    { t: "Handstand 15 min", s: "Fase atual da trilha." },
-    { t: "Aquecimento de barra", s: "Pendurado 2 x 15 s, escapular pull 2 x 6." },
-    { t: "Barra explosiva ou com carga (fase do muscle-up)", s: "MU2", mu: true },
-    { t: "Negativas lentas de 5 s", s: "3 x 3." },
-    { t: "Remada australiana pesada", s: "3 x 8 a 12." },
-    { t: "Bíceps leve + core", s: "2 x 12 rosca com elástico ou barra supinada. Elevação de pernas 3 x 8." }] },
-  { d: "Sábado", local: "Academia ou parque", title: "Handstand + sessão mista leve", dur: "45 min", items: [
-    { t: "Handstand 10 min", s: "Tentativas livres se já estiver na fase 2 ou mais." },
-    { t: "Dip", s: "3 x 8 a 10, leve." },
-    { t: "Remada", s: "3 x 10." },
-    { t: "Superman + L-sit", s: "3 x 10 e 3 x tentativas de 5 a 10 s." }] },
-];
+// ---------------------------------------------------------------- exercise library
+// Each exercise has an ordered ladder of progressions. A progression: name, sets, min, max, unit (reps|s), note.
+// Rule: all sets >= max in 2 sessions -> next level. All sets < min -> previous level.
+const LIB = {
+  pull: { name: "Puxar vertical (barra)", fig: "Barra fixa", rest: 120, ladder: [
+    { n: "Pendurado ativo", sets: 3, min: 10, max: 30, unit: "s", note: "Ombros longe das orelhas. Conte os segundos." },
+    { n: "Escapular pull", sets: 3, min: 5, max: 10, unit: "reps", note: "Pendurado, sobe e desce só as escápulas, cotovelos retos." },
+    { n: "Negativas lentas", sets: 3, min: 3, max: 5, unit: "reps", note: "Suba com salto, desça em 3 a 5 s. Barra de ferro." },
+    { n: "Barra com pé no apoio", sets: 3, min: 5, max: 8, unit: "reps", note: "Um pé no banco ou na barra baixa ajudando o mínimo possível." },
+    { n: "Barra estrita", sets: 4, min: 3, max: 8, unit: "reps", note: "Queixo acima da barra, descida completa, sem balanço." },
+    { n: "Barra com mochila", sets: 5, min: 3, max: 5, unit: "reps", note: "Mochila com livros ou garrafas. Suba no máximo 2,5 kg por semana. Falhar na 6ª." },
+    { n: "Chest-to-bar", sets: 4, min: 3, max: 5, unit: "reps", note: "Barra toca o peito. Puxe o cotovelo para trás." },
+    { n: "Barra explosiva", sets: 5, min: 3, max: 3, unit: "reps", note: "Puxe o mais rápido possível. Meta: barra no peito baixo, depois no umbigo." },
+    { n: "Negativa de muscle-up", sets: 3, min: 3, max: 3, unit: "reps", note: "Suba por cima com salto, desça o dip, passe a transição com cotovelos colados, termine como negativa. 5 s." },
+    { n: "Muscle-up com faixa", sets: 5, min: 2, max: 3, unit: "reps", note: "Faixa na barra, pé ou joelho nela. Afine a faixa a cada 2 semanas de sucesso." },
+    { n: "Muscle-up", sets: 5, min: 1, max: 2, unit: "reps", note: "Estrito, sem kip. Nunca mais de 5 tentativas máximas." } ] },
+  row: { name: "Remada australiana", fig: "Remada", rest: 90, ladder: [
+    { n: "Remada a 45 graus", sets: 3, min: 8, max: 12, unit: "reps", note: "Barra baixa, corpo inclinado. Peito na barra, 1 s em cima." },
+    { n: "Remada paralela ao chão", sets: 3, min: 8, max: 12, unit: "reps", note: "Corpo reto, calcanhares no chão." },
+    { n: "Remada com pés elevados", sets: 3, min: 8, max: 12, unit: "reps", note: "Pés no banco." },
+    { n: "Remada com pausa de 2 s", sets: 3, min: 8, max: 12, unit: "reps", note: "Pés elevados, 2 s com o peito na barra." },
+    { n: "Remada com mochila", sets: 4, min: 6, max: 10, unit: "reps", note: "Mochila nas costas, pés elevados." } ] },
+  push: { name: "Empurrar horizontal e ombro", fig: "Flexão", rest: 90, ladder: [
+    { n: "Flexão no chão", sets: 3, min: 8, max: 15, unit: "reps", note: "Cotovelos a 45 graus, peito quase no chão." },
+    { n: "Flexão com pés elevados", sets: 3, min: 8, max: 12, unit: "reps", note: "Pés no banco." },
+    { n: "Pike push-up", sets: 3, min: 6, max: 10, unit: "reps", note: "Quadril alto em V, cabeça desce à frente das mãos. Prepara o handstand." },
+    { n: "Pike push-up com pés elevados", sets: 3, min: 6, max: 10, unit: "reps", note: "Pés no banco, tronco quase vertical." },
+    { n: "Negativa de handstand push-up", sets: 3, min: 3, max: 5, unit: "reps", note: "Na parede, desça em 3 a 5 s até a cabeça tocar a toalha." },
+    { n: "Handstand push-up na parede", sets: 3, min: 3, max: 6, unit: "reps", note: "Amplitude completa." } ] },
+  dip: { name: "Dip", fig: "Dip", rest: 120, ladder: [
+    { n: "Dip no banco, pernas estendidas", sets: 3, min: 8, max: 12, unit: "reps", note: "Cotovelos para trás, ombros longe das orelhas." },
+    { n: "Dip nas paralelas com pé no apoio", sets: 3, min: 5, max: 8, unit: "reps", note: "Um pé no banco ajudando o mínimo." },
+    { n: "Negativas nas paralelas", sets: 3, min: 3, max: 5, unit: "reps", note: "Desça em 3 a 5 s." },
+    { n: "Dip nas paralelas", sets: 4, min: 5, max: 12, unit: "reps", note: "Cotovelo a 90 graus embaixo, braço estendido em cima." },
+    { n: "Dip com mochila", sets: 4, min: 5, max: 8, unit: "reps", note: "Mochila nas costas." },
+    { n: "Dip na barra reta com apoio", sets: 4, min: 3, max: 5, unit: "reps", note: "Duas mãos na mesma barra, corpo inclinado à frente, um pé no apoio." },
+    { n: "Dip na barra reta", sets: 4, min: 3, max: 5, unit: "reps", note: "É a segunda metade do muscle-up." } ] },
+  squat: { name: "Agachamento", fig: "Agachamento", rest: 90, ladder: [
+    { n: "Agachamento livre", sets: 3, min: 12, max: 20, unit: "reps", note: "Coxa paralela ou abaixo, calcanhar no chão." },
+    { n: "Agachamento com pausa de 2 s", sets: 3, min: 10, max: 15, unit: "reps", note: "Pausa embaixo." },
+    { n: "Agachamento búlgaro", sets: 3, min: 8, max: 12, unit: "reps", note: "Pé de trás no banco. Repetições por perna." },
+    { n: "Búlgaro com mochila", sets: 3, min: 8, max: 10, unit: "reps", note: "Por perna." },
+    { n: "Pistol segurando na barra", sets: 3, min: 5, max: 8, unit: "reps", note: "Por perna, ajudando o mínimo com a mão." },
+    { n: "Pistol", sets: 3, min: 5, max: 8, unit: "reps", note: "Por perna." } ] },
+  lunge: { name: "Afundo", fig: "Afundo", rest: 60, ladder: [
+    { n: "Afundo alternado", sets: 2, min: 10, max: 12, unit: "reps", note: "Por perna." },
+    { n: "Afundo para trás", sets: 2, min: 10, max: 12, unit: "reps", note: "Por perna." },
+    { n: "Afundo caminhando", sets: 2, min: 12, max: 16, unit: "reps", note: "Por perna, na pista." },
+    { n: "Afundo com mochila", sets: 3, min: 10, max: 12, unit: "reps", note: "Por perna." } ] },
+  hinge: { name: "Posterior e glúteo", fig: "Ponte", rest: 60, ladder: [
+    { n: "Ponte de glúteo", sets: 3, min: 12, max: 15, unit: "reps", note: "1 s apertando o glúteo no topo." },
+    { n: "Ponte com pés elevados", sets: 3, min: 12, max: 15, unit: "reps", note: "Pés no banco." },
+    { n: "Ponte unilateral", sets: 3, min: 8, max: 12, unit: "reps", note: "Por perna." },
+    { n: "Ponte unilateral com pés elevados", sets: 3, min: 8, max: 12, unit: "reps", note: "Por perna." },
+    { n: "Nordic negativa", sets: 3, min: 3, max: 5, unit: "reps", note: "Pés presos sob a barra baixa, desça o mais devagar possível." } ] },
+  core: { name: "Core inferior", fig: "Elevação", rest: 60, ladder: [
+    { n: "Elevação de joelhos deitado", sets: 3, min: 10, max: 15, unit: "reps", note: "Lombar colada no chão." },
+    { n: "Elevação de pernas deitado", sets: 3, min: 10, max: 15, unit: "reps", note: "Pernas estendidas." },
+    { n: "Elevação de joelhos pendurado", sets: 3, min: 8, max: 12, unit: "reps", note: "Sem balanço, ombros ativos." },
+    { n: "Joelhos pendurado com pausa", sets: 3, min: 8, max: 12, unit: "reps", note: "2 s com os joelhos na altura do quadril." },
+    { n: "Toes to bar", sets: 3, min: 5, max: 10, unit: "reps", note: "Pernas estendidas até a barra." } ] },
+  hollow: { name: "Hollow hold", fig: "Prancha", rest: 45, ladder: [
+    { n: "Hollow hold", sets: 3, min: 20, max: 45, unit: "s", note: "Lombar colada, braços ao lado da orelha. É a linha do handstand." },
+    { n: "Hollow rocks", sets: 3, min: 10, max: 15, unit: "reps", note: "Balance mantendo a lombar colada." },
+    { n: "Hollow hold longo", sets: 3, min: 45, max: 60, unit: "s", note: "" } ] },
+  lsit: { name: "L-sit", fig: null, rest: 60, ladder: [
+    { n: "Tuck sit nas paralelas", sets: 3, min: 5, max: 15, unit: "s", note: "Joelhos dobrados, braços estendidos, ombros baixos." },
+    { n: "L-sit uma perna", sets: 3, min: 5, max: 15, unit: "s", note: "Alterne a perna." },
+    { n: "L-sit", sets: 3, min: 5, max: 20, unit: "s", note: "Pernas retas na horizontal." } ] },
+  back: { name: "Lombar e costas", fig: "Superman", rest: 45, ladder: [
+    { n: "Superman", sets: 3, min: 10, max: 12, unit: "reps", note: "2 s em cima, movimento pequeno." },
+    { n: "Superman com pausa de 3 s", sets: 3, min: 8, max: 10, unit: "reps", note: "" },
+    { n: "Superman mãos atrás da cabeça", sets: 3, min: 8, max: 12, unit: "reps", note: "" } ] },
+  calf: { name: "Panturrilha", fig: null, rest: 45, ladder: [
+    { n: "Panturrilha no degrau", sets: 3, min: 12, max: 20, unit: "reps", note: "Amplitude completa, 1 s em cima." },
+    { n: "Panturrilha unilateral", sets: 3, min: 10, max: 15, unit: "reps", note: "Por perna." } ] },
+};
 
-const MU = [
-  { n: "1. Força absoluta", when: "Barra estrita abaixo de 8", out: "8 barras estritas e 12 dips em paralelas",
-    ex: ["Barra com carga (mochila com anilhas, cinto): 5 x 3 a 5, carga que falha na 6ª. 2 a 3 min.", "Barra sem carga: 2 x máximo menos 1.", "Dip em paralelas: 4 x 8 a 12.", "Negativas lentas de 5 s quando a barra falhar."],
-    time: "2 a 4 meses. Mais rápido conforme o peso cai.",
-    seg: "Barra com carga: 5 x 3 a 5, carga que falha na 6ª. Suba no máximo 2,5 kg por semana.", sex: "Barra com carga 5 x 3 (um pouco mais leve que segunda) ou, se já faz 6 estritas, barra explosiva 5 x 3." },
-  { n: "2. Puxada alta", when: "8 barras estritas", out: "Barra até o umbigo 3 x 3; dip na barra reta 3 x 5; negativa de muscle-up de 5 s, 3 x 3",
-    ex: ["Barra explosiva (puxar o mais rápido possível, meta: barra no peito baixo): 5 x 3.", "Chest-to-bar: 3 x 5.", "Dip na barra reta com pé no apoio: 4 x 5.", "Negativas de muscle-up: 3 x 3.", "False grip pendurado: 3 x 15 s."],
-    time: "2 a 3 meses.",
-    seg: "Barra explosiva 5 x 3 + negativas de muscle-up 3 x 3.", sex: "Chest-to-bar 3 x 5 + dip na barra reta com apoio 4 x 5 + false grip 3 x 15 s." },
-  { n: "3. Transição", when: "Critérios da fase 2", out: "Muscle-up com faixa fina, 3 x 3 limpos",
-    ex: ["Muscle-up com faixa elástica (grossa, afinando a cada 2 semanas): 5 x 2 a 3.", "Transição na barra baixa com pés no chão: 3 x 5.", "Barra explosiva: 3 x 3.", "Dip na barra reta sem apoio: 3 x 5."],
-    time: "1 a 3 meses.",
-    seg: "Muscle-up com faixa 5 x 2 a 3 + transição na barra baixa 3 x 5.", sex: "Barra explosiva 3 x 3 + dip na barra reta 3 x 5 + muscle-up com faixa 3 x 2." },
-  { n: "4. Muscle-up", when: "Primeiro muscle-up estrito", out: "3 x 3 limpos, sem kip",
-    ex: ["Muscle-up em séries baixas: 5 x 1 a 2, sempre descansado.", "Barra com carga 1x por semana para manter a base.", "Nunca mais de 5 tentativas máximas por sessão."],
-    time: "1 a 2 meses de consolidação.",
-    seg: "Muscle-up 5 x 1 a 2.", sex: "Barra com carga 4 x 3 a 5." },
-];
-
+// Handstand ladder is measured in seconds held and in manual milestones.
 const HS = [
-  { n: "0. Preparação", out: "Mobilidade de ombro ok no teste; punhos sem dor; hollow hold 45 s",
-    daily: ["Mobilidade de ombro 5 min: peitoral no batente, dorsal pendurado, braços na parede.", "Punhos 3 min: círculos, flexão e extensão em quatro apoios, dedos para trás.", "Hollow hold 3 x 20 a 45 s. Prancha 3 x 45 s.", "Parede, peito para a parede, 3 x 20 s."],
-    time: "3 a 6 semanas. Pode rodar junto com a fase 1." },
-  { n: "1. Parede", out: "60 s peito para a parede, corpo reto, costelas fechadas, só os dedos dos pés encostando",
-    daily: ["Wall walk até peito para a parede: 4 x 30 a 60 s.", "Toques de ombro na parede: 3 x 6 por lado.", "Heel pulls: tirar um pé e depois os dois da parede por 1 a 3 s, 10 tentativas."],
-    time: "1 a 2 meses." },
-  { n: "2. Entrada e equilíbrio", out: "Entrada com chute parando perto da parede sem bater; 5 s livre com parede a 30 cm",
-    daily: ["Entrada com chute de frente para a parede a 30 cm: 15 tentativas.", "Heel pulls e toe pulls: 10 tentativas.", "Aprender a sair: cambalhota para a frente ou estrela de lado, 10 por dia até ficar automático."],
-    time: "1 a 3 meses." },
-  { n: "3. Livre", out: "30 s em pé livre, em linha, com 3 de cada 5 tentativas acima de 10 s",
-    daily: ["Tentativas livres em grama ou tatame: 10 a 15 de até 30 s, 1 min entre elas.", "Correções só com dedos e punhos, nunca com a lombar.", "Filmar de lado 1x por semana."],
-    time: "3 a 6 meses de prática diária." },
-  { n: "4. Caminhada", out: "5 m em linha reta sem cair",
-    daily: ["Na parede: transferir o peso para uma mão e levantar a outra 1 cm, 3 x 10 por lado.", "Livre: inclinar levemente à frente e dar 1 passo, depois 2, depois 3. Passos curtos, pernas levemente afastadas.", "Meta diária: 10 tentativas de caminhar."],
-    time: "2 a 4 meses depois dos 30 s livre." },
+  { n: "Fase 0 · Preparação", goal: "Parede 20 s e hollow 45 s", drills: ["Mobilidade de ombro 5 min: peitoral no batente, dorsal pendurado, braços na parede.", "Punhos 3 min: círculos, flexão e extensão em quatro apoios, dedos para trás.", "Parede, peito para a parede: 3 tentativas curtas. Anote a melhor."], metric: "wall", target: 20 },
+  { n: "Fase 1 · Parede", goal: "60 s peito para a parede, corpo reto", drills: ["Wall walk até peito para a parede: 4 tentativas de até 60 s.", "Toques de ombro na parede: 3 x 6 por lado.", "Heel pulls: tirar um pé e depois os dois da parede por 1 a 3 s, 10 tentativas."], metric: "wall", target: 60 },
+  { n: "Fase 2 · Entrada e equilíbrio", goal: "5 s livre perto da parede e saída automática", drills: ["Entrada com chute de frente para a parede a 30 cm: 15 tentativas.", "Heel pulls e toe pulls: 10 tentativas.", "Aprender a sair: cambalhota ou estrela de lado, 10 por dia."], metric: "free", target: 5 },
+  { n: "Fase 3 · Livre", goal: "30 s em pé livre", drills: ["Tentativas livres na grama: 10 a 15 de até 30 s, 1 min entre elas.", "Correções só com dedos e punhos.", "Filmar de lado 1x por semana."], metric: "free", target: 30 },
+  { n: "Fase 4 · Caminhada", goal: "5 m em linha reta", drills: ["Na parede: transferir o peso para uma mão e levantar a outra 1 cm, 3 x 10 por lado.", "Livre: 1 passo, depois 2, depois 3. Passos curtos.", "10 tentativas de caminhar por dia."], metric: "walk", target: 5 },
+];
+// Muscle-up milestones: auto from PRs where possible, manual otherwise.
+const MU_PH = [
+  { n: "Fase 1 · Força absoluta", crit: [{ k: "pull8", t: "8 barras estritas seguidas", auto: s => pr(s, "pull", 4) >= 8 }, { k: "dip12", t: "12 dips nas paralelas", auto: s => pr(s, "dip", 3) >= 12 }] },
+  { n: "Fase 2 · Puxada alta", crit: [{ k: "c2b", t: "Chest-to-bar 3 x 5", auto: s => pr(s, "pull", 6) >= 5 }, { k: "sbd", t: "Dip na barra reta com apoio 3 x 5", auto: s => pr(s, "dip", 5) >= 5 }, { k: "muneg", t: "Negativa de muscle-up de 5 s, 3 x 3", auto: s => pr(s, "pull", 8) >= 3 }, { k: "fg", t: "False grip pendurado 20 s" }] },
+  { n: "Fase 3 · Transição", crit: [{ k: "band", t: "Muscle-up com faixa fina, 3 x 3 limpos", auto: s => pr(s, "pull", 9) >= 3 }, { k: "sbd2", t: "Dip na barra reta sem apoio 3 x 5", auto: s => pr(s, "dip", 6) >= 5 }] },
+  { n: "Fase 4 · Muscle-up", crit: [{ k: "mu1", t: "Primeiro muscle-up estrito", auto: s => pr(s, "pull", 10) >= 1 }, { k: "mu3", t: "3 x 3 limpos, sem kip", auto: s => pr(s, "pull", 10) >= 3 }] },
 ];
 
-const EX = [
-  { k: "Barra fixa", name: "Barra fixa", exe: "Pegada pronada, mãos pouco mais abertas que os ombros. Comece pendurado com ombros ativos (orelhas longe dos ombros). Suba até o queixo passar a barra sem balançar e desça até estender por completo. Na negativa, suba com salto ou apoio e desça em 3 a 5 segundos.", err: "Soltar o corpo na descida. Balançar as pernas. Ombros encolhidos. Meia repetição.", prog: ["Pendurado ativo 10 a 30 s", "Escapular pull", "Negativas lentas 3 a 5 s", "Barra assistida com faixa ou pé no apoio", "Barra estrita", "Barra com carga", "Chest-to-bar", "Barra explosiva até o umbigo"] },
-  { k: "Remada", name: "Remada australiana", exe: "Deitado sob a barra baixa, mãos na largura dos ombros, corpo reto, calcanhares no chão. Puxe o peito até a barra apertando as escápulas, segure 1 s e desça controlado. Quanto mais horizontal o corpo, mais difícil.", err: "Quadril afundando. Puxar só com os braços. Pescoço projetado.", prog: ["Corpo a 45 graus", "Corpo paralelo ao chão", "Pés elevados no banco", "Pausa de 2 s em cima", "Com colete ou mochila"] },
-  { k: "Flexão", name: "Flexão", exe: "Mãos pouco mais abertas que os ombros, corpo reto, cotovelos a 45 graus apontando para trás. Desça até o peito quase tocar, suba estendendo por completo.", err: "Quadril caindo ou subindo. Cotovelos abertos a 90 graus.", prog: ["Flexão no chão", "Pés elevados no banco", "Pike push-up (ombro)", "Pike push-up com pés elevados", "Handstand push-up na parede"] },
-  { k: "Dip", name: "Dip", exe: "Nas paralelas: ombros longe das orelhas, corpo levemente inclinado à frente, desça até o cotovelo a 90 graus e suba até estender. Na barra reta: as duas mãos na mesma barra, corpo inclinado à frente por cima dela. É a segunda metade do muscle-up.", err: "Descer demais (dor no ombro). Cotovelos abrindo. Encolher os ombros.", prog: ["Dip no banco", "Dip nas paralelas com pé no apoio", "Negativas nas paralelas", "Dip nas paralelas estrito", "Dip com carga", "Dip na barra reta com apoio", "Dip na barra reta"] },
-  { k: "Elevação", name: "Elevação de joelhos pendurado", exe: "Pendurado com ombros ativos, sem balançar, suba os joelhos até a altura do quadril contraindo o abdômen e desça controlado. Pernas estendidas é a versão difícil.", err: "Usar impulso. Encolher os ombros. Lombar arqueando.", prog: ["Deitado, joelhos", "Deitado, pernas estendidas", "Pendurado, joelhos", "Pendurado, joelhos com pausa", "Pendurado, pernas estendidas (toes to bar)"] },
-  { k: "Prancha", name: "Prancha e hollow", exe: "Antebraços no chão, cotovelos sob os ombros, linha reta da cabeça aos calcanhares, glúteo e abdômen contraídos, empurrando o chão. O hollow hold é a mesma linha deitado de costas, com lombar colada no chão: é a posição do handstand.", err: "Quadril alto ou baixo. Prender a respiração. Olhar para frente.", prog: ["Prancha 45 s", "Hollow hold 20 s", "Hollow hold 45 s", "Hollow rocks", "Prancha com toques no ombro"] },
-  { k: "Agachamento", name: "Agachamento", exe: "Pés na largura dos ombros, pontas levemente para fora. Quadril para trás e para baixo, joelhos na direção dos pés, peito alto. Desça até a coxa paralela ou abaixo.", err: "Calcanhar sai do chão. Joelhos caem para dentro. Tronco inclina demais.", prog: ["Agachamento livre", "Com pausa de 2 s", "Búlgaro", "Pistol assistido", "Pistol"] },
-  { k: "Afundo", name: "Afundo", exe: "Passo à frente, joelho de trás em direção ao chão até os dois joelhos formarem 90 graus. Tronco vertical. Volte empurrando com a perna da frente.", err: "Joelho da frente passando muito a ponta do pé. Passo curto.", prog: ["Afundo estático", "Alternado", "Para trás", "Caminhando", "Com halteres"] },
-  { k: "Ponte", name: "Ponte de glúteo", exe: "Deitado, pés perto do glúteo. Eleve o quadril até a linha reta dos joelhos aos ombros, aperte o glúteo 1 s no topo e desça controlado.", err: "Arquear a lombar no topo. Empurrar com os dedos dos pés.", prog: ["Bilateral", "Pausa de 3 s", "Pés elevados", "Unilateral"] },
-  { k: "Superman", name: "Superman", exe: "De bruços, braços à frente. Eleve ao mesmo tempo braços, peito e pernas alguns centímetros, segure 2 s e desça. Movimento pequeno e controlado.", err: "Jogar a cabeça para trás. Elevar demais e sentir na lombar.", prog: ["Só pernas ou só braços", "Juntos", "Pausa de 3 a 5 s", "Mãos atrás da cabeça"] },
-];
-
-const TESTS = [
-  { id: "pullup", name: "Barra fixa estrita (máx.)", how: "Braços estendidos embaixo, queixo acima da barra, sem balanço.", unit: "reps", bands: [[0, 3, "bad", "Foco em barra com carga e negativas"], [4, 7, "warn", "Esperado para 93 kg com a sua massa"], [8, 999, "good", "Pode iniciar o trabalho de transição"]] },
-  { id: "dip", name: "Dip em paralelas estrito (máx.)", how: "Cotovelo a 90° embaixo, braço estendido em cima.", unit: "reps", bands: [[0, 7, "bad", "Dip assistido e com carga leve"], [8, 14, "warn", "Esperado"], [15, 999, "good", "Iniciar dip na barra reta"]] },
-  { id: "c2b", name: "Chest-to-bar (máx.)", how: "Barra toca o peito.", unit: "reps", bands: [[0, 0, "warn", "Normal no início"], [1, 2, "warn", "Começou a puxada alta"], [3, 999, "good", "Ótimo sinal"]] },
-  { id: "hang", name: "Pendurado na barra (máx.)", how: "Pegada pronada, ombros ativos.", unit: "s", bands: [[0, 39, "bad", "Pegada é limitante"], [40, 75, "warn", "Ok"], [76, 9999, "good", "Ótimo"]] },
-  { id: "hswall", name: "Handstand peito para a parede", how: "Wall walk até nariz a 10 cm da parede. Cronometre.", unit: "s", bands: [[0, 19, "bad", "Fase 0"], [20, 45, "warn", "Fase 1"], [46, 9999, "good", "Iniciar saídas da parede"]] },
-  { id: "shoulder", name: "Mobilidade de ombro", how: "Costas na parede, lombar colada, braços estendidos até tocar a parede acima da cabeça.", unit: "nível", select: ["Toca com lombar colada", "Só toca arqueando", "Não toca"], bands: [[0, 0, "good", "Ok para handstand"], [1, 1, "warn", "Limitada: mobilidade diária"], [2, 2, "bad", "Muito limitada: 4 a 6 semanas de mobilidade antes de carregar"]] },
-  { id: "wrist", name: "Mobilidade de punho", how: "Quatro apoios, dedos para frente, ombro à frente das mãos.", unit: "nível", select: ["Passa 15 cm sem dor", "Passa pouco ou com desconforto", "Dor ou travamento"], bands: [[0, 0, "good", "Ok"], [1, 1, "warn", "Preparar punhos 2 semanas"], [2, 2, "bad", "3 semanas de preparo antes de carregar"]] },
-  { id: "hollow", name: "Hollow hold", how: "Lombar colada, pernas e ombros a 15 cm do chão, braços ao lado da orelha.", unit: "s", bands: [[0, 19, "bad", "Fraco"], [20, 45, "warn", "Ok"], [46, 9999, "good", "Bom"]] },
-  { id: "lsit", name: "L-sit nas paralelas", how: "Braços estendidos, pernas retas na horizontal.", unit: "s", bands: [[0, 0, "warn", "Normal"], [1, 4, "warn", "Começando"], [5, 9999, "good", "Bom"]] },
-];
-
-const BF = [[24, "Hoje (estimado)", "Forte, sem definição.", "Ponto de partida"], [20, "Meta 1", "Cintura menor, contorno de peitoral e ombro mais nítido.", "8 a 10 semanas"], [15, "Meta 2", "Abdômen superior visível, separação em braços e ombros. É o que a maioria chama de definido.", "5 a 6 meses"], [12, "Meta 3 (opcional)", "Abdômen inteiro, veias no braço. Nível foto de praia.", "7 a 9 meses"], [10, "", "Muito seco. Força cai, sono e humor pioram.", "Difícil de manter"], [8, "", "Nível de palco. Perda de massa magra quase garantida.", "Não sustentável"]];
+// Sessions. Everything at the park or at home. No gym.
+const PLAN = {
+  A: { title: "Puxar + core", where: "Parque Tingui", warm: ["Trajeto a pé: caminhada, caminhada rápida, trote leve.", "Pendurado 2 x 15 s e escapular pull 2 x 6.", "Remada leve 2 x 8."], ex: ["pull", "row", "core", "hollow"] },
+  B: { title: "Empurrar + pernas", where: "Parque Tingui", warm: ["Trajeto a pé.", "Círculos de braço, punhos no banco, 10 flexões na barra baixa.", "10 agachamentos lentos."], ex: ["dip", "push", "squat", "hinge", "back"] },
+  C: { title: "Puxar explosivo + pernas", where: "Parque Tingui", warm: ["Trajeto a pé.", "Pendurado 2 x 15 s e escapular pull 2 x 6."], ex: ["pull", "row", "lunge", "calf", "core"] },
+  H: { title: "Handstand + mobilidade", where: "Casa ou parque", warm: ["Punhos 3 min.", "Mobilidade de ombro 5 min."], ex: ["hollow", "lsit"], light: true },
+  R: { title: "Descanso", where: "-", warm: [], ex: [] },
+};
+const WEEKPLAN = ["R", "A", "H", "B", "H", "C", "H"]; // Dom..Sáb
+const DAYS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
 // ---------------------------------------------------------------- state
-const KEY = "tingui.skills.v1";
-let S = { mu: 0, hs: 0, lean: 71, weight: 93, waist: "", log: [], tests: {}, done: {}, hsSec: {}, sub: "mu" };
+const KEY = "tingui.skills.v2";
+let S = { setup: false, weight: 93, lean: 71, waist: null, start: null, lvl: {}, streak: {}, sessions: [], hs: { wall: 0, free: 0, walk: 0, log: {} }, crit: {}, log: [], draft: null, tab: "hoje" };
 try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch (e) {}
+try { if (!S.setup) { const v1 = JSON.parse(localStorage.getItem("tingui.skills.v1") || "null"); if (v1) { S.weight = v1.weight || S.weight; S.lean = v1.lean || S.lean; S.log = v1.log || []; } } } catch (e) {}
+for (const k in LIB) if (S.lvl[k] == null) S.lvl[k] = 0;
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 const $ = (q, el = document) => el.querySelector(q);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const today = () => new Date().toISOString().slice(0, 10);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const iso = d => { const z = new Date(d.getTime() - d.getTimezoneOffset() * 60000); return z.toISOString().slice(0, 10); };
+const today = () => iso(new Date());
 const fmtKg = n => (Math.round(n * 10) / 10).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-let toastT; function toast(m) { const t = $("#toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 1600); }
+let toastT; function toast(m) { const t = $("#toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 2200); }
 
+// PR = best single-set value logged at a given ladder level (or above) for an exercise.
+function pr(s, ex, level) { let best = 0; for (const se of s.sessions) for (const e of se.entries || []) if (e.ex === ex && e.lvl >= level) for (const v of e.sets) if (v > best) best = v; return best; }
+function hsPhase() { const h = S.hs; if (h.walk >= 5) return 4; if (h.free >= 30) return 4; if (h.free >= 5 || critOk("hs_kick")) return 3; if (h.wall >= 60) return 2; if (h.wall >= 20) return 1; return 0; }
+function critOk(k) { return !!S.crit[k]; }
+function muPhase() { let ph = 0; for (let i = 0; i < MU_PH.length; i++) { const all = MU_PH[i].crit.every(c => critDone(c)); if (all) ph = i + 1; else break; } return Math.min(ph, 3); }
+function critDone(c) { return (c.auto && c.auto(S)) || !!S.crit[c.k]; }
+function mmss(s) { return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`; }
 function figbox(pair, bad) { return `<div class="figbox">${pair[1]}<div class="cap${bad ? " bad" : ""}">${esc(pair[0])}</div></div>`; }
-function exFigs(k) { const p = FIGS[k]; if (!p) return ""; return `<div class="figs">${figbox(p[0])}${figbox(p[1], k === "Prancha")}</div>`; }
 
 // ---------------------------------------------------------------- header
 function renderHeader() {
-  const bf = S.weight > 0 ? Math.round((1 - S.lean / S.weight) * 100) : 0;
-  $("#hdrChips").innerHTML = `<span class="chip">MU fase ${S.mu + 1}</span><span class="chip">HS fase ${S.hs}</span><span class="chip">${fmtKg(S.weight)} kg · ~${bf}%</span>`;
+  const n = S.sessions.filter(s => s.type !== "T").length; const bf = S.weight > 0 ? Math.round((1 - S.lean / S.weight) * 100) : 0;
+  $("#hdrChips").innerHTML = `<span class="chip">MU fase ${muPhase() + 1}</span><span class="chip">HS fase ${hsPhase()}</span><span class="chip">${n} treino${n === 1 ? "" : "s"}</span>`;
+  $("#hdrSub").textContent = S.weight ? `${fmtKg(S.weight)} kg · ~${bf}% · meta ${fmtKg(S.lean / 0.88)} a ${fmtKg(S.lean / 0.85)} kg` : "Rumo ao muscle-up e ao handstand walk";
 }
 
-// ---------------------------------------------------------------- hoje
-let timer = { run: false, start: 0, base: 0, id: null };
-function hsToday() { return (S.hsSec[today()] || 0) + (timer.run ? Math.floor((Date.now() - timer.start) / 1000) : 0); }
+// ---------------------------------------------------------------- onboarding
+function renderSetup() {
+  $("#tab-hoje").innerHTML = `<div class="card accent onb">
+    <div class="eyebrow">Primeira vez · 2 minutos</div><h2>Onde você está hoje</h2>
+    <p class="muted">Responda com o que você consegue fazer agora, estrito, descansado. Isso define o nível inicial de cada exercício. O app ajusta sozinho a partir dos treinos que você anotar.</p>
+    <div class="grid2">
+      <div class="field"><label for="q_pull">Barras fixas estritas (máx.)</label><input class="num" type="number" inputmode="numeric" id="q_pull" placeholder="0"></div>
+      <div class="field"><label for="q_dip">Dips nas paralelas (máx.)</label><input class="num" type="number" inputmode="numeric" id="q_dip" placeholder="0"></div>
+      <div class="field"><label for="q_push">Flexões no chão (máx.)</label><input class="num" type="number" inputmode="numeric" id="q_push" placeholder="0"></div>
+      <div class="field"><label for="q_wall">Handstand na parede (s)</label><input class="num" type="number" inputmode="numeric" id="q_wall" placeholder="0"></div>
+      <div class="field"><label for="q_w">Peso hoje (kg)</label><input class="num" type="number" inputmode="decimal" step="0.1" id="q_w" value="${S.weight}"></div>
+      <div class="field"><label for="q_start">Comecei a treinar em</label><input type="date" id="q_start" value="${S.start || iso(new Date(Date.now() - 864e5))}"></div>
+    </div>
+    <p class="muted small">Não sabe algum número? Deixe em branco: o app começa no primeiro degrau e sobe rápido se estiver fácil.</p>
+    <button class="btn primary big" id="q_go">Começar</button></div>`;
+  $("#q_go").onclick = () => {
+    const v = id => parseFloat($(id).value) || 0;
+    const pull = v("#q_pull"), dip = v("#q_dip"), push = v("#q_push"), wall = v("#q_wall");
+    S.lvl.pull = pull >= 8 ? 5 : pull >= 3 ? 4 : pull >= 1 ? 3 : 1;
+    S.lvl.dip = dip >= 12 ? 4 : dip >= 5 ? 3 : dip >= 1 ? 2 : 0;
+    S.lvl.push = push >= 15 ? 1 : 0;
+    S.lvl.row = pull >= 5 ? 2 : pull >= 1 ? 1 : 0;
+    S.lvl.core = pull >= 1 ? 2 : 0;
+    S.lvl.squat = 1; S.lvl.hinge = 0;
+    S.hs.wall = wall; S.weight = v("#q_w") || S.weight; S.start = $("#q_start").value || today(); S.setup = true;
+    if (pull) S.sessions.push({ date: S.start, type: "T", entries: [{ ex: "pull", lvl: 4, sets: [pull] }, ...(dip ? [{ ex: "dip", lvl: 3, sets: [dip] }] : []), ...(push ? [{ ex: "push", lvl: 0, sets: [push] }] : [])], note: "Teste inicial" });
+    save(); renderHeader(); renderHoje(); toast("Pronto. Nível inicial definido.");
+  };
+}
+
+// ---------------------------------------------------------------- hoje (session runner)
+let timer = { run: false, start: 0, id: null };
+function hsToday(d) { return (S.hs.log[d]?.sec || 0) + (timer.run ? Math.floor((Date.now() - timer.start) / 1000) : 0); }
+function sessionFor(date) { return WEEKPLAN[new Date(date + "T12:00:00").getDay()]; }
 function renderHoje() {
-  const dow = new Date().getDay(); const day = WEEK[dow]; const key = today(); const done = S.done[key] || [];
-  const mu = MU[S.mu]; const hs = HS[S.hs];
-  const items = day.items.map((it, i) => {
-    let s = it.s; if (it.mu) s = it.s === "MU" ? mu.seg : mu.sex;
-    return `<div class="check${done.includes(i) ? " done" : ""}"><input type="checkbox" id="chk${i}" data-i="${i}" ${done.includes(i) ? "checked" : ""}><label for="chk${i}"><div class="t">${esc(it.t)}</div><div class="muted small">${esc(s)}</div></label></div>`;
-  }).join("");
-  const sec = hsToday(); const pct = Math.min(100, sec / 900 * 100);
-  $("#tab-hoje").innerHTML = `
-  <div class="card accent">
-    <div class="row"><span class="eyebrow grow">${esc(day.d)} · ${esc(day.local)}</span><span class="pill on">${esc(day.dur)}</span></div>
-    <h2>${esc(day.title)}</h2>
-    <div id="checks">${items}</div>
-    <p class="muted small">Marque ao fazer. O registro fica neste aparelho.</p>
-  </div>
-  <div class="card">
-    <div class="eyebrow">Handstand de hoje · fase ${esc(hs.n)}</div>
-    <div class="timer"><div class="t num" id="tmr">${mmss(sec)}</div><div class="bar"><i style="width:${pct}%"></i></div>
-      <div class="row"><button class="btn primary" id="tStart">${timer.run ? "Pausar" : "Iniciar"}</button><button class="btn ghost" id="tReset">Zerar o dia</button></div></div>
-    <ul class="small">${hs.daily.map(d => `<li>${esc(d)}</li>`).join("")}</ul>
-    <p class="muted small">Meta: 10 a 15 minutos por dia, antes de qualquer outro treino. Frequência vale mais que volume.</p>
-  </div>
-  <div class="card">
-    <div class="eyebrow">Peso de hoje</div>
-    <div class="row"><input class="grow num" type="number" inputmode="decimal" step="0.1" id="wIn" placeholder="kg, em jejum" value=""><input class="num" style="width:110px" type="number" inputmode="decimal" step="0.5" id="cIn" placeholder="cintura cm"><button class="btn primary" id="wSave">Salvar</button></div>
-    <p class="muted small">Use a média da semana, nunca o dia. Compare com a semana anterior na aba Eu.</p>
-  </div>`;
-  $("#checks").addEventListener("change", e => {
-    const i = +e.target.dataset.i; const arr = S.done[key] || []; const idx = arr.indexOf(i);
-    if (e.target.checked && idx < 0) arr.push(i); if (!e.target.checked && idx >= 0) arr.splice(idx, 1);
-    S.done[key] = arr; save(); e.target.closest(".check").classList.toggle("done", e.target.checked);
-  });
-  $("#tStart").onclick = () => { if (timer.run) { S.hsSec[key] = hsToday(); timer.run = false; clearInterval(timer.id); save(); } else { timer.run = true; timer.start = Date.now(); timer.id = setInterval(tick, 500); } renderHoje(); };
-  $("#tReset").onclick = () => { timer.run = false; clearInterval(timer.id); S.hsSec[key] = 0; save(); renderHoje(); };
-  $("#wSave").onclick = () => { const kg = parseFloat($("#wIn").value); const cm = parseFloat($("#cIn").value); if (!kg && !cm) return; S.log = S.log.filter(x => x.d !== key); S.log.push({ d: key, kg: kg || null, cm: cm || null }); S.log.sort((a, b) => a.d < b.d ? -1 : 1); if (kg) S.weight = kg; if (cm) S.waist = cm; save(); renderHeader(); toast("Salvo"); renderHoje(); };
+  if (!S.setup) return renderSetup();
+  const d = S.draft && S.draft.date ? S.draft.date : today();
+  if (!S.draft || S.draft.date !== d) S.draft = { date: d, type: sessionFor(d), sets: {}, hsBest: "" };
+  const dr = S.draft; const plan = PLAN[dr.type]; const doneToday = S.sessions.find(s => s.date === d && s.type !== "T");
+  const hsP = HS[hsPhase()]; const sec = hsToday(d); const pct = Math.min(100, sec / 900 * 100);
+  const yesterday = iso(new Date(Date.now() - 864e5));
+  let html = `<div class="row"><span class="eyebrow grow">${esc(DAYS[new Date(d + "T12:00:00").getDay()])} · ${d === today() ? "hoje" : d.slice(8, 10) + "/" + d.slice(5, 7)}</span>
+    <select id="selDate" style="width:auto" class="small"><option value="${today()}" ${d === today() ? "selected" : ""}>Hoje</option><option value="${yesterday}" ${d === yesterday ? "selected" : ""}>Ontem</option></select>
+    <select id="selType" style="width:auto" class="small">${Object.keys(PLAN).map(k => `<option value="${k}" ${k === dr.type ? "selected" : ""}>${esc(PLAN[k].title)}</option>`).join("")}</select></div>`;
+  if (doneToday) html += `<div class="card done"><div class="row"><span class="pill good">Treino salvo</span><span class="muted small">${esc(PLAN[doneToday.type]?.title || "")}</span></div><p class="small">${esc(doneToday.summary || "")}</p><button class="btn ghost sm" id="undoS">Desfazer e editar</button></div>`;
+  // handstand block (every day except rest, and even on rest optional)
+  html += `<div class="card">
+    <div class="row"><span class="eyebrow grow">Handstand · ${esc(hsP.n)}</span><span class="pill on">meta: ${esc(hsP.goal)}</span></div>
+    <div class="timer"><div class="t num" id="tmr">${mmss(sec)}</div><div class="bar${sec >= 600 ? " good" : ""}"><i style="width:${pct}%"></i></div>
+      <div class="row"><button class="btn primary" id="tStart">${timer.run ? "Pausar" : sec ? "Continuar" : "Iniciar 10 a 15 min"}</button></div></div>
+    <ul class="small">${hsP.drills.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+    <div class="row"><div class="field grow"><label for="hsBest">Melhor tentativa de hoje (${hsP.metric === "wall" ? "parede, s" : hsP.metric === "free" ? "livre, s" : "passos ou metros"})</label><input class="num" type="number" inputmode="numeric" id="hsBest" value="${esc(dr.hsBest)}" placeholder="${hsP.metric === "wall" ? S.hs.wall || 0 : hsP.metric === "free" ? S.hs.free || 0 : S.hs.walk || 0}"></div><button class="btn" id="hsSave">Anotar</button></div>
+    <p class="muted small">Recorde: parede ${S.hs.wall || 0} s · livre ${S.hs.free || 0} s · caminhada ${S.hs.walk || 0} m.</p></div>`;
+  if (dr.type === "R") {
+    html += `<div class="card"><h2>Descanso</h2><p class="muted">Hoje só o handstand curto, se quiser, e caminhada. Trocar o tipo lá em cima se for treinar mesmo assim.</p></div>`;
+  } else {
+    html += `<div class="card accent"><div class="row"><span class="eyebrow grow">${esc(plan.where)}</span>${plan.light ? `<span class="pill">leve</span>` : ""}</div><h2>${esc(plan.title)}</h2>
+      <div><span class="lbl">Aquecimento</span><ul class="small">${plan.warm.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div></div>`;
+    plan.ex.forEach((k, idx) => {
+      const lib = LIB[k]; let lv = S.lvl[k]; let step = lib.ladder[lv];
+      // Session C swaps pull to the explosive variant when strict pull-ups exist
+      if (dr.type === "C" && k === "pull" && lv >= 4 && lv < 7) { step = Object.assign({}, lib.ladder[lv], { n: lib.ladder[lv].n + " (ritmo explosivo)", note: "Suba o mais rápido possível, desça em 2 s. Séries curtas." }); }
+      const vals = dr.sets[k] || Array(step.sets).fill("");
+      const ladder = lib.ladder.map((_, i) => `<i class="${i < lv ? "on" : i === lv ? "cur" : ""}"></i>`).join("");
+      html += `<div class="card" data-ex="${k}">
+        <div class="row"><span class="eyebrow grow">${esc(lib.name)} · nível ${lv + 1} de ${lib.ladder.length}</span><span class="pill">${step.sets} x ${step.min === step.max ? step.max : step.min + " a " + step.max} ${step.unit}</span></div>
+        <div class="lvl">${ladder}</div>
+        <h3>${esc(step.n)}</h3>${step.note ? `<p class="muted small">${esc(step.note)}</p>` : ""}
+        <div class="sets" style="--n:${step.sets}">${vals.map((v, i) => `<div class="s"><span>Série ${i + 1}</span><input class="num" type="number" inputmode="numeric" data-k="${k}" data-i="${i}" value="${esc(v)}" placeholder="${step.max}"></div>`).join("")}</div>
+        <div class="row"><button class="btn sm" data-rest="${lib.rest}">Descansar ${lib.rest >= 60 ? Math.floor(lib.rest / 60) + " min" + (lib.rest % 60 ? " " + lib.rest % 60 + " s" : "") : lib.rest + " s"}</button><button class="btn sm ghost" data-fig="${k}">${lib.fig ? "Ver desenho" : ""}</button><span class="grow"></span>${lv > 0 ? `<button class="btn sm ghost" data-down="${k}">Mais fácil</button>` : ""}${lv < lib.ladder.length - 1 ? `<button class="btn sm ghost" data-up="${k}">Mais difícil</button>` : ""}</div>
+        <div class="figwrap" hidden>${lib.fig && FIGS[lib.fig] ? `<div class="figs">${figbox(FIGS[lib.fig][0])}${figbox(FIGS[lib.fig][1], lib.fig === "Prancha")}</div>` : ""}</div></div>`;
+    });
+    html += `<div class="card"><div class="field"><label for="wIn">Peso de hoje (kg), opcional</label><div class="row"><input class="grow num" type="number" inputmode="decimal" step="0.1" id="wIn" placeholder="${fmtKg(S.weight)}" value="${esc(dr.w || "")}"><input class="num" style="width:120px" type="number" inputmode="decimal" id="cIn" placeholder="cintura cm" value="${esc(dr.c || "")}"></div></div>
+      <button class="btn good big" id="finish">${doneToday ? "Salvar alterações" : "Concluir treino"}</button>
+      <p class="muted small">Ao concluir, o app compara com a meta de cada exercício e sobe ou desce o nível sozinho. Séries em branco contam como não feitas.</p></div>`;
+  }
+  $("#tab-hoje").innerHTML = html;
+  // handlers
+  $("#selDate").onchange = e => { S.draft = { date: e.target.value, type: sessionFor(e.target.value), sets: {}, hsBest: "" }; save(); renderHoje(); };
+  $("#selType").onchange = e => { dr.type = e.target.value; dr.sets = {}; save(); renderHoje(); };
+  $("#tStart").onclick = () => { if (timer.run) { S.hs.log[d] = { sec: hsToday(d) }; timer.run = false; clearInterval(timer.id); } else { timer.run = true; timer.start = Date.now(); timer.id = setInterval(tick, 500); } save(); renderHoje(); };
+  $("#hsBest").oninput = e => { dr.hsBest = e.target.value; save(); };
+  $("#hsSave").onclick = () => { const v = parseFloat($("#hsBest").value); if (!v) return; const m = HS[hsPhase()].metric; const before = hsPhase(); if (v > (S.hs[m] || 0)) { S.hs[m] = v; toast(`Novo recorde: ${v}${m === "walk" ? " m" : " s"}`); } S.hs.log[d] = Object.assign(S.hs.log[d] || {}, { best: v, metric: m }); save(); renderHeader(); if (hsPhase() > before) toast(`Subiu para a ${HS[hsPhase()].n}`); renderHoje(); };
+  const undo = $("#undoS"); if (undo) undo.onclick = () => { const se = S.sessions.find(s => s.date === d && s.type !== "T"); if (!se) return; S.lvl = Object.assign(S.lvl, se.lvlBefore || {}); S.streak = se.streakBefore || S.streak; dr.sets = {}; for (const e of se.entries) dr.sets[e.ex] = e.sets.map(v => v || ""); dr.type = se.type; S.sessions = S.sessions.filter(s => s !== se); save(); renderHeader(); renderHoje(); };
+  $("#tab-hoje").querySelectorAll("input[data-k]").forEach(inp => inp.oninput = () => { const k = inp.dataset.k; const n = LIB[k].ladder[S.lvl[k]].sets; dr.sets[k] = dr.sets[k] || Array(n).fill(""); dr.sets[k][+inp.dataset.i] = inp.value; save(); });
+  $("#tab-hoje").querySelectorAll("[data-rest]").forEach(b => b.onclick = () => startRest(+b.dataset.rest));
+  $("#tab-hoje").querySelectorAll("[data-fig]").forEach(b => b.onclick = () => { const w = b.closest(".card").querySelector(".figwrap"); w.hidden = !w.hidden; b.textContent = w.hidden ? "Ver desenho" : "Esconder"; });
+  $("#tab-hoje").querySelectorAll("[data-up]").forEach(b => b.onclick = () => { S.lvl[b.dataset.up]++; S.streak[b.dataset.up] = 0; dr.sets[b.dataset.up] = null; save(); renderHoje(); });
+  $("#tab-hoje").querySelectorAll("[data-down]").forEach(b => b.onclick = () => { S.lvl[b.dataset.down]--; S.streak[b.dataset.down] = 0; dr.sets[b.dataset.down] = null; save(); renderHoje(); });
+  const w = $("#wIn"); if (w) { w.oninput = () => { dr.w = w.value; save(); }; $("#cIn").oninput = () => { dr.c = $("#cIn").value; save(); }; }
+  const f = $("#finish"); if (f) f.onclick = finishSession;
 }
-function mmss(s) { return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`; }
-function tick() { const el = $("#tmr"); if (!el) return; const sec = hsToday(); el.textContent = mmss(sec); const b = $(".bar i", $("#tab-hoje")); if (b) b.style.width = Math.min(100, sec / 900 * 100) + "%"; }
+function tick() { const el = $("#tmr"); if (!el || !S.draft) return; const sec = hsToday(S.draft.date); el.textContent = mmss(sec); const b = $(".bar i", $("#tab-hoje")); if (b) b.style.width = Math.min(100, sec / 900 * 100) + "%"; }
 
-// ---------------------------------------------------------------- semana
-function renderSemana() {
-  const order = [1, 2, 3, 4, 5, 6, 0]; const dow = new Date().getDay();
-  $("#tab-semana").innerHTML = `<div class="card"><h2>Semana recomendada</h2><p class="muted">Habilidade primeiro, descansado. Força depois. Hipertrofia por último. Handstand todo dia, 10 a 15 minutos. Se só puder treinar 4 dias: segunda, terça, quarta e sexta.</p></div>` +
-    order.map(i => { const d = WEEK[i]; return `<div class="card${i === dow ? " accent" : ""}"><div class="row"><span class="eyebrow grow">${esc(d.d)} · ${esc(d.local)}</span><span class="pill">${esc(d.dur)}</span></div><h3>${esc(d.title)}</h3><ul class="small">${d.items.map(it => `<li>${esc(it.t)}</li>`).join("")}</ul></div>`; }).join("") +
-    `<div class="card"><h3>Regras da semana</h3><ul class="small"><li>Barra sempre antes de remada ou puxada de máquina, nos dias de puxar.</li><li>Pernas e braço continuam na academia com volume reduzido durante o déficit: 2 a 3 séries por exercício, perto da falha.</li><li>Cotovelo: suba a carga da barra no máximo 2,5 kg por semana. Dor interna que não some em 48 h: pegada neutra ou supinada por 2 semanas e metade do volume.</li><li>Face pull em todo treino de empurrar. Você tem muito peitoral e, pela postura, rotação interna aumentada.</li><li>Bloco de 4 semanas: 3 sobem carga ou volume, a 4ª é leve (metade das séries). No fim de cada bloco, refaça os testes, meça cintura e tire as fotos padrão.</li></ul></div>`;
-}
-
-// ---------------------------------------------------------------- trilhas
-function renderTrilhas() {
-  const isMu = S.sub !== "hs";
-  const seq = isMu ? FIGS._muscleup : FIGS._handstand;
-  const phases = isMu ? MU : HS; const cur = isMu ? S.mu : S.hs;
-  const intro = isMu
-    ? `<p class="muted">Você já tem o músculo. A trilha usa barra com carga para subir a força absoluta enquanto o peso desce, e trabalho de puxada alta e transição assim que a barra estrita passar de 8. Avance pelos critérios, não pelo calendário. Estimativa para você: 6 a 12 meses com o déficit andando junto. Sem perder peso, dobra.</p>`
-    : `<p class="muted">Caminhar de ponta-cabeça é a última etapa de uma cadeia: punhos, ombros que abrem por completo, parede com linha reta, parada livre e só então transferir peso para dar passos. Prática diária e curta, como aprender a andar de bicicleta. Estimativa para você: 8 a 15 meses até caminhar 5 m. A mobilidade de ombro é o que mais atrasa quem vem da musculação.</p>`;
-  const dont = isMu
-    ? ["Não force a transição antes de 8 barras estritas. É a causa número um de dor no cotovelo.", "Não aprenda com kip (balanço). Dá para fazer com 3 barras e muito balanço, mas o padrão fica sujo e sobrecarrega o ombro.", "Não passe um braço de cada vez (asa de frango). Se um cotovelo passa antes do outro, falta força: volte para high pull-up e negativas.", "Não teste o máximo toda semana. Uma vez a cada 3 a 4 semanas."]
-    : ["Linha reta: dedos abertos agarrando o chão, braços travados, ombros empurrando o chão, costelas fechadas, glúteo contraído, pés em ponta. Lombar arqueada (banana) é falta de mobilidade de ombro, não de força.", "Equilíbrio é nos dedos. Caindo para a frente, aperte os dedos. Caindo para trás, empurre a base da palma e feche um pouco o ombro. Lombar não participa.", "Peito para a parede é obrigatório. Costas para a parede ensina a banana; só serve para praticar a entrada com chute.", "No Tingui: grama plana para tentativas livres e caminhada, piso firme perto das barras para a parede (poste ou árvore grossa).", "Punho doendo é normal nas 3 primeiras semanas, até certo ponto. Dor aguda, não. Aqueça sempre e pare o dia se doer durante."];
-  $("#tab-trilhas").innerHTML = `
-  <div class="subtabs"><button class="${isMu ? "on" : ""}" data-s="mu">Muscle-up</button><button class="${isMu ? "" : "on"}" data-s="hs">Handstand walk</button></div>
-  <div class="card"><h2>${isMu ? "Trilha do muscle-up" : "Trilha do handstand walk"}</h2>${intro}
-    <div class="figs ${isMu ? "three" : "four"}">${seq.map(p => figbox(p)).join("")}</div></div>
-  <div class="card">${phases.map((p, i) => `
-    <div class="phase${i === cur ? " cur" : ""}">
-      <div class="ph"><h3>${esc(p.n)}</h3>${i === cur ? `<span class="pill on">fase atual</span>` : `<button class="btn sm ghost" data-set="${i}">Estou aqui</button>`}</div>
-      ${p.when ? `<div><span class="lbl">Entra quando</span><div class="small">${esc(p.when)}</div></div>` : ""}
-      <div><span class="lbl">Sai quando</span><div class="small">${esc(p.out)}</div></div>
-      <div><span class="lbl">${isMu ? "Exercícios, 2x por semana" : "Prática diária, 10 a 15 min"}</span><ul class="small">${(p.ex || p.daily).map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
-      <div class="muted small">Tempo estimado: ${esc(p.time)}</div>
-    </div>`).join("")}</div>
-  <div class="card"><h3>${isMu ? "O que não fazer" : "Regras do handstand"}</h3><ul class="small">${dont.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
-  ${isMu ? `<div class="card"><h3>Exercícios-chave das fases 2 e 3</h3><ul class="small">
-    <li><b>High pull-up:</b> barra puxando o mais rápido possível, meta de a barra chegar ao peito baixo e depois ao umbigo. 3 x 3, descansado. É o que mais transfere.</li>
-    <li><b>Dip na barra reta:</b> as duas mãos na mesma barra, corpo inclinado à frente. Comece com negativas e um pé no apoio.</li>
-    <li><b>Negativa de muscle-up:</b> suba à posição de cima (salto ou apoio), desça o dip, passe pela transição com cotovelos colados e termine como negativa de barra. 5 s.</li>
-    <li><b>False grip:</b> punho dobrado por cima da barra, base da palma apoiada. Pendurado 3 x 10 a 20 s. Arde no punho no começo.</li>
-    <li><b>Transição na barra baixa:</b> barra na altura do peito, pés no chão, pratique passar o peito por cima girando os punhos.</li>
-    <li><b>Muscle-up com faixa:</b> faixa presa na barra, pé ou joelho nela. Troque por faixa mais fina a cada 2 a 3 semanas.</li></ul></div>` : ""}`;
-  $("#tab-trilhas .subtabs").onclick = e => { const b = e.target.closest("button"); if (!b) return; S.sub = b.dataset.s; save(); renderTrilhas(); };
-  $("#tab-trilhas").querySelectorAll("[data-set]").forEach(b => b.onclick = () => { if (isMu) S.mu = +b.dataset.set; else S.hs = +b.dataset.set; save(); renderHeader(); renderTrilhas(); renderHoje(); toast("Fase atualizada"); });
-}
-
-// ---------------------------------------------------------------- exercícios
-function renderEx() {
-  $("#tab-exercicios").innerHTML = `<div class="card"><h2>Exercícios</h2><p class="muted">Vista lateral. Esquerda: início. Direita: fim. A seta laranja é o sentido do movimento, a perna clara é a de trás e o X marca o erro mais comum. Toque no nome para abrir.</p></div>
-  <div class="card">${EX.map(e => `<details><summary>${esc(e.name)}</summary><div class="body">${exFigs(e.k)}<div><span class="lbl">Execução</span><div class="small">${esc(e.exe)}</div></div><div><span class="lbl">Erros comuns</span><div class="small">${esc(e.err)}</div></div><div><span class="lbl">Progressões, da mais fácil à mais difícil</span><ol class="small">${e.prog.map(p => `<li>${esc(p)}</li>`).join("")}</ol></div></div></details>`).join("")}</div>`;
+function finishSession() {
+  const dr = S.draft; const plan = PLAN[dr.type]; const entries = []; const msgs = []; const lvlBefore = Object.assign({}, S.lvl); const streakBefore = Object.assign({}, S.streak);
+  for (const k of plan.ex) {
+    const lv = S.lvl[k]; const step = LIB[k].ladder[lv]; const raw = dr.sets[k] || []; const sets = Array.from({ length: step.sets }, (_, i) => parseFloat(raw[i]) || 0);
+    if (!sets.some(v => v > 0)) continue;
+    entries.push({ ex: k, lvl: lv, sets });
+    const allMax = sets.every(v => v >= step.max), allBelow = sets.every(v => v < step.min);
+    if (allMax) { S.streak[k] = (S.streak[k] || 0) + 1; if (S.streak[k] >= 2 && lv < LIB[k].ladder.length - 1) { S.lvl[k] = lv + 1; S.streak[k] = 0; msgs.push(`${LIB[k].name}: subiu para “${LIB[k].ladder[lv + 1].n}”`); } else if (lv < LIB[k].ladder.length - 1) msgs.push(`${LIB[k].name}: meta batida (${S.streak[k]} de 2)`); }
+    else if (allBelow && lv > 0) { S.lvl[k] = lv - 1; S.streak[k] = 0; msgs.push(`${LIB[k].name}: volta um degrau para “${LIB[k].ladder[lv - 1].n}”. Normal.`); }
+    else S.streak[k] = 0;
+  }
+  if (!entries.length && dr.type !== "H") { toast("Anote pelo menos uma série antes de concluir"); return; }
+  const kg = parseFloat(dr.w), cm = parseFloat(dr.c);
+  if (kg || cm) { S.log = S.log.filter(x => x.d !== dr.date); S.log.push({ d: dr.date, kg: kg || null, cm: cm || null }); S.log.sort((a, b) => a.d < b.d ? -1 : 1); if (kg) S.weight = kg; if (cm) S.waist = cm; }
+  const muBefore = muPhase();
+  S.sessions = S.sessions.filter(s => !(s.date === dr.date && s.type !== "T"));
+  S.sessions.push({ date: dr.date, type: dr.type, entries, summary: msgs.length ? msgs.join(" · ") : "Dentro da faixa. Repita e tente chegar ao topo da faixa em todas as séries.", lvlBefore, streakBefore });
+  S.sessions.sort((a, b) => a.date < b.date ? -1 : 1);
+  if (muPhase() > muBefore) msgs.unshift(`Muscle-up: entrou na ${MU_PH[muPhase()].n}`);
+  S.draft = null; save(); renderHeader(); renderHoje(); toast(msgs.length ? msgs[0] : "Treino salvo");
 }
 
-// ---------------------------------------------------------------- eu
-function band(t, v) { if (v === "" || v == null || isNaN(v)) return null; for (const b of t.bands) if (v >= b[0] && v <= b[1]) return b; return null; }
-function renderEu() {
-  const lean = S.lean, w = S.weight; const bfNow = w > 0 ? (1 - lean / w) * 100 : 0;
-  const rows = BF.map(r => { const kg = lean / (1 - r[0] / 100); const hl = Math.abs(r[0] - bfNow) < 2.5; return `<tr class="${hl ? "hl" : ""}"><td class="num">${r[0]}%</td><td class="num"><b>${fmtKg(kg)} kg</b></td><td>${esc(r[2])}${r[1] ? `<div class="muted small">${esc(r[1])} · ${esc(r[3])}</div>` : `<div class="muted small">${esc(r[3])}</div>`}</td></tr>`; }).join("");
-  const kcalM = Math.round(w * 32 / 10) * 10, kcalT = kcalM - 500, prot = Math.round(w * 2);
+// rest timer
+let rest = { end: 0, id: null };
+function startRest(sec) { rest.end = Date.now() + sec * 1000; $("#rest").hidden = false; clearInterval(rest.id); rest.id = setInterval(restTick, 250); restTick(); }
+function restTick() { const left = Math.max(0, Math.round((rest.end - Date.now()) / 1000)); $("#restT").textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`; if (left <= 0) { clearInterval(rest.id); $("#rest").hidden = true; toast("Descanso acabou. Próxima série."); if (navigator.vibrate) try { navigator.vibrate([200, 100, 200]); } catch (e) {} } }
+$("#restPlus").onclick = () => { rest.end += 30000; restTick(); };
+$("#restStop").onclick = () => { clearInterval(rest.id); $("#rest").hidden = true; };
+
+// ---------------------------------------------------------------- progresso
+function renderProgresso() {
+  const mu = muPhase(), hs = hsPhase();
+  const days = 28; const start = new Date(); start.setDate(start.getDate() - (days - 1));
+  const cells = []; for (let i = 0; i < days; i++) { const d = iso(new Date(start.getTime() + i * 864e5)); const se = S.sessions.find(s => s.date === d && s.type !== "T"); const hsl = S.hs.log[d]; cells.push(`<div class="${se ? "on" : hsl ? "hs" : ""}${d === today() ? " today" : ""}" title="${d}">${se ? se.type : new Date(d + "T12:00:00").getDate()}</div>`); }
+  const last7 = S.sessions.filter(s => s.type !== "T" && (Date.now() - new Date(s.date + "T12:00:00")) < 7 * 864e5).length;
+  const since = S.start ? Math.floor((Date.now() - new Date(S.start + "T12:00:00")) / 864e5) : 0;
   const logs = S.log.slice(-30);
-  const tests = TESTS.map(t => { const v = S.tests[t.id]; const b = band(t, v === "" || v == null ? NaN : +v);
-    const input = t.select ? `<select id="t_${t.id}" data-t="${t.id}"><option value="">—</option>${t.select.map((o, i) => `<option value="${i}" ${v == i ? "selected" : ""}>${esc(o)}</option>`).join("")}</select>` : `<input class="num" type="number" inputmode="numeric" id="t_${t.id}" data-t="${t.id}" value="${v ?? ""}" placeholder="${t.unit}">`;
-    return `<div class="testrow"><div><div><b>${esc(t.name)}</b></div><div class="how">${esc(t.how)}</div>${b ? `<span class="pill ${b[2]}">${esc(b[3])}</span>` : ""}</div><div class="field">${input}</div></div>`; }).join("");
-  $("#tab-eu").innerHTML = `
-  <div class="card"><h2>Avaliação</h2>
-    <div class="kpis"><div class="kpi"><div class="v num">1,77</div><div class="l">m</div></div><div class="kpi"><div class="v num">${fmtKg(w)}</div><div class="l">kg hoje</div></div><div class="kpi"><div class="v num">~${Math.round(bfNow)}%</div><div class="l">gordura estimada</div></div><div class="kpi"><div class="v num">${lean}</div><div class="l">kg massa magra</div></div><div class="kpi"><div class="v num">${S.waist || "–"}</div><div class="l">cintura cm</div></div><div class="kpi"><div class="v num">6</div><div class="l">anos de musculação</div></div></div>
-    <ul class="small"><li><b>Pontos fortes:</b> ombros, trapézio, peitoral, dorsal e braços bem desenvolvidos. Força de empurrar e pegada já existem. O que limita a barra é o peso, não o músculo.</li><li><b>O que falta:</b> força relativa (força dividida pelo peso), controle de corpo invertido e explosão na puxada. Nada disso a musculação treina sozinha.</li><li><b>Gordura:</b> concentrada no abdômen e flancos, sem definição visível. Peso morto em toda repetição.</li><li><b>Postura:</b> ombros levemente à frente nas fotos relaxadas. Para o handstand, flexão de ombro completa é obrigatória: faça o teste de mobilidade abaixo.</li><li class="muted">Estimativa por fotos. Confirme com dobras cutâneas ou DEXA e peça a massa magra em kg: ela recalcula a tabela abaixo.</li></ul></div>
-  <div class="card"><h2>Onde “definido” fica para você</h2>
-    <div class="grid2"><div class="field"><label for="leanIn">Massa magra (kg)</label><input class="num" type="number" inputmode="decimal" step="0.5" id="leanIn" value="${lean}"></div><div class="field"><label for="wNow">Peso atual (kg)</label><input class="num" type="number" inputmode="decimal" step="0.1" id="wNow" value="${w}"></div></div>
-    <div class="twrap"><table><thead><tr><th>Gordura</th><th>Peso</th><th>Como fica</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="small"><b>Resposta direta:</b> você não precisa chegar a 76 a 80 kg. Com ${lean} kg de massa magra, 76 a 78 kg seria 7% a 9% de gordura, nível de palco, com perda de músculo. Definido, para o seu corpo, fica entre <b>${fmtKg(lean / 0.88)} e ${fmtKg(lean / 0.85)} kg</b>. Ritmo: 0,5 a 0,7 kg por semana.</p>
-    <p class="muted small">Cada quilo a menos é um quilo a menos em cada barra, dip e segundo de handstand. Perder 10 kg equivale a tirar um colete de 10 kg de todo exercício.</p></div>
-  <div class="card"><h2>Nutrição para o déficit</h2>
-    <div class="kpis"><div class="kpi"><div class="v num">${kcalM.toLocaleString("pt-BR")}</div><div class="l">kcal manutenção (estim.)</div></div><div class="kpi"><div class="v num">${kcalT.toLocaleString("pt-BR")}</div><div class="l">kcal alvo (déficit 500)</div></div><div class="kpi"><div class="v num">${prot}</div><div class="l">g proteína (2 g/kg)</div></div></div>
-    <ul class="small"><li>Carboidrato 250 a 300 g, concentrado em torno do treino. Não corte: barra explosiva e handstand pedem energia.</li><li>Gordura 60 a 75 g. Abaixo de 50 g mexe com hormônio.</li><li>Proteína em 4 refeições de 45 g: 200 g de frango, 5 ovos, 250 g de iogurte grego ou um scoop de whey valem 40 a 50 g cada.</li><li>Pese-se todo dia e compare médias semanais. Caiu 0,4 a 0,8 kg: não mexa. Menos de 0,3 kg por 2 semanas: tire 150 a 200 kcal. Mais de 1 kg: adicione 150.</li><li>Força na barra caindo 2 semanas seguidas com sono em dia: déficit grande demais, suba 200 kcal.</li><li>A cada 8 semanas, 1 semana na manutenção. Creatina 3 a 5 g por dia é o único suplemento que vale aqui.</li></ul></div>
-  <div class="card"><h2>Testes iniciais</h2><p class="muted small">Descansado, 3 min entre testes, vídeo lateral da barra e do handstand. Refaça a cada 4 semanas. A faixa colorida interpreta o resultado para o seu caso.</p>${tests}</div>
-  <div class="card"><h2>Registro de peso e cintura</h2>${logs.length > 1 ? spark(logs) : `<p class="muted small">Salve o peso na aba Hoje. Com dois ou mais dias aparece o gráfico.</p>`}
-    ${logs.length ? `<div class="twrap"><table><thead><tr><th>Dia</th><th>kg</th><th>cintura</th><th></th></tr></thead><tbody>${logs.slice().reverse().map(l => `<tr><td>${l.d.slice(8, 10)}/${l.d.slice(5, 7)}</td><td class="num">${l.kg ? fmtKg(l.kg) : "–"}</td><td class="num">${l.cm ? l.cm : "–"}</td><td><button class="btn sm ghost" data-del="${l.d}">×</button></td></tr>`).join("")}</tbody></table></div>` : ""}
-    <div class="row"><button class="btn ghost sm" id="clearAll">Apagar todos os dados do app</button></div></div>
-  <div class="card"><h3>Acompanhamento</h3><ul class="small"><li>Peso: diário, média semanal.</li><li>Cintura no umbigo: semanal, relaxado, fim da expiração.</li><li>Fotos padrão a cada 4 semanas: frente, lado e costas, de short, mesma luz, braços relaxados.</li><li>Testes a cada 4 semanas, fim de bloco.</li><li>Composição corporal agora e a cada 3 meses.</li><li>Carga da barra com carga: toda sessão. Deve subir ou manter enquanto o peso cai.</li></ul></div>`;
-  $("#leanIn").onchange = e => { S.lean = parseFloat(e.target.value) || S.lean; save(); renderHeader(); renderEu(); };
-  $("#wNow").onchange = e => { S.weight = parseFloat(e.target.value) || S.weight; save(); renderHeader(); renderEu(); };
-  $("#tab-eu").querySelectorAll("[data-t]").forEach(el => el.onchange = () => { S.tests[el.dataset.t] = el.value; save(); renderEu(); });
-  $("#tab-eu").querySelectorAll("[data-del]").forEach(b => b.onclick = () => { S.log = S.log.filter(x => x.d !== b.dataset.del); save(); renderEu(); });
-  $("#clearAll").onclick = () => { if ($("#clearAll").dataset.arm) { try { localStorage.removeItem(KEY); } catch (e) {} location.reload(); } else { $("#clearAll").dataset.arm = "1"; $("#clearAll").textContent = "Toque de novo para confirmar"; } };
+  const levels = Object.keys(LIB).map(k => { const lv = S.lvl[k]; const lib = LIB[k]; return `<tr><td>${esc(lib.name)}</td><td>${esc(lib.ladder[lv].n)}</td><td class="num">${lv + 1}/${lib.ladder.length}${S.streak[k] ? ` <span class="pill good">${S.streak[k]}/2</span>` : ""}</td></tr>`; }).join("");
+  const prs = [["Barra estrita", pr(S, "pull", 4) + " reps"], ["Dip nas paralelas", pr(S, "dip", 3) + " reps"], ["Flexão", pr(S, "push", 0) + " reps"], ["Parede", (S.hs.wall || 0) + " s"], ["Livre", (S.hs.free || 0) + " s"], ["Peso", fmtKg(S.weight) + " kg"]];
+  $("#tab-progresso").innerHTML = `
+  <div class="card"><div class="kpis"><div class="kpi"><div class="v num">${since}</div><div class="l">dias desde o início</div></div><div class="kpi"><div class="v num">${S.sessions.filter(s => s.type !== "T").length}</div><div class="l">treinos salvos</div></div><div class="kpi"><div class="v num">${last7}</div><div class="l">treinos nos últimos 7 dias</div></div></div>
+    <div class="eyebrow">Últimas 4 semanas</div><div class="cal">${cells.join("")}</div><p class="muted small">Laranja: treino salvo (A, B, C ou H). Claro: só handstand. Meta: 3 treinos de força e handstand todo dia.</p></div>
+  <div class="card"><h2>Trilha do muscle-up</h2><p class="muted small">A fase sobe sozinha quando os critérios são batidos nos treinos. Marque à mão o que o app não consegue medir.</p>
+    ${MU_PH.map((p, i) => `<div class="phase${i === mu ? " cur" : i < mu ? " ok" : ""}"><div class="ph"><h3>${esc(p.n)}</h3>${i === mu ? `<span class="pill on">você está aqui</span>` : i < mu ? `<span class="pill good">concluída</span>` : ""}</div>
+      ${p.crit.map(c => { const a = c.auto ? c.auto(S) : false; const ok = critDone(c); return `<label class="crit${ok ? " ok" : ""}"><input type="checkbox" data-crit="${c.k}" ${ok ? "checked" : ""} ${a ? "disabled" : ""}><span>${esc(c.t)}${a ? ` <span class="auto">· medido nos treinos</span>` : c.auto ? ` <span class="auto">· o app mede quando você chegar nesse exercício</span>` : ""}</span></label>`; }).join("")}</div>`).join("")}
+    <div class="figs three">${FIGS._muscleup.map(p => figbox(p)).join("")}</div></div>
+  <div class="card"><h2>Trilha do handstand</h2><p class="muted small">A fase sobe pelo seu recorde de segundos: parede 20 s abre a fase 1, parede 60 s abre a fase 2, 5 s livre abre a fase 3, 30 s livre abre a caminhada.</p>
+    ${HS.map((p, i) => `<div class="phase${i === hs ? " cur" : i < hs ? " ok" : ""}"><div class="ph"><h3>${esc(p.n)}</h3>${i === hs ? `<span class="pill on">você está aqui</span>` : i < hs ? `<span class="pill good">concluída</span>` : ""}</div><div class="small">Sai quando: ${esc(p.goal)}</div></div>`).join("")}
+    <label class="crit${critOk("hs_kick") ? " ok" : ""}"><input type="checkbox" data-crit="hs_kick" ${critOk("hs_kick") ? "checked" : ""}><span>Entrada com chute parando perto da parede sem bater, e saída (cambalhota ou estrela) automática</span></label>
+    <div class="figs">${FIGS._handstand.map(p => figbox(p)).join("")}</div></div>
+  <div class="card"><h2>Nível atual por exercício</h2><div class="twrap"><table><thead><tr><th>Padrão</th><th>Degrau atual</th><th>Nível</th></tr></thead><tbody>${levels}</tbody></table></div><p class="muted small">Regra: todas as séries no topo da faixa em 2 treinos seguidos sobe um degrau. Todas abaixo do mínimo desce um. Você também pode ajustar à mão na tela do treino.</p></div>
+  <div class="card"><h2>Recordes</h2><div class="kpis">${prs.map(p => `<div class="kpi"><div class="v num">${esc(p[1])}</div><div class="l">${esc(p[0])}</div></div>`).join("")}</div></div>
+  <div class="card"><h2>Peso e cintura</h2>${logs.length > 1 ? spark(logs) : `<p class="muted small">Anote o peso ao concluir um treino. Com dois ou mais dias aparece o gráfico.</p>`}
+    <p class="small">Massa magra estimada <input class="num" type="number" inputmode="decimal" step="0.5" id="leanIn" value="${S.lean}" style="width:80px;display:inline-block;padding:4px 8px"> kg. Definido para você: <b>${fmtKg(S.lean / 0.88)} a ${fmtKg(S.lean / 0.85)} kg</b> (12% a 15%). Gordura estimada hoje: ~${Math.round((1 - S.lean / S.weight) * 100)}%.</p>
+    ${logs.length ? `<div class="twrap"><table><thead><tr><th>Dia</th><th>kg</th><th>cintura</th><th></th></tr></thead><tbody>${logs.slice().reverse().slice(0, 10).map(l => `<tr><td>${l.d.slice(8, 10)}/${l.d.slice(5, 7)}</td><td class="num">${l.kg ? fmtKg(l.kg) : "–"}</td><td class="num">${l.cm || "–"}</td><td><button class="btn sm ghost" data-del="${l.d}">×</button></td></tr>`).join("")}</tbody></table></div>` : ""}</div>
+  <div class="card"><h3>Histórico</h3>${S.sessions.length ? S.sessions.slice().reverse().slice(0, 15).map(s => `<details><summary>${s.date.slice(8, 10)}/${s.date.slice(5, 7)} · ${esc(PLAN[s.type]?.title || s.note || "Teste")}</summary><div class="body small">${(s.entries || []).map(e => `<div><b>${esc(LIB[e.ex].ladder[e.lvl].n)}</b>: ${e.sets.join(" / ")}</div>`).join("")}${s.summary ? `<div class="muted">${esc(s.summary)}</div>` : ""}</div></details>`).join("") : `<p class="muted small">Nenhum treino salvo ainda.</p>`}
+    <div class="row"><button class="btn ghost sm" id="clearAll">Apagar todos os dados do app</button></div></div>`;
+  $("#tab-progresso").querySelectorAll("[data-crit]").forEach(c => c.onchange = () => { S.crit[c.dataset.crit] = c.checked; save(); renderHeader(); renderProgresso(); });
+  $("#leanIn").onchange = e => { S.lean = parseFloat(e.target.value) || S.lean; save(); renderHeader(); renderProgresso(); };
+  $("#tab-progresso").querySelectorAll("[data-del]").forEach(b => b.onclick = () => { S.log = S.log.filter(x => x.d !== b.dataset.del); save(); renderProgresso(); });
+  $("#clearAll").onclick = () => { const b = $("#clearAll"); if (b.dataset.arm) { try { localStorage.removeItem(KEY); localStorage.removeItem("tingui.skills.v1"); } catch (e) {} location.reload(); } else { b.dataset.arm = "1"; b.textContent = "Toque de novo para confirmar"; } };
 }
 function spark(logs) {
   const pts = logs.filter(l => l.kg); if (pts.length < 2) return "";
   const W = 320, H = 70, p = 8; const ks = pts.map(l => l.kg); const min = Math.min(...ks) - 0.5, max = Math.max(...ks) + 0.5;
   const x = i => p + i * (W - 2 * p) / (pts.length - 1), y = k => H - p - (k - min) / (max - min) * (H - 2 * p);
   const d = pts.map((l, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(l.kg).toFixed(1)}`).join(" ");
-  const area = d + ` L${x(pts.length - 1).toFixed(1)},${H - p} L${x(0).toFixed(1)},${H - p} Z`;
-  const last = pts[pts.length - 1];
+  const area = d + ` L${x(pts.length - 1).toFixed(1)},${H - p} L${x(0).toFixed(1)},${H - p} Z`; const last = pts[pts.length - 1];
   return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path d="${area}" fill="var(--accent-soft)"/><path d="${d}" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="${x(pts.length - 1)}" cy="${y(last.kg)}" r="3.5" fill="var(--accent)"/><text x="${p}" y="${p + 4}" font-size="10" fill="var(--muted)" font-family="inherit">${fmtKg(max - 0.5)}</text><text x="${p}" y="${H - 2}" font-size="10" fill="var(--muted)" font-family="inherit">${fmtKg(min + 0.5)}</text></svg>`;
+}
+
+// ---------------------------------------------------------------- guia
+function renderGuia() {
+  const exCards = Object.keys(LIB).map(k => { const lib = LIB[k]; return `<details><summary>${esc(lib.name)}</summary><div class="body">${lib.fig && FIGS[lib.fig] ? `<div class="figs">${figbox(FIGS[lib.fig][0])}${figbox(FIGS[lib.fig][1], lib.fig === "Prancha")}</div>` : ""}<div><span class="lbl">Escada de progressões</span><ol class="small">${lib.ladder.map((s, i) => `<li${i === S.lvl[k] ? ' style="font-weight:600"' : ""}>${esc(s.n)} <span class="muted">${s.sets} x ${s.min === s.max ? s.max : s.min + " a " + s.max} ${s.unit}</span>${s.note ? `<div class="muted">${esc(s.note)}</div>` : ""}</li>`).join("")}</ol></div></div></details>`; }).join("");
+  $("#tab-guia").innerHTML = `
+  <div class="card"><h2>Como o app funciona</h2><ul class="small">
+    <li><b>Abra e treine.</b> A aba Hoje já sabe o dia da semana, escolhe a sessão e mostra o degrau certo de cada exercício. Anote as repetições de cada série e toque em Concluir.</li>
+    <li><b>Ele decide o nível.</b> Todas as séries no topo da faixa em 2 treinos seguidos sobe um degrau. Todas abaixo do mínimo desce um. Quer forçar? Use Mais fácil ou Mais difícil.</li>
+    <li><b>Ele decide a fase.</b> Muscle-up: pelos recordes de barra, dip, chest-to-bar e negativa de muscle-up anotados. Handstand: pelos segundos de parede e livre que você anota no cronômetro.</li>
+    <li><b>Descanso.</b> O botão Descansar abre um cronômetro no rodapé e vibra ao acabar.</li>
+    <li><b>Ontem.</b> Esqueceu de anotar? Em Hoje, troque para Ontem no seletor de data.</li>
+    <li>Tudo fica salvo neste aparelho. Não vai para outro celular nem para mim. Para eu ajustar o plano, me mande os números da aba Progresso.</li></ul></div>
+  <div class="card"><h2>Semana</h2><div class="twrap"><table><thead><tr><th>Dia</th><th>Sessão</th><th>Onde</th></tr></thead><tbody>${[1, 2, 3, 4, 5, 6, 0].map(i => `<tr><td>${DAYS[i]}</td><td>${esc(PLAN[WEEKPLAN[i]].title)}${WEEKPLAN[i] !== "R" ? " + handstand" : ""}</td><td>${esc(PLAN[WEEKPLAN[i]].where)}</td></tr>`).join("")}</tbody></table></div>
+    <ul class="small"><li>Rotina de desempregado funciona melhor com horário fixo: mesmo horário todo dia, de preferência de manhã, antes de abrir e-mail e LinkedIn. Treino vira âncora do dia.</li><li>Sessões A, B e C levam 60 a 75 min com o trajeto. Sessões H levam 30 a 40 min.</li><li>Trajeto de casa até as barras do setor São João: 1,8 km em linha reta, 2,1 a 2,4 km a pé. Meça uma vez com o Nike Run Club e repita o caminho.</li><li>Chuva: faça a sessão em casa com mesa firme (remada), cadeira (dip, pés elevados) e porta (handstand). Pular é pior que adaptar.</li></ul></div>
+  <div class="card"><h2>Equipamento com o dinheiro do Wellhub</h2><p class="muted small">Os R$ 199,90 de um mês compram tudo o que este plano precisa, de uma vez só.</p><div class="twrap"><table><thead><tr><th>Item</th><th>Para quê</th><th>Faixa de preço</th></tr></thead><tbody>
+    <tr><td>Faixa elástica de barra (média e fina)</td><td>Barra assistida e muscle-up com faixa</td><td>R$ 40 a 90 o par</td></tr>
+    <tr><td>Mochila firme + garrafas de 2 L ou anilhas usadas</td><td>Barra, dip e búlgaro com carga. Cada garrafa cheia pesa 2 kg</td><td>R$ 0 a 60</td></tr>
+    <tr><td>Magnésio em bloco</td><td>Pegada na barra cromada e false grip</td><td>R$ 15 a 30</td></tr>
+    <tr><td>Parallettes baixas ou dois blocos de ioga</td><td>L-sit, punhos no handstand, pike push-up</td><td>R$ 60 a 150</td></tr>
+    <tr><td>Toalha pequena e garrafa de água</td><td>Secar a barra, forrar o chão</td><td>Já tem</td></tr></tbody></table></div></div>
+  <div class="card"><h2>Exercícios e escadas</h2><p class="muted small">O degrau em negrito é o seu nível atual. Desenhos: esquerda início, direita fim.</p>${exCards}</div>
+  <div class="card"><h2>Cuidados</h2><ul class="small">
+    <li><b>Cotovelo:</b> carga na barra sobe no máximo 2,5 kg por semana. Dor na parte interna que não some em 48 h: pegada neutra ou supinada por 2 semanas e metade do volume.</li>
+    <li><b>Ombro:</b> remada em todo treino e alongamento de peitoral diário. Você tem muito peitoral e ombros à frente.</li>
+    <li><b>Punho:</b> dor leve nas 3 primeiras semanas de handstand é normal. Dor aguda, não. Aqueça e pare o dia se doer durante.</li>
+    <li><b>Déficit:</b> 2 g de proteína por kg (${Math.round(S.weight * 2)} g), carboidrato em volta do treino, 0,5 a 0,7 kg por semana. Força na barra caindo 2 semanas seguidas: coma 200 kcal a mais.</li>
+    <li><b>Mãos:</b> barra na dobra dos dedos, não no meio da palma. Lixe calos depois do banho. Bolha aberta: encerre a barra no dia.</li></ul></div>`;
 }
 
 // ---------------------------------------------------------------- nav
 function show(tab) {
+  S.tab = tab; save();
   document.querySelectorAll("main .tab").forEach(s => s.hidden = s.id !== "tab-" + tab);
   document.querySelectorAll("#nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  ({ hoje: renderHoje, semana: renderSemana, trilhas: renderTrilhas, exercicios: renderEx, eu: renderEu })[tab]();
+  ({ hoje: renderHoje, progresso: renderProgresso, guia: renderGuia })[tab]();
   window.scrollTo(0, 0);
 }
 $("#nav").onclick = e => { const b = e.target.closest("button"); if (b) show(b.dataset.tab); };
 renderHeader();
 const h = (location.hash || "").slice(1);
-show(["hoje", "semana", "trilhas", "exercicios", "eu"].includes(h) ? h : "hoje");
+show(["hoje", "progresso", "guia"].includes(h) ? h : "hoje");
 </script>
 </body></html>
