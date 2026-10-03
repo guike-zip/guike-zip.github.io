@@ -135,6 +135,16 @@ nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; background: var(--surf
 nav.tabs button { flex: 1; border: 0; background: transparent; display: grid; justify-items: center; gap: 2px; padding: 4px 0; color: var(--muted); font-size: 11px; font-weight: 600; cursor: pointer; border-radius: 10px; }
 nav.tabs button svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 nav.tabs button.on { color: var(--accent); }
+.sw { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 62px); z-index: 4; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+.sw.run { border-color: var(--accent); }
+.sw .t { font-family: var(--display); font-weight: 700; font-size: 30px; letter-spacing: .02em; min-width: 92px; }
+.sw .l { font-size: 11.5px; color: var(--muted); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.sw .ctl { display: flex; gap: 6px; margin-left: auto; }
+.sw .ctl button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface2); display: grid; place-items: center; cursor: pointer; }
+.sw .ctl button svg { width: 20px; height: 20px; fill: currentColor; }
+.sw .ctl button.play { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.sw .ctl button.stop { background: var(--bad-soft); color: var(--bad); border-color: var(--bad-soft); }
+.sw .ctl button:disabled { opacity: .35; }
 .rest { position: fixed; left: 16px; right: 16px; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; z-index: 9; box-shadow: 0 6px 20px rgba(0,0,0,.25); max-width: 688px; margin: 0 auto; }
 .rest .t { font-family: var(--display); font-weight: 700; font-size: 28px; }
 .rest button { border: 0; background: rgba(255,255,255,.15); color: inherit; border-radius: 8px; padding: 6px 10px; font-weight: 600; }
@@ -349,7 +359,8 @@ function renderHoje() {
   let html = `<div class="row"><span class="eyebrow grow">${esc(DAYS[new Date(d + "T12:00:00").getDay()])} · ${d === today() ? "hoje" : d.slice(8, 10) + "/" + d.slice(5, 7)}</span>
     <select id="selDate" style="width:auto" class="small"><option value="${today()}" ${d === today() ? "selected" : ""}>Hoje</option><option value="${yesterday}" ${d === yesterday ? "selected" : ""}>Ontem</option></select>
     <select id="selType" style="width:auto" class="small">${Object.keys(PLAN).map(k => `<option value="${k}" ${k === dr.type ? "selected" : ""}>${esc(PLAN[k].title)}</option>`).join("")}</select></div>`;
-  if (doneToday) html += `<div class="card done"><div class="row"><span class="pill good">Treino salvo</span><span class="muted small">${esc(PLAN[doneToday.type]?.title || "")}</span></div><p class="small">${esc(doneToday.summary || "")}</p><button class="btn ghost sm" id="undoS">Desfazer e editar</button></div>`;
+  if (dr.type !== "R" && !doneToday) html += swBar(dr);
+  if (doneToday) html += `<div class="card done"><div class="row"><span class="pill good">Treino salvo</span><span class="muted small">${esc(PLAN[doneToday.type]?.title || "")}</span></div><p class="small">${doneToday.dur ? `Duração ${hms(doneToday.dur)}. ` : ""}${esc(doneToday.summary || "")}</p><button class="btn ghost sm" id="undoS">Desfazer e editar</button></div>`;
   // handstand block (every day except rest, and even on rest optional)
   html += `<div class="card">
     <div class="row"><span class="eyebrow grow">Handstand · ${esc(hsP.n)}</span><span class="pill on">meta: ${esc(hsP.goal)}</span></div>
@@ -383,12 +394,13 @@ function renderHoje() {
   }
   $("#tab-hoje").innerHTML = html;
   // handlers
+  bindSw(dr);
   $("#selDate").onchange = e => { S.draft = { date: e.target.value, type: sessionFor(e.target.value), sets: {}, hsBest: "" }; save(); renderHoje(); };
   $("#selType").onchange = e => { dr.type = e.target.value; dr.sets = {}; save(); renderHoje(); };
   $("#tStart").onclick = () => { if (timer.run) { S.hs.log[d] = { sec: hsToday(d) }; timer.run = false; clearInterval(timer.id); } else { timer.run = true; timer.start = Date.now(); timer.id = setInterval(tick, 500); } save(); renderHoje(); };
   $("#hsBest").oninput = e => { dr.hsBest = e.target.value; save(); };
   $("#hsSave").onclick = () => { const v = parseFloat($("#hsBest").value); if (!v) return; const m = HS[hsPhase()].metric; const before = hsPhase(); if (v > (S.hs[m] || 0)) { S.hs[m] = v; toast(`Novo recorde: ${v}${m === "walk" ? " m" : " s"}`); } S.hs.log[d] = Object.assign(S.hs.log[d] || {}, { best: v, metric: m }); save(); renderHeader(); if (hsPhase() > before) toast(`Subiu para a ${HS[hsPhase()].n}`); renderHoje(); };
-  const undo = $("#undoS"); if (undo) undo.onclick = () => { const se = S.sessions.find(s => s.date === d && s.type !== "T"); if (!se) return; S.lvl = Object.assign(S.lvl, se.lvlBefore || {}); S.streak = se.streakBefore || S.streak; dr.sets = {}; for (const e of se.entries) dr.sets[e.ex] = e.sets.map(v => v || ""); dr.type = se.type; S.sessions = S.sessions.filter(s => s !== se); save(); renderHeader(); renderHoje(); };
+  const undo = $("#undoS"); if (undo) undo.onclick = () => { const se = S.sessions.find(s => s.date === d && s.type !== "T"); if (!se) return; S.lvl = Object.assign(S.lvl, se.lvlBefore || {}); S.streak = se.streakBefore || S.streak; dr.sets = {}; for (const e of se.entries) dr.sets[e.ex] = e.sets.map(v => v || ""); dr.type = se.type; dr.sw = { acc: se.dur || 0, since: 0, done: false }; S.sessions = S.sessions.filter(s => s !== se); save(); renderHeader(); renderHoje(); };
   $("#tab-hoje").querySelectorAll("input[data-k]").forEach(inp => inp.oninput = () => { const k = inp.dataset.k; const n = LIB[k].ladder[S.lvl[k]].sets; dr.sets[k] = dr.sets[k] || Array(n).fill(""); dr.sets[k][+inp.dataset.i] = inp.value; save(); });
   $("#tab-hoje").querySelectorAll("[data-rest]").forEach(b => b.onclick = () => startRest(+b.dataset.rest));
   $("#tab-hoje").querySelectorAll("[data-fig]").forEach(b => b.onclick = () => { const w = b.closest(".card").querySelector(".figwrap"); w.hidden = !w.hidden; b.textContent = w.hidden ? "Ver desenho" : "Esconder"; });
@@ -396,6 +408,26 @@ function renderHoje() {
   $("#tab-hoje").querySelectorAll("[data-down]").forEach(b => b.onclick = () => { S.lvl[b.dataset.down]--; S.streak[b.dataset.down] = 0; dr.sets[b.dataset.down] = null; save(); renderHoje(); });
   const w = $("#wIn"); if (w) { w.oninput = () => { dr.w = w.value; save(); }; $("#cIn").oninput = () => { dr.c = $("#cIn").value; save(); }; }
   const f = $("#finish"); if (f) f.onclick = finishSession;
+}
+// session stopwatch: dr.sw = { acc: seconds accumulated, since: timestamp when running or 0, done: bool }
+function swSec(dr) { const w = dr.sw || { acc: 0, since: 0 }; return w.acc + (w.since ? Math.floor((Date.now() - w.since) / 1000) : 0); }
+function hms(sec) { const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s2 = sec % 60; return (h ? h + ":" : "") + String(m).padStart(h ? 2 : 1, "0") + ":" + String(s2).padStart(2, "0"); }
+let swId = null;
+function swBar(dr) {
+  const w = dr.sw || { acc: 0, since: 0, done: false }; const run = !!w.since; const sec = swSec(dr);
+  const state = w.done ? "Treino encerrado" : run ? "Treino em andamento" : sec ? "Pausado" : "Toque em play ao começar";
+  return `<div class="sw${run ? " run" : ""}"><div><div class="l">${state}</div><div class="t num" id="swT">${hms(sec)}</div></div>
+    <div class="ctl">
+      <button class="play" id="swPlay" aria-label="${run ? "Pausar" : "Iniciar"}" ${w.done ? "disabled" : ""}>${run ? '<svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>' : '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'}</button>
+      <button class="stop" id="swStop" aria-label="Encerrar" ${(!sec && !run) || w.done ? "disabled" : ""}><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg></button>
+    </div></div>`;
+}
+function swTick() { const dr = S.draft; const el = $("#swT"); if (!el || !dr) return; el.textContent = hms(swSec(dr)); }
+function bindSw(dr) {
+  const play = $("#swPlay"), stop = $("#swStop"); if (!play) return;
+  clearInterval(swId); if (dr.sw && dr.sw.since) swId = setInterval(swTick, 1000);
+  play.onclick = () => { dr.sw = dr.sw || { acc: 0, since: 0, done: false }; if (dr.sw.since) { dr.sw.acc = swSec(dr); dr.sw.since = 0; } else { dr.sw.since = Date.now(); } save(); renderHoje(); };
+  stop.onclick = () => { if (!dr.sw) return; dr.sw.acc = swSec(dr); dr.sw.since = 0; dr.sw.done = true; save(); renderHoje(); toast(`Treino de ${hms(dr.sw.acc)}. Agora anote e toque em Concluir.`); const f = $("#finish"); if (f) f.scrollIntoView({ behavior: "smooth", block: "center" }); };
 }
 function tick() { const el = $("#tmr"); if (!el || !S.draft) return; const sec = hsToday(S.draft.date); el.textContent = mmss(sec); const b = $(".bar i", $("#tab-hoje")); if (b) b.style.width = Math.min(100, sec / 900 * 100) + "%"; }
 
@@ -415,7 +447,8 @@ function finishSession() {
   if (kg || cm) { S.log = S.log.filter(x => x.d !== dr.date); S.log.push({ d: dr.date, kg: kg || null, cm: cm || null }); S.log.sort((a, b) => a.d < b.d ? -1 : 1); if (kg) S.weight = kg; if (cm) S.waist = cm; }
   const muBefore = muPhase();
   S.sessions = S.sessions.filter(s => !(s.date === dr.date && s.type !== "T"));
-  S.sessions.push({ date: dr.date, type: dr.type, entries, summary: msgs.length ? msgs.join(" · ") : "Dentro da faixa. Repita e tente chegar ao topo da faixa em todas as séries.", lvlBefore, streakBefore });
+  const dur = dr.sw ? swSec(dr) : 0; clearInterval(swId);
+  S.sessions.push({ date: dr.date, type: dr.type, entries, dur, summary: msgs.length ? msgs.join(" · ") : "Dentro da faixa. Repita e tente chegar ao topo da faixa em todas as séries.", lvlBefore, streakBefore });
   S.sessions.sort((a, b) => a.date < b.date ? -1 : 1);
   if (muPhase() > muBefore) msgs.unshift(`Muscle-up: entrou na ${MU_PH[muPhase()].n}`);
   S.draft = null; save(); renderHeader(); renderHoje(); toast(msgs.length ? msgs[0] : "Treino salvo");
@@ -439,7 +472,7 @@ function renderProgresso() {
   const levels = Object.keys(LIB).map(k => { const lv = S.lvl[k]; const lib = LIB[k]; return `<tr><td>${esc(lib.name)}</td><td>${esc(lib.ladder[lv].n)}</td><td class="num">${lv + 1}/${lib.ladder.length}${S.streak[k] ? ` <span class="pill good">${S.streak[k]}/2</span>` : ""}</td></tr>`; }).join("");
   const prs = [["Barra estrita", pr(S, "pull", 4) + " reps"], ["Dip nas paralelas", pr(S, "dip", 3) + " reps"], ["Flexão", pr(S, "push", 0) + " reps"], ["Parede", (S.hs.wall || 0) + " s"], ["Livre", (S.hs.free || 0) + " s"], ["Peso", fmtKg(S.weight) + " kg"]];
   $("#tab-progresso").innerHTML = `
-  <div class="card"><div class="kpis"><div class="kpi"><div class="v num">${since}</div><div class="l">dias desde o início</div></div><div class="kpi"><div class="v num">${S.sessions.filter(s => s.type !== "T").length}</div><div class="l">treinos salvos</div></div><div class="kpi"><div class="v num">${last7}</div><div class="l">treinos nos últimos 7 dias</div></div></div>
+  <div class="card"><div class="kpis"><div class="kpi"><div class="v num">${since}</div><div class="l">dias desde o início</div></div><div class="kpi"><div class="v num">${S.sessions.filter(s => s.type !== "T").length}</div><div class="l">treinos salvos</div></div><div class="kpi"><div class="v num">${last7}</div><div class="l">treinos nos últimos 7 dias</div></div>${(() => { const ds = S.sessions.filter(s => s.dur); return ds.length ? `<div class="kpi"><div class="v num">${hms(Math.round(ds.reduce((a, s) => a + s.dur, 0) / ds.length))}</div><div class="l">duração média</div></div>` : ""; })()}</div>
     <div class="eyebrow">Últimas 4 semanas</div><div class="cal">${cells.join("")}</div><p class="muted small">Laranja: treino salvo (A, B, C ou H). Claro: só handstand. Meta: 3 treinos de força e handstand todo dia.</p></div>
   <div class="card"><h2>Trilha do muscle-up</h2><p class="muted small">A fase sobe sozinha quando os critérios são batidos nos treinos. Marque à mão o que o app não consegue medir.</p>
     ${MU_PH.map((p, i) => `<div class="phase${i === mu ? " cur" : i < mu ? " ok" : ""}"><div class="ph"><h3>${esc(p.n)}</h3>${i === mu ? `<span class="pill on">você está aqui</span>` : i < mu ? `<span class="pill good">concluída</span>` : ""}</div>
@@ -454,7 +487,7 @@ function renderProgresso() {
   <div class="card"><h2>Peso e cintura</h2>${logs.length > 1 ? spark(logs) : `<p class="muted small">Anote o peso ao concluir um treino. Com dois ou mais dias aparece o gráfico.</p>`}
     <p class="small">Massa magra estimada <input class="num" type="number" inputmode="decimal" step="0.5" id="leanIn" value="${S.lean}" style="width:80px;display:inline-block;padding:4px 8px"> kg. Definido para você: <b>${fmtKg(S.lean / 0.88)} a ${fmtKg(S.lean / 0.85)} kg</b> (12% a 15%). Gordura estimada hoje: ~${Math.round((1 - S.lean / S.weight) * 100)}%.</p>
     ${logs.length ? `<div class="twrap"><table><thead><tr><th>Dia</th><th>kg</th><th>cintura</th><th></th></tr></thead><tbody>${logs.slice().reverse().slice(0, 10).map(l => `<tr><td>${l.d.slice(8, 10)}/${l.d.slice(5, 7)}</td><td class="num">${l.kg ? fmtKg(l.kg) : "–"}</td><td class="num">${l.cm || "–"}</td><td><button class="btn sm ghost" data-del="${l.d}">×</button></td></tr>`).join("")}</tbody></table></div>` : ""}</div>
-  <div class="card"><h3>Histórico</h3>${S.sessions.length ? S.sessions.slice().reverse().slice(0, 15).map(s => `<details><summary>${s.date.slice(8, 10)}/${s.date.slice(5, 7)} · ${esc(PLAN[s.type]?.title || s.note || "Teste")}</summary><div class="body small">${(s.entries || []).map(e => `<div><b>${esc(LIB[e.ex].ladder[e.lvl].n)}</b>: ${e.sets.join(" / ")}</div>`).join("")}${s.summary ? `<div class="muted">${esc(s.summary)}</div>` : ""}</div></details>`).join("") : `<p class="muted small">Nenhum treino salvo ainda.</p>`}
+  <div class="card"><h3>Histórico</h3>${S.sessions.length ? S.sessions.slice().reverse().slice(0, 15).map(s => `<details><summary>${s.date.slice(8, 10)}/${s.date.slice(5, 7)} · ${esc(PLAN[s.type]?.title || s.note || "Teste")}${s.dur ? ` <span class="pill">${hms(s.dur)}</span>` : ""}</summary><div class="body small">${(s.entries || []).map(e => `<div><b>${esc(LIB[e.ex].ladder[e.lvl].n)}</b>: ${e.sets.join(" / ")}</div>`).join("")}${s.summary ? `<div class="muted">${esc(s.summary)}</div>` : ""}</div></details>`).join("") : `<p class="muted small">Nenhum treino salvo ainda.</p>`}
     <div class="row"><button class="btn ghost sm" id="clearAll">Apagar todos os dados do app</button></div></div>`;
   $("#tab-progresso").querySelectorAll("[data-crit]").forEach(c => c.onchange = () => { S.crit[c.dataset.crit] = c.checked; save(); renderHeader(); renderProgresso(); });
   $("#leanIn").onchange = e => { S.lean = parseFloat(e.target.value) || S.lean; save(); renderHeader(); renderProgresso(); };
@@ -478,6 +511,7 @@ function renderGuia() {
     <li><b>Abra e treine.</b> A aba Hoje já sabe o dia da semana, escolhe a sessão e mostra o degrau certo de cada exercício. Anote as repetições de cada série e toque em Concluir.</li>
     <li><b>Ele decide o nível.</b> Todas as séries no topo da faixa em 2 treinos seguidos sobe um degrau. Todas abaixo do mínimo desce um. Quer forçar? Use Mais fácil ou Mais difícil.</li>
     <li><b>Ele decide a fase.</b> Muscle-up: pelos recordes de barra, dip, chest-to-bar e negativa de muscle-up anotados. Handstand: pelos segundos de parede e livre que você anota no cronômetro.</li>
+    <li><b>Cronômetro do treino.</b> Toque em play ao começar. Pause se precisar de uma pausa maior. O quadrado encerra e grava a duração no histórico. Ele continua contando mesmo com o app fechado.</li>
     <li><b>Descanso.</b> O botão Descansar abre um cronômetro no rodapé e vibra ao acabar.</li>
     <li><b>Ontem.</b> Esqueceu de anotar? Em Hoje, troque para Ontem no seletor de data.</li>
     <li>Tudo fica salvo neste aparelho. Não vai para outro celular nem para mim. Para eu ajustar o plano, me mande os números da aba Progresso.</li></ul></div>
