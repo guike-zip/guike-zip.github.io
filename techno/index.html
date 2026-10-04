@@ -229,6 +229,7 @@ function load(){
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 
 const $ = (s,r=document)=>r.querySelector(s);
+function toast(m){ let t=$("#toast"); if(!t){ t=document.createElement("div"); t.id="toast"; t.style.cssText="position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--text);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:20;max-width:90vw"; document.body.appendChild(t); } t.textContent=m; t.hidden=false; clearTimeout(toast.h); toast.h=setTimeout(()=>{t.hidden=true;},3500); }
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const today = () => { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
 
@@ -493,7 +494,7 @@ function paint(){
   seqRAF=requestAnimationFrame(paint);
 }
 function startSeq(){
-  const C=window.AudioContext||window.webkitAudioContext; if(!C){ alert("Seu navegador não suporta áudio Web."); return; }
+  const C=window.AudioContext||window.webkitAudioContext; if(!C){ toast("Seu navegador não suporta áudio Web."); return; }
   AC=AC||new C(); AC.resume();
   seqStep=0; seqNext=AC.currentTime+0.06; seqQueue=[]; sched(); seqTimer=setInterval(sched,25); paint();
   const b=$("#sqPlay"); if(b){ b.textContent="■ Parar"; b.classList.add("stop"); }
@@ -546,7 +547,7 @@ document.addEventListener("click",e=>{
   else if(act==="sqplay"){ seqTimer? stopSeq() : startSeq(); }
   else if(act==="sqpreset"){ setPreset(a.dataset.k); $("#grid").innerHTML=gridHtml(); }
   else if(act==="sqclear"){ S.seq={g:{kick:[],hat:[],ohat:[],shk:[],rim:[],bass:[]},b:{}}; save(); $("#grid").innerHTML=gridHtml(); }
-  else if(act==="reset"){ if(confirm("Apagar todo o progresso e anotações deste navegador?")){ S=blank(); save(); render(); } }
+  else if(act==="reset"){ if(a.dataset.sure){ S=blank(); save(); render(); toast("Progresso zerado."); } else { a.dataset.sure="1"; a.textContent="Confirmar: apagar tudo"; a.classList.add("stop"); setTimeout(()=>{ if(a.isConnected){ delete a.dataset.sure; a.textContent="Zerar tudo"; a.classList.remove("stop"); } },4000); } }
 });
 document.addEventListener("change",e=>{
   const t=e.target;
@@ -556,7 +557,7 @@ document.addEventListener("change",e=>{
   else if(t.dataset.st){ const [k,i]=t.dataset.st.split(":"); S[k][i]=t.checked||undefined; save(); }
   else if(t.id==="file"){
     const f=t.files[0]; if(!f) return;
-    f.text().then(x=>{ const r=JSON.parse(x); if(!r||typeof r!=="object"||!r.done) throw 0; S=Object.assign(blank(),r); save(); render(); alert("Backup importado."); }).catch(()=>alert("Arquivo inválido."));
+    f.text().then(x=>{ const r=JSON.parse(x); if(!r||typeof r!=="object"||!r.done) throw 0; S=Object.assign(blank(),r); save(); render(); toast("Backup importado."); }).catch(()=>toast("Arquivo inválido."));
   }
 });
 function keepScroll(){ /* render() preserva a posição; função mantida para clareza */ }
