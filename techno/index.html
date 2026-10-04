@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="robots" content="noindex, nofollow" />
 <meta name="theme-color" content="#08090d" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="icon-180.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Techno" />
 <title>Melodic Techno · Meu progresso</title>
 <style>
 :root{
@@ -89,6 +94,17 @@ th{color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase;lett
 .legend{font-size:12px;color:var(--dim)}
 .tick{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--dim)}
 kbd{background:var(--bg-elev);border:1px solid var(--border);border-bottom-width:2px;border-radius:5px;padding:0 6px;font:600 12px ui-monospace,Menlo,monospace}
+.sq-row{display:flex;gap:3px;margin-bottom:3px;align-items:center}
+.sq-lab{flex:none;width:78px;font-size:12px;color:var(--dim)}
+.sq-cell{flex:1;height:30px;border-radius:5px;background:var(--bg-elev);border:1px solid var(--border);cursor:pointer}
+.sq-cell.beat{border-color:var(--dim)}
+.sq-cell.on{background:var(--accent);border-color:var(--accent)}
+.sq-cell.cur{outline:2px solid var(--accent-2);outline-offset:-2px}
+.sq-cell.on.cur{background:var(--accent-3);border-color:var(--accent-3)}
+.sq-n{flex:1;text-align:center;font-size:10px;color:var(--dim)}
+.hist{display:flex;align-items:flex-end;gap:4px;height:70px;margin-top:8px}
+.hist div{flex:1;background:linear-gradient(var(--accent),var(--accent-3));border-radius:3px 3px 0 0;min-height:2px}
+.hist div.z{background:var(--border)}
 .hidden{display:none}
 @media(min-width:700px){body{padding-bottom:0}nav.tabs{position:sticky;top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--border);max-width:860px;margin:10px auto 0;border-radius:12px;border:1px solid var(--border)}nav.tabs button{flex-direction:row;justify-content:center;font-size:14px;gap:6px}}
 </style>
@@ -204,10 +220,11 @@ const GM = [["Kick","C1"],["Rimshot","C#1"],["Snare","D1"],["Clap","D#1"],["Hi-h
 
 /* ───────────── ESTADO ───────────── */
 const KEY = "htm_progress_v1";
+function blank(){ return {done:{},notes:{},plug:{},sample:{},listen:{},plan:{},min:{},run:null,quiz:{c:0,t:0,best:0,cur:0},seq:null}; }
 let S = load();
 function load(){
-  try{ const r = JSON.parse(localStorage.getItem(KEY)); if(r && typeof r==="object") return Object.assign({done:{},notes:{},plug:{},sample:{},listen:{},plan:{},min:{},run:null},r); }catch(e){}
-  return {done:{},notes:{},plug:{},sample:{},listen:{},plan:{},min:{},run:null};
+  try{ const r = JSON.parse(localStorage.getItem(KEY)); if(r && typeof r==="object") return Object.assign(blank(),r); }catch(e){}
+  return blank();
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 
@@ -232,7 +249,7 @@ function fmtMin(m){ const h=Math.floor(m/60), r=m%60; return h? h+"h"+String(r).
 function fmtSec(s){ s=Math.round(s); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
 
 /* ───────────── ROTAS ───────────── */
-const TABS = [["home","🏠","Início"],["mods","🎓","Módulos"],["plan","🗓️","Plano"],["tools","🧰","Ferramentas"],["listen","🎧","Escuta"],["setup","⚙️","Setup"]];
+const TABS = [["home","🏠","Início"],["mods","🎓","Módulos"],["plan","🗓️","Plano"],["tools","🧰","Ferramentas"],["train","🥁","Treino"],["listen","🎧","Escuta"],["setup","⚙️","Setup"]];
 let route = {tab:"home", mod:null};
 function go(tab,mod=null){ route={tab,mod}; location.hash = mod!==null? tab+"/"+mod : tab; render(); window.scrollTo(0,0); }
 function fromHash(){ const [t,m]=(location.hash||"#home").slice(1).split("/"); route={tab:TABS.some(x=>x[0]===t)?t:"home", mod: m!==undefined && MODULES[+m]? +m : null}; }
@@ -240,7 +257,8 @@ window.addEventListener("hashchange",()=>{fromHash();render();});
 
 function render(){
   $("#tabs").innerHTML = TABS.map(([k,ic,l])=>`<button class="${route.tab===k?"on":""}" data-go="${k}"><span class="ic">${ic}</span>${l}</button>`).join("");
-  const v = {home:vHome,mods:vMods,plan:vPlan,tools:vTools,listen:vListen,setup:vSetup}[route.tab];
+  stopSeq();
+  const v = {home:vHome,mods:vMods,plan:vPlan,tools:vTools,train:vTrain,listen:vListen,setup:vSetup}[route.tab];
   $("#app").innerHTML = v();
   if(route.tab==="mods" && route.mod!==null){ const ta=$("#note"); if(ta) ta.value = S.notes["m"+route.mod]||""; }
   if(route.tab==="tools") calc();
@@ -270,9 +288,19 @@ function vHome(){
     ${timerHtml()}
   </section>
   <section class="card">
+    <h2>Últimos 14 dias</h2>
+    ${histHtml()}
+  </section>
+  <section class="card">
     <h2>Atalhos rápidos</h2>
     <div class="row"><button class="btn ghost sm" data-go="tools">Calculadora de BPM</button><button class="btn ghost sm" data-go="setup">Plug-ins e samples</button><button class="btn ghost sm" data-go="listen">Lista de escuta</button></div>
   </section>`;
+}
+function histHtml(){
+  const days=[]; const d=new Date(); d.setDate(d.getDate()-13);
+  for(let i=0;i<14;i++){ const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); days.push([k,(S.min[k]||0)+(k===today()?runningMin():0)]); d.setDate(d.getDate()+1); }
+  const mx=Math.max(30,...days.map(x=>x[1]));
+  return `<div class="hist">${days.map(([k,m])=>`<div class="${m?"":"z"}" style="height:${m?Math.max(6,Math.round(m/mx*100)):3}%" title="${k}: ${m} min"></div>`).join("")}</div><div class="legend" style="margin-top:6px">Total na janela: ${fmtMin(days.reduce((a,b)=>a+b[1],0))}</div>`;
 }
 function timerHtml(){
   const t = S.min[today()]||0;
@@ -389,9 +417,121 @@ function vSetup(){
     <input type="file" id="file" accept="application/json" class="hidden"></section>`;
 }
 
+/* ───────────── TREINO: QUIZ + LABORATÓRIO DE RITMO ───────────── */
+const SOLF={C:"dó",D:"ré",E:"mi",F:"fá",G:"sol",A:"lá",B:"si"}, LET=Object.keys(SOLF);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const STATIC_Q=[
+ ["Qual nota o teclado do Mac toca na tecla A (Musical Typing)?","Dó (C)",["Lá (A)","Sol (G)","Si (B)"],"A tecla A do Mac é só o “endereço”: ela toca dó."],
+ ["Em que tecla do Mac fica a nota lá (A)?","H",["A","L","J"],"A nota lá fica na tecla H."],
+ ["Quantos Hz tem o A1 (lá grave do bass)?","55 Hz",["110 Hz","220 Hz","27 Hz"],"A1=55 Hz, A2=110 Hz, A3=220 Hz."],
+ ["Quanto dura 1 compasso em 126 BPM?","1,90 s",["1,00 s","2,40 s","0,95 s"],"240 ÷ 126 ≈ 1,90 s; 32 compassos ≈ 61 s."],
+ ["O que faz Transpose +12 no editor?","Sobe uma oitava",["Sobe um tom","Sobe uma quinta","Desce uma oitava"],"+12 semitons = 1 oitava; +7 = quinta; −2 = um tom abaixo."],
+ ["Em que nota fica o kick num kit GM?","C1",["D1","F#1","A#1"],"C1 = kick, D1 = snare, F#1 = hat fechado, A#1 = hat aberto."],
+ ["Em que nota fica o hi-hat aberto num kit GM?","A#1",["F#1","C#1","D#1"],"F#1 é o hat fechado; A#1 o aberto."],
+ ["Em que nota fica o rimshot?","C#1",["D1","D#1","G#1"],"C#1 = rimshot, D#1 = clap."],
+ ["Quais notas formam a pentatônica menor de Lá?","A C D E G",["A B C D E","A C E F G","A B D E G"],"A · C · D · E · G — qualquer ordem soa bem sobre um bass em A."],
+ ["Quais notas formam o acorde de Lá menor (Am)?","A C E",["A B D","A C# E","A D F"],"Am = A C E."],
+ ["Quantas semicolcheias (1/16) cabem num compasso 4/4?","16",["8","4","32"],"4 tempos × 4 subdivisões = 16."],
+ ["Qual a escala do curso (só teclas brancas)?","Lá menor",["Dó maior com sustenidos","Sol maior","Ré menor"],"A minor não tem # nem b."],
+ ["Quanto vale 1 oitava acima em semitons?","12",["7","5","8"],"12 semitons."],
+ ["Em que tecla do Mac fica Z / X?","Descem / sobem oitava",["Mais / menos força","Sustain / metrônomo","Gravar / ciclo"],"C/V mudam a força (velocity); Tab é sustain."]
+];
+function genQ(){
+  const t=Math.random();
+  if(t<0.3){ const l=pick(LET); const opts=shuffle(LET.filter(x=>x!==l)).slice(0,3).map(x=>SOLF[x]).concat(SOLF[l]); return {q:`Qual é o nome em solfejo da nota ${l}?`,a:SOLF[l],o:shuffle(opts),e:`${l} = ${SOLF[l]}. A é lá: A B C D E F G = lá si dó ré mi fá sol.`}; }
+  if(t<0.55){ const l=pick(LET); const opts=shuffle(LET.filter(x=>x!==l)).slice(0,3).concat(l); return {q:`Qual é a cifra da nota “${SOLF[l]}”?`,a:l,o:shuffle(opts),e:`${SOLF[l]} = ${l}.`}; }
+  if(t<0.7){ const up={C:"C#",D:"D#",F:"F#",G:"G#",A:"A#"}; const l=pick(Object.keys(up)); const opts=shuffle(["C#","D#","F#","G#","A#","Db","Bb"].filter(x=>x!==up[l])).slice(0,3).concat(up[l]); return {q:`Um semitom acima de ${l} é…`,a:up[l],o:shuffle(opts),e:`${l} → ${up[l]}: a tecla preta logo à direita. Entre E-F e B-C não há tecla preta.`}; }
+  if(t<0.8){ const dn={D:"Db",E:"Eb",G:"Gb",A:"Ab",B:"Bb"}; const l=pick(Object.keys(dn)); const opts=shuffle(["Db","Eb","Gb","Ab","Bb","C#","F#"].filter(x=>x!==dn[l])).slice(0,3).concat(dn[l]); return {q:`Um semitom abaixo de ${l} é…`,a:dn[l],o:shuffle(opts),e:`${l} → ${dn[l]} (bemol). Db e C# são a mesma tecla.`}; }
+  const s=pick(STATIC_Q); return {q:s[0],a:s[1],o:shuffle(s[2].concat(s[1])),e:s[3]};
+}
+let Q=null;
+function quizCard(){
+  if(!Q) Q=genQ();
+  const z=S.quiz, acc=z.t?Math.round(z.c/z.t*100):0;
+  const ans=Q.picked!==undefined;
+  return `<div class="muted">Acertos: <b>${z.c}/${z.t}</b> (${acc}%) · sequência: <b>${z.cur}</b> · melhor: <b>${z.best}</b></div>
+  <h3 style="text-transform:none;letter-spacing:0;font-size:17px;color:var(--text);margin:14px 0">${esc(Q.q)}</h3>
+  <div style="display:grid;gap:8px">${Q.o.map((o,i)=>{ let st=""; if(ans){ if(o===Q.a) st="background:var(--ok);color:#08090d;border-color:var(--ok)"; else if(i===Q.picked) st="background:var(--accent-3);color:#fff;border-color:var(--accent-3)"; }
+    return `<button class="btn ghost" style="text-align:left;${st}" data-quiz="${i}" ${ans?"disabled":""}>${esc(o)}</button>`; }).join("")}</div>
+  ${ans?`<p class="muted" style="margin-top:12px">${Q.picked!==undefined&&Q.o[Q.picked]===Q.a?"✅ Correto. ":"❌ Não foi dessa vez. "}${esc(Q.e)}</p><button class="btn sm" data-act="qnext">Próxima</button>`:""}`;
+}
+
+/* áudio */
+const ROWS=[["Kick","kick"],["Hat fechado","hat"],["Hat aberto","ohat"],["Shaker","shk"],["Rim","rim"],["Bass","bass"]];
+const BASSN={A1:55,A2:110,C2:65.41,G1:49};
+const PRESETS={
+  base:{n:"Drop base (Módulo 4)",g:{kick:[0,4,8,12],hat:[1,3,5,7,9,11,13,15],ohat:[2,6,10,14],shk:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],rim:[3,6,11,14],bass:[]}},
+  bassA:{n:"+ Bass A (síncope)",g:{kick:[0,4,8,12],hat:[],ohat:[2,6,10,14],shk:[],rim:[3,6,11,14],bass:[1,3,5,7,9,11,13,15]},b:{15:"G1"}},
+  bassB:{n:"+ Bass B (oitavas)",g:{kick:[0,4,8,12],hat:[],ohat:[2,6,10,14],shk:[],rim:[3,6,11,14],bass:[1,2,5,6,9,10,13,14]},b:{2:"A2",6:"A2",10:"A2",14:"C2"}},
+  kick:{n:"Só kick 4×4",g:{kick:[0,4,8,12],hat:[],ohat:[],shk:[],rim:[],bass:[]}}
+};
+function setPreset(k){ const p=PRESETS[k]; S.seq={g:{},b:p.b||{}}; ROWS.forEach(([,id])=>S.seq.g[id]=(p.g[id]||[]).slice()); save(); }
+function seqState(){ if(!S.seq) setPreset("base"); return S.seq; }
+let AC=null, seqTimer=null, seqNext=0, seqStep=0, seqQueue=[], seqRAF=null, click=false;
+function noise(ctx,dur){ const b=ctx.createBuffer(1,Math.ceil(ctx.sampleRate*dur),ctx.sampleRate), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; const s=ctx.createBufferSource(); s.buffer=b; return s; }
+function voice(id,t,ctx,step){
+  const g=ctx.createGain(); g.connect(ctx.destination);
+  if(id==="kick"){ const o=ctx.createOscillator(); o.frequency.setValueAtTime(160,t); o.frequency.exponentialRampToValueAtTime(48,t+0.12); g.gain.setValueAtTime(0.9,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.28); o.connect(g); o.start(t); o.stop(t+0.3); }
+  else if(id==="hat"||id==="ohat"||id==="shk"){ const n=noise(ctx,0.3), f=ctx.createBiquadFilter(); f.type=id==="shk"?"bandpass":"highpass"; f.frequency.value=id==="shk"?5500:7500; const d=id==="hat"?0.04:id==="ohat"?0.16:0.05; const v=id==="shk"?(step%4===2?0.22:0.1):0.28; g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(0.001,t+d); n.connect(f); f.connect(g); n.start(t); n.stop(t+d+0.02); }
+  else if(id==="rim"){ const o=ctx.createOscillator(); o.type="triangle"; o.frequency.value=820; g.gain.setValueAtTime(0.35,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.06); o.connect(g); o.start(t); o.stop(t+0.07); }
+  else if(id==="bass"){ const note=(seqState().b||{})[step]||"A1"; const o=ctx.createOscillator(); o.type="sawtooth"; o.frequency.value=BASSN[note]; const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.value=420; f.Q.value=6; g.gain.setValueAtTime(0.3,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.14); o.connect(f); f.connect(g); o.start(t); o.stop(t+0.15); }
+}
+function clickSound(t,ctx,accent){ const o=ctx.createOscillator(), g=ctx.createGain(); o.frequency.value=accent?1600:1100; g.gain.setValueAtTime(0.18,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.03); o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+0.04); }
+function sched(){
+  const sec=60/(S.bpm||126)/4, sq=seqState();
+  while(seqNext<AC.currentTime+0.12){
+    ROWS.forEach(([,id])=>{ if(sq.g[id].includes(seqStep)) voice(id,seqNext,AC,seqStep); });
+    if(click && seqStep%4===0) clickSound(seqNext,AC,seqStep===0);
+    seqQueue.push({s:seqStep,t:seqNext});
+    seqNext+=sec; seqStep=(seqStep+1)%16;
+  }
+}
+function paint(){
+  if(!seqTimer) return;
+  while(seqQueue.length && seqQueue[0].t<=AC.currentTime){ const {s}=seqQueue.shift(); document.querySelectorAll(".sq-cell.cur").forEach(c=>c.classList.remove("cur")); document.querySelectorAll(`.sq-cell[data-s="${s}"]`).forEach(c=>c.classList.add("cur")); }
+  seqRAF=requestAnimationFrame(paint);
+}
+function startSeq(){
+  const C=window.AudioContext||window.webkitAudioContext; if(!C){ alert("Seu navegador não suporta áudio Web."); return; }
+  AC=AC||new C(); AC.resume();
+  seqStep=0; seqNext=AC.currentTime+0.06; seqQueue=[]; sched(); seqTimer=setInterval(sched,25); paint();
+  const b=$("#sqPlay"); if(b){ b.textContent="■ Parar"; b.classList.add("stop"); }
+}
+function stopSeq(){
+  if(seqTimer){ clearInterval(seqTimer); seqTimer=null; cancelAnimationFrame(seqRAF); }
+  document.querySelectorAll(".sq-cell.cur").forEach(c=>c.classList.remove("cur"));
+  const b=$("#sqPlay"); if(b){ b.textContent="▶ Tocar"; b.classList.remove("stop"); }
+}
+function gridHtml(){
+  const sq=seqState();
+  return `<div class="scroll"><div style="min-width:520px">`+ROWS.map(([lab,id])=>`<div class="sq-row"><div class="sq-lab">${lab}</div>${Array.from({length:16},(_,s)=>`<div class="sq-cell ${sq.g[id].includes(s)?"on":""} ${s%4===0?"beat":""}" data-sq="${id}:${s}" data-s="${s}"></div>`).join("")}</div>`).join("")
+   +`<div class="sq-row"><div class="sq-lab"></div>${Array.from({length:16},(_,s)=>`<div class="sq-n">${["1","e","&","a"][s%4]}</div>`).join("")}</div></div></div>`;
+}
+function vTrain(){
+  Q=null;
+  return `
+  <section class="card"><h2>Quiz de notas e teoria</h2><div id="quiz">${quizCard()}</div></section>
+  <section class="card"><h2>Laboratório de ritmo</h2>
+    <p class="muted">Clique nas casas para ligar/desligar. Cada coluna é uma semicolcheia (1/16): <b>1 e &amp; a</b>. O andamento é o mesmo da calculadora.</p>
+    <div class="row" style="margin:12px 0">
+      <button class="btn" id="sqPlay" data-act="sqplay">▶ Tocar</button>
+      <label class="row muted" style="gap:6px">BPM <input id="sqBpm" type="number" min="60" max="200" value="${S.bpm||126}" style="width:80px" inputmode="numeric"></label>
+      <label class="row muted" style="gap:6px"><input type="checkbox" id="sqClick" style="width:auto"> clique</label>
+    </div>
+    <div class="row" style="margin-bottom:12px">${Object.entries(PRESETS).map(([k,p])=>`<button class="btn ghost sm" data-act="sqpreset" data-k="${k}">${p.n}</button>`).join("")}<button class="btn ghost sm" data-act="sqclear">Limpar</button></div>
+    <div id="grid">${gridHtml()}</div>
+    <p class="muted" style="margin-top:10px">Os sons são sintetizados no navegador, só para treinar o desenho do groove. Com tudo desligado, vira um metrônomo (ligue “clique”). Os padrões de bass aproximam o desenho do Módulo 5.</p>
+  </section>`;
+}
+
 /* ───────────── EVENTOS ───────────── */
 document.addEventListener("click",e=>{
   const g=e.target.closest("[data-go]"); if(g){ go(g.dataset.go, g.dataset.mod!==undefined? +g.dataset.mod : null); return; }
+  const qz=e.target.closest("[data-quiz]");
+  if(qz && Q && Q.picked===undefined){ const i=+qz.dataset.quiz; Q.picked=i; const ok=Q.o[i]===Q.a, z=S.quiz; z.t++; if(ok){ z.c++; z.cur++; z.best=Math.max(z.best,z.cur); } else z.cur=0; save(); $("#quiz").innerHTML=quizCard(); return; }
+  const sq=e.target.closest("[data-sq]");
+  if(sq){ const [id,st]=sq.dataset.sq.split(":"), n=+st, arr=seqState().g[id], ix=arr.indexOf(n); if(ix>=0) arr.splice(ix,1); else arr.push(n); sq.classList.toggle("on",ix<0); save(); return; }
   const a=e.target.closest("[data-act]"); if(!a) return;
   const act=a.dataset.act;
   if(act==="start"){ S.run=Date.now(); save(); render(); }
@@ -402,7 +542,11 @@ document.addEventListener("click",e=>{
     l.href=u; l.download="melodic-techno-progresso-"+today()+".json"; l.click(); setTimeout(()=>URL.revokeObjectURL(u),1000);
   }
   else if(act==="import"){ $("#file").click(); }
-  else if(act==="reset"){ if(confirm("Apagar todo o progresso e anotações deste navegador?")){ S={done:{},notes:{},plug:{},sample:{},listen:{},plan:{},min:{},run:null}; save(); render(); } }
+  else if(act==="qnext"){ Q=genQ(); $("#quiz").innerHTML=quizCard(); }
+  else if(act==="sqplay"){ seqTimer? stopSeq() : startSeq(); }
+  else if(act==="sqpreset"){ setPreset(a.dataset.k); $("#grid").innerHTML=gridHtml(); }
+  else if(act==="sqclear"){ S.seq={g:{kick:[],hat:[],ohat:[],shk:[],rim:[],bass:[]},b:{}}; save(); $("#grid").innerHTML=gridHtml(); }
+  else if(act==="reset"){ if(confirm("Apagar todo o progresso e anotações deste navegador?")){ S=blank(); save(); render(); } }
 });
 document.addEventListener("change",e=>{
   const t=e.target;
@@ -412,7 +556,7 @@ document.addEventListener("change",e=>{
   else if(t.dataset.st){ const [k,i]=t.dataset.st.split(":"); S[k][i]=t.checked||undefined; save(); }
   else if(t.id==="file"){
     const f=t.files[0]; if(!f) return;
-    f.text().then(x=>{ const r=JSON.parse(x); if(!r||typeof r!=="object"||!r.done) throw 0; S=Object.assign({done:{},notes:{},plug:{},sample:{},listen:{},plan:{},min:{},run:null},r); save(); render(); alert("Backup importado."); }).catch(()=>alert("Arquivo inválido."));
+    f.text().then(x=>{ const r=JSON.parse(x); if(!r||typeof r!=="object"||!r.done) throw 0; S=Object.assign(blank(),r); save(); render(); alert("Backup importado."); }).catch(()=>alert("Arquivo inválido."));
   }
 });
 function keepScroll(){ /* render() preserva a posição; função mantida para clareza */ }
@@ -420,10 +564,13 @@ document.addEventListener("input",e=>{
   const t=e.target;
   if(t.dataset.note){ S.notes[t.dataset.note]=t.value; save(); }
   else if(t.id==="bpm") calc();
+  else if(t.id==="sqBpm"){ const v=Math.max(40,Math.min(240,+t.value||126)); S.bpm=v; save(); }
+  else if(t.id==="sqClick") click=t.checked;
 });
 setInterval(()=>{ if(S.run && route.tab==="home"){ const a=$("#tToday"); if(a) a.textContent=fmtMin((S.min[today()]||0)+runningMin()); const b=$("#sTotal"); if(b) b.textContent=fmtMin(totalMin()); } },30000);
 
 fromHash(); render();
+if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
 </body>
 </html>
