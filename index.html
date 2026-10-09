@@ -174,42 +174,23 @@
 
 </main>
 
-  <aside class="inapp-bar" id="inapp-bar" aria-live="polite">
-    <div>
-      <strong>Quer sair do Instagram?</strong>
-      <p>Para ver o site completo, abra no navegador do celular:</p>
-      <ol>
-        <li>Toque em <b>···</b> (os três pontos) no canto superior direito.</li>
-        <li>Escolha <b>Abrir no navegador</b>.</li>
-      </ol>
-    </div>
-    <button type="button" id="inapp-close" aria-label="Fechar aviso">×</button>
-  </aside>
-
 </main>
 
 <script type="module" src="script.js?v=2"></script>
 <script>
 /* Navegador do Instagram/Facebook não é o Safari nem o Chrome: tira o visitante de lá ao abrir a página.
-   Android: abre o Chrome (intent); se o Chrome não existir, volta para cá com ?fora=1 e o aviso aparece.
-   iPhone: tenta abrir o Safari (x-safari-https); se o app bloquear, o aviso com o passo a passo continua na tela. */
+   Android: abre o Chrome (intent). iPhone: tenta abrir o Safari (x-safari-https). */
 (function () {
   var ua = navigator.userAgent || '';
   if (!/Instagram|FBAN|FBAV/.test(ua)) return;
-  var android = /Android/.test(ua);
   var clean = location.host + location.pathname;
-  if (android) {
-    if (!/[?&]fora=1/.test(location.search)) {
-      var fallback = 'https://' + clean + '?fora=1';
-      location.replace('intent://' + clean + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end');
-      return;
-    }
+  if (/Android/.test(ua)) {
+    if (/[?&]fora=1/.test(location.search)) return;
+    var fallback = 'https://' + clean + '?fora=1';
+    location.replace('intent://' + clean + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end');
   } else {
     location.replace('x-safari-https://' + clean);
   }
-  var bar = document.getElementById('inapp-bar');
-  bar.style.display = 'flex';
-  document.getElementById('inapp-close').addEventListener('click', function () { bar.style.display = 'none'; });
 })();
 </script>
 </body>
