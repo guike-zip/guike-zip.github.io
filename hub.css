@@ -141,3 +141,56 @@
 
 .hub-foot { text-align: center; color: var(--text-dim); font-size: 0.8rem; margin-top: 36px; }
 .hub-foot a { color: var(--accent-2); }
+
+/* ---------------------------------------------------------------- mobile first
+   Base = celular (375px). Ajustes para telas maiores ficam em @media (min-width) no fim. */
+
+.hub { padding: 28px 16px 64px; }
+
+.hub-head { gap: 10px; margin-bottom: 24px; }
+.avatar { width: 92px; height: 92px; }
+.hub-head h1 { font-size: 1.5rem; }
+.handle { font-size: 0.9rem; }
+.hub-head .lead { font-size: 0.94rem; line-height: 1.55; }
+
+/* Botões de ação em coluna, largura total: alvo de toque confortável */
+.hub-head .hero-actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 340px; gap: 10px; }
+.hub-head .btn { width: 100%; text-align: center; padding: 14px 20px; }
+
+.card { padding: 18px; }
+.hub-label { margin: 24px 0 10px; }
+
+.app-head { gap: 12px; }
+.app-icon-img { width: 56px; height: 56px; border-radius: 14px; flex: 0 0 auto; }
+.app-head h2 { font-size: 1.05rem; }
+.app-sub { font-size: 0.72rem; line-height: 1.4; }
+.card p { font-size: 0.9rem; }
+
+/* Prints dos apps: mais baixos no celular, sem cortar a rolagem horizontal */
+.shots { margin: 14px -18px 4px; padding: 0 18px; gap: 8px; }
+.shots img { height: 300px; border-radius: 14px; }
+
+/* Links e chips com área de toque de ~36px */
+.app-links { gap: 8px; }
+.app-links a, .chip { font-size: 0.8rem; padding: 8px 13px; line-height: 1.2; }
+
+/* Capa do guia: limitada pela altura, sem dominar a tela */
+.product img { max-height: 320px; width: 100%; height: auto; object-fit: contain; background: var(--bg-elev); }
+.product h2 { font-size: 1.2rem; }
+.product .btn-block { padding: 14px 20px; }
+.price { font-size: 1.6rem; }
+
+.proof li { font-size: 0.9rem; }
+.social a { padding: 14px 12px; min-height: 48px; display: flex; align-items: center; justify-content: center; }
+
+@media (min-width: 480px) {
+  .hub { padding: 40px 20px 80px; }
+  .hub-head h1 { font-size: 1.7rem; }
+  .avatar { width: 104px; height: 104px; }
+  .hub-head .hero-actions { flex-direction: row; max-width: none; width: auto; }
+  .hub-head .btn { width: auto; }
+  .card { padding: 22px; }
+  .shots { margin: 16px -22px 4px; padding: 0 22px; }
+  .shots img { height: 380px; }
+  .product img { max-height: 420px; }
+}
