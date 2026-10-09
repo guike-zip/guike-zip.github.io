@@ -178,8 +178,14 @@
 </main>
 
   <aside class="inapp-bar" id="inapp-bar" aria-live="polite">
-    <p><strong>Você abriu pelo Instagram</strong>Toque abaixo para ver o site no navegador do celular.</p>
-    <a class="btn btn-primary" id="inapp-open" href="#">Abrir no navegador</a>
+    <div>
+      <strong>Quer sair do Instagram?</strong>
+      <p>Para ver o site completo, abra no navegador do celular:</p>
+      <ol>
+        <li>Toque em <b>···</b> (os três pontos) no canto superior direito.</li>
+        <li>Escolha <b>Abrir no navegador</b>.</li>
+      </ol>
+    </div>
     <button type="button" id="inapp-close" aria-label="Fechar aviso">×</button>
   </aside>
 
@@ -187,20 +193,11 @@
 
 <script type="module" src="script.js?v=2"></script>
 <script>
-/* Navegador do Instagram/Facebook não é o Safari nem o Chrome: tira o visitante de lá.
-   Android abre o Chrome sozinho (intent). No iPhone o Safari não pode ser forçado por script,
-   então o aviso com botão aparece: o toque do visitante é o que abre o Safari. */
+/* Navegador do Instagram/Facebook não é o Safari nem o Chrome: mostra como sair dele.
+   O aviso só aparece nesse navegador; fora dele, nada muda. */
 (function () {
   if (!/Instagram|FBAN|FBAV/.test(navigator.userAgent || '')) return;
-  var android = /Android/.test(navigator.userAgent);
-  var clean = location.host + location.pathname;
-  var fallback = 'https://' + clean + '?fora=1';
-  var intent = 'intent://' + clean + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end';
-  if (android && !/[?&]fora=1/.test(location.search)) location.replace(intent);
   var bar = document.getElementById('inapp-bar');
-  var open = document.getElementById('inapp-open');
-  open.href = android ? intent : 'x-safari-https://' + clean;
-  open.textContent = android ? 'Abrir no Chrome' : 'Abrir no Safari';
   bar.style.display = 'flex';
   document.getElementById('inapp-close').addEventListener('click', function () { bar.style.display = 'none'; });
 })();
