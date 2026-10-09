@@ -38,6 +38,23 @@
 
   <section class="card app-card">
     <div class="app-head">
+      <img class="app-icon-img" src="assets/apps/lashflow-icon.png" alt="Ícone do LashFlow" width="64" height="64" />
+      <div>
+        <h2>LashFlow</h2>
+        <p class="app-sub">iPhone · Android · Agenda para lash designers</p>
+      </div>
+    </div>
+    <p>Agenda, anamnese digital com assinatura da cliente e histórico de atendimentos — tudo num só app.
+      Beta grátis: no iPhone, entre pelo TestFlight.</p>
+    <div class="app-links">
+      <a href="https://testflight.apple.com/join/G9wFGhkK" target="_blank" rel="noopener">Beta no iPhone</a>
+      <a href="https://lashflow.com.br" target="_blank" rel="noopener">lashflow.com.br</a>
+      <span class="chip">Android em breve</span>
+    </div>
+  </section>
+
+  <section class="card app-card">
+    <div class="app-head">
       <img class="app-icon-img" src="assets/apps/blindado-icon.png" alt="Ícone do Blindado" width="64" height="64" />
       <div>
         <h2>Blindado</h2>
@@ -159,6 +176,33 @@
 
 </main>
 
+  <aside class="inapp-bar" id="inapp-bar" aria-live="polite">
+    <p><strong>Você abriu pelo Instagram</strong>Toque abaixo para ver o site no navegador do celular.</p>
+    <a class="btn btn-primary" id="inapp-open" href="#">Abrir no navegador</a>
+    <button type="button" id="inapp-close" aria-label="Fechar aviso">×</button>
+  </aside>
+
+</main>
+
 <script type="module" src="script.js?v=2"></script>
+<script>
+/* Navegador do Instagram/Facebook não é o Safari nem o Chrome: tira o visitante de lá.
+   Android abre o Chrome sozinho (intent). No iPhone o Safari não pode ser forçado por script,
+   então o aviso com botão aparece: o toque do visitante é o que abre o Safari. */
+(function () {
+  if (!/Instagram|FBAN|FBAV/.test(navigator.userAgent || '')) return;
+  var android = /Android/.test(navigator.userAgent);
+  var clean = location.host + location.pathname;
+  var fallback = 'https://' + clean + '?fora=1';
+  var intent = 'intent://' + clean + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end';
+  if (android && !/[?&]fora=1/.test(location.search)) location.replace(intent);
+  var bar = document.getElementById('inapp-bar');
+  var open = document.getElementById('inapp-open');
+  open.href = android ? intent : 'x-safari-https://' + clean;
+  open.textContent = android ? 'Abrir no Chrome' : 'Abrir no Safari';
+  bar.style.display = 'flex';
+  document.getElementById('inapp-close').addEventListener('click', function () { bar.style.display = 'none'; });
+})();
+</script>
 </body>
 </html>

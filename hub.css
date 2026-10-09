@@ -141,3 +141,34 @@
 
 .hub-foot { text-align: center; color: var(--text-dim); font-size: 0.8rem; margin-top: 36px; }
 .hub-foot a { color: var(--accent-2); }
+
+/* Aviso para abrir fora do navegador do Instagram (escondido fora dele; ver script no fim do index.html). */
+.inapp-bar {
+  display: none;
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 10;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--accent) 60%, var(--border));
+  border-radius: var(--radius);
+  box-shadow: 0 16px 50px -16px rgba(0, 0, 0, .8);
+  padding: 14px 16px;
+}
+.inapp-bar p { flex: 1 1 180px; margin: 0; font-size: 0.85rem; color: var(--text-dim); }
+.inapp-bar strong { display: block; color: var(--text); font-size: 0.92rem; }
+.inapp-bar .btn { white-space: nowrap; }
+.inapp-bar button {
+  background: none;
+  border: 0;
+  color: var(--text-dim);
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
