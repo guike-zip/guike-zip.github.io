@@ -193,10 +193,23 @@
 
 <script type="module" src="script.js?v=2"></script>
 <script>
-/* Navegador do Instagram/Facebook não é o Safari nem o Chrome: mostra como sair dele.
-   O aviso só aparece nesse navegador; fora dele, nada muda. */
+/* Navegador do Instagram/Facebook não é o Safari nem o Chrome: tira o visitante de lá ao abrir a página.
+   Android: abre o Chrome (intent); se o Chrome não existir, volta para cá com ?fora=1 e o aviso aparece.
+   iPhone: tenta abrir o Safari (x-safari-https); se o app bloquear, o aviso com o passo a passo continua na tela. */
 (function () {
-  if (!/Instagram|FBAN|FBAV/.test(navigator.userAgent || '')) return;
+  var ua = navigator.userAgent || '';
+  if (!/Instagram|FBAN|FBAV/.test(ua)) return;
+  var android = /Android/.test(ua);
+  var clean = location.host + location.pathname;
+  if (android) {
+    if (!/[?&]fora=1/.test(location.search)) {
+      var fallback = 'https://' + clean + '?fora=1';
+      location.replace('intent://' + clean + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end');
+      return;
+    }
+  } else {
+    location.replace('x-safari-https://' + clean);
+  }
   var bar = document.getElementById('inapp-bar');
   bar.style.display = 'flex';
   document.getElementById('inapp-close').addEventListener('click', function () { bar.style.display = 'none'; });
