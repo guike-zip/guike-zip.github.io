@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#08090d" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="icon-180.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Techno" />
+<title>Melodic Techno · Meu progresso</title>
+<style>
+:root{
+  --bg:#08090d; --bg-elev:#0f1117; --card:#12141c; --border:#23262f;
+  --text:#eef0f5; --dim:#9aa0ae; --accent:#7c5cff; --accent-2:#00e0c6; --accent-3:#ff5c8a;
+  --ok:#00e0c6; --radius:14px;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f6f6fb; --bg-elev:#fff; --card:#fff; --border:#e4e4ec; --text:#12131a; --dim:#5a5d6b; --ok:#00a896; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:84px}
+h1,h2,h3{margin:0;line-height:1.2}
+a{color:var(--accent-2)}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px}
+header.top{padding:22px 16px 6px;max-width:860px;margin:0 auto}
+header.top .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+header.top h1{font-size:26px;margin-top:4px}
+header.top h1 span{color:var(--accent-3)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--bg-elev);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:10}
+nav.tabs button{flex:1;background:none;border:0;padding:6px 2px;font-size:11px;color:var(--dim);display:flex;flex-direction:column;align-items:center;gap:2px}
+nav.tabs button .ic{font-size:19px;line-height:1}
+nav.tabs button.on{color:var(--accent-2)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.card h2{font-size:17px;margin-bottom:10px}
+.card h3{font-size:14px;margin:14px 0 6px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.muted{color:var(--dim);font-size:14px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.grow{flex:1}
+.bar{height:10px;background:var(--border);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-3));width:0;transition:width .3s}
+.big{font-size:40px;font-weight:700;line-height:1}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.stat{background:var(--bg-elev);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px}
+.stat span{font-size:12px;color:var(--dim)}
+.btn{background:var(--accent);border:0;border-radius:10px;padding:10px 16px;font-weight:600;color:#fff}
+.btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn.sm{padding:6px 12px;font-size:14px}
+.btn.stop{background:var(--accent-3)}
+.chip{display:inline-block;font-size:12px;padding:2px 9px;border-radius:99px;border:1px solid var(--border);color:var(--dim)}
+.chip.ok{color:var(--ok);border-color:var(--ok)}
+.check{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.check:last-child{border-bottom:0}
+.check input{appearance:none;-webkit-appearance:none;flex:none;width:24px;height:24px;border:2px solid var(--dim);border-radius:7px;margin:1px 0 0;display:grid;place-content:center;cursor:pointer;background:transparent}
+.check input:checked{background:var(--ok);border-color:var(--ok)}
+.check input:checked::after{content:"✓";color:#08090d;font-weight:800;font-size:15px;line-height:1}
+.check span{flex:1}
+.check input:checked + span{color:var(--dim);text-decoration:line-through}
+.mod{display:flex;gap:12px;align-items:center;padding:12px 14px;margin-bottom:10px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;width:100%;text-align:left}
+.mod:hover{border-color:var(--accent)}
+.mod .n{flex:none;width:38px;height:38px;border-radius:10px;background:var(--accent);display:grid;place-content:center;font-weight:700;color:#fff}
+.mod.done .n{background:var(--ok);color:#08090d}
+.mod .t{flex:1;min-width:0}
+.mod .t b{display:block}
+.mod .t small{color:var(--dim)}
+.mod .pct{font-size:13px;color:var(--dim);flex:none}
+.group{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:20px 2px 8px}
+.back{background:none;border:0;color:var(--accent-2);padding:0;margin-bottom:10px;font-size:15px}
+ul.tips{margin:0;padding-left:20px}
+ul.tips li{margin:6px 0}
+textarea,input[type=number],input[type=text]{width:100%;background:var(--bg-elev);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px;font:inherit}
+textarea{min-height:90px;resize:vertical}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:top}
+th{color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.scroll{overflow-x:auto}
+.kv{display:grid;grid-template-columns:1fr auto;gap:2px 12px}
+.kv div:nth-child(odd){color:var(--dim)}
+.kv div:nth-child(even){font-weight:600;text-align:right}
+.seg{display:flex;height:34px;border-radius:8px;overflow:hidden;margin:10px 0}
+.seg div{display:grid;place-content:center;font-size:10px;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap}
+.dots{display:flex;gap:6px}
+.dots label{width:28px;height:28px;border:2px solid var(--border);border-radius:8px;display:grid;place-content:center;font-size:11px;color:var(--dim);cursor:pointer;user-select:none}
+.dots label.on{background:var(--ok);border-color:var(--ok);color:#08090d;font-weight:700}
+.dots input{display:none}
+.track{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.track:last-child{border-bottom:0}
+.track .nm{flex:1;min-width:0}
+.legend{font-size:12px;color:var(--dim)}
+.tick{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--dim)}
+kbd{background:var(--bg-elev);border:1px solid var(--border);border-bottom-width:2px;border-radius:5px;padding:0 6px;font:600 12px ui-monospace,Menlo,monospace}
+.sq-row{display:flex;gap:3px;margin-bottom:3px;align-items:center}
+.sq-lab{flex:none;width:78px;font-size:12px;color:var(--dim)}
+.sq-cell{flex:1;height:30px;border-radius:5px;background:var(--bg-elev);border:1px solid var(--border);cursor:pointer}
+.sq-cell.beat{border-color:var(--dim)}
+.sq-cell.on{background:var(--accent);border-color:var(--accent)}
+.sq-cell.cur{outline:2px solid var(--accent-2);outline-offset:-2px}
+.sq-cell.on.cur{background:var(--accent-3);border-color:var(--accent-3)}
+.sq-n{flex:1;text-align:center;font-size:10px;color:var(--dim)}
+.hist{display:flex;align-items:flex-end;gap:4px;height:70px;margin-top:8px}
+.hist div{flex:1;background:linear-gradient(var(--accent),var(--accent-3));border-radius:3px 3px 0 0;min-height:2px}
+.hist div.z{background:var(--border)}
+.hidden{display:none}
+@media(min-width:700px){body{padding-bottom:0}nav.tabs{position:sticky;top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--border);max-width:860px;margin:10px auto 0;border-radius:12px;border:1px solid var(--border)}nav.tabs button{flex-direction:row;justify-content:center;font-size:14px;gap:6px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="kicker">Curso · GarageBand · High-Tech Minimal</div>
+  <h1>Melodic Techno <span>— meu progresso</span></h1>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main class="wrap" id="app"></main>
+
+<script>
+/* ───────────── DADOS DO CURSO ───────────── */
+const MODULES = [
+ {g:"Fundamentos", t:"O DNA do high-tech minimal", s:"Estilo de Brejcha e como ouvir como produtor",
+  tips:["Brejcha: 124–128 BPM (126 é o centro), faixas de 7 a 10 min.","Kick curto e seco; bass sincopado que quase é um riff; 4 a 8 camadas de percussão.","Estrutura longa: tudo muda aos poucos — algo novo a cada 8 compassos.","Ouça cada faixa 3 vezes: (1) bateria e percussão, (2) bass e riff, (3) estrutura, com cronômetro."],
+  ex:["Escolha “Gravity” ou “Purple Noise” e abra um cronômetro","Anote, por seção, o minuto de início e o que entra ou sai (kick, percussão, bass, riff, voz, pad)","Converta minutos em compassos (em 126 BPM, 1 compasso = 1,90 s)","Conte as mudanças anotadas — Brejcha costuma dar mais de 30"]},
+ {g:"Fundamentos", t:"Configurando o GarageBand", s:"Projeto, interface, atalhos e preferências",
+  tips:["Projeto vazio → Software Instrument → Details: Tempo 126, Key A minor, 4/4. Salve como HTM_Base_126.band (seu template).","Preferências: Enable Audio Units ✔, Auto Normalize ✘, Show Advanced Tools ✔, Count-in de 1 compasso.","Painéis: Library (Y), Smart Controls (B), Editor (E), Loop Browser (O), Automação (A), Ciclo (C).","Musical Typing: ⌘K. Atenção: com ele aberto, as letras viram notas (R, C e K não funcionam).","Quantizar (menu do editor): o curso diz “1/16”, mas o menu mostra o nome. 1/16 = Semicolcheia; 1/32 = Fusa. Veja a tabela em Ferramentas › Quantização."],
+  ex:["Crie o projeto em 126 BPM, A minor, 4/4 e salve como template","Abra e feche cada painel pelo atalho (Y, B, E, O, A) até fazer sem pensar","Grave 2 compassos de notas aleatórias, abra o editor, quantize em 1/16 e mova uma nota com o mouse","Crie uma região de ciclo (C) de 4 compassos e deixe em loop enquanto muda o preset na Library"]},
+ {g:"Fundamentos", t:"Lendo as notas: cifras e teclado", s:"Dó-ré-mi em C-D-E, teclas pretas, oitavas e piano roll",
+  tips:["C=dó · D=ré · E=mi · F=fá · G=sol · A=lá · B=si. “A é lá”: conte nos dedos a partir daí.","A tecla A do Mac toca DÓ — o nome da nota está no piano roll, não na tecla.","# sobe um semitom, b desce. Entre E-F e B-C não há tecla preta.","O GarageBand usa C3 = dó central. A1 (55 Hz) é o lá do bass.","Em bateria, C1/F#1 etc. são “endereços” de sons, não alturas."],
+  ex:["Sem olhar a tabela, diga em voz alta o que é: G, D, A, F, B — e confira","No piano roll, crie A1, A2 e A3 e toque as três: é o mesmo “lá” em três alturas","Crie C3 e C#3 e toque em sequência: essa distância mínima é um semitom","Selecione A1 e use Transpose +12; confirme que virou A2","Numa trilha de bateria, clique em C1, D#1, F#1 e A#1 e anote o som de cada uma"]},
+ {g:"Fundamentos", t:"Teoria mínima para o estilo", s:"Grade, escala menor, pentatônica e harmonia mínima",
+  tips:["Lá menor: A B C D E F G. Pentatônica menor: A C D E G (a arma secreta dos riffs).","1 compasso = 4 tempos = 16 semicolcheias. Quase tudo vive em 1/16; ratchets em 1/32.","Acordes: Am (A C E) · Dm · Em · F · G · C. Pedal = Am sozinho por 8–32 compassos.","3 regras: (1) bass na tônica, riff na pentatônica; (2) menos acordes, mais tempo; (3) nota do acorde nos tempos fortes."],
+  ex:["Escreva três regiões de 8 compassos numa trilha de piano: (1) só Am o tempo todo; (2) Am–F alternando a cada 2 compassos; (3) Am–F–C–G","Numa segunda trilha, escreva um riff pentatônico de 1 compasso e faça loop sobre as três","Anote qual combinação parece “drop” e qual parece “breakdown”","Salve o projeto como HTM_Faixa01.band"]},
+ {g:"Construindo os elementos", t:"Bateria e percussão em camadas", s:"Seis camadas, ratchets, fills de tom, pan e delay",
+  tips:["Quantização do curso: Semicolcheia (1/16) para tudo; Fusa (1/32) só nos ratchets. Não use Quintina/4 nem Tercina no groove.","Seis trilhas: KICK (C1) · HAT (F#1/A#1) · SHAKER · RIM (C#1/D#1) · TOM · NOISE — cada uma com EQ, pan e delay próprios.","Ratchet: no compasso 4, 8 notas de hat em 1/32 com velocity subindo 40→115.","Fill de tom no compasso 8: C2, A1, C2, A1, G1, E1 — descendo.","Nunca duas semicolcheias seguidas com a mesma velocity. Swing “Light” só em shaker e hat.","Algo muda a cada 2 compassos; nada idêntico por mais de 4."],
+  ex:["Programe as seis camadas em 8 compassos com o padrão base e estenda para 16","Ratchet de hat nos compassos 4, 8 e 12; ratchet de rim no 16; fill de tom descendente no 8 e no 16","Pan e delay conforme a tabela; velocity alternada em hats e shaker; swing Light apenas neles","Pelo menos uma mudança pequena a cada 2 compassos","Grave 30 s no celular e compare com a percussão pura da intro de “Purple Noise”; anote o que é diferente"]},
+ {g:"Construindo os elementos", t:"Kick cirúrgico e bass sincopado", s:"Kick curto com clique, linha sincopada, acid e sidechain sem sidechain",
+  tips:["Kick: sub 45–60 Hz · corpo 80–150 Hz · clique 2–5 kHz. Decay curto; high-pass 30 Hz.","Compressor do kick: threshold −12 dB, ratio 3:1–4:1, attack 20–30 ms, release 50–80 ms.","Bass padrão B: notas em A1 nos “e” e em A2 nos “&”, 1/16 curtas. Cutoff 35–45%, Resonance 30–40%, Attack mínimo.","Automatize o Cutoff do bass em ondas (35% ↔ 60%) — dá a sensação de “onda”.","Sidechain: Tremolo sincronizado (Rate 1/4, Depth 40–60%) ou volume desenhado (−8 dB a cada tempo)."],
+  ex:["Encurte, equalize e comprima o kick com o analyzer aberto","Escreva os três padrões de bass em três regiões; escolha o B (ou uma variação sua) e varie-o ao longo de 8 compassos","Automatize o Cutoff do bass em ondas de 8 compassos","Aplique o Tremolo com Depth moderado","Teste de ouro: play só com KICK, BASS e RIM — se dá para dançar e cantarolar o bass, siga"]},
+ {g:"Construindo os elementos", t:"Harmonia mínima: stabs, pads e atmosfera", s:"Echo e Reverb mestre, stab de pedal, pad de breakdown",
+  tips:["Echo mestre: 1/8 pontuada, feedback 35–45%, low cut 300 Hz, high cut 6 kHz. Reverb: médio, pre-delay 20–30 ms.","Sends: kick e bass = zero; percussão pequena Echo 20–30%; riff/stab Echo 30–40% + Reverb 15–25%; pad Reverb 40–60%.","Stab: Am (A3 C4 E4) em 1/16 no padrão sincopado; high-pass 250 Hz.","Pad de breakdown: Am–F–C–G (2 compassos por acorde), Attack 40–60%, Reverb 50%. Só toca sem kick.","Atmosfera quase inaudível a −22 dB, pan largo."],
+  ex:["Configure Echo (1/8 pontuada, ping-pong) e Reverb (médio) na Master e distribua os sends","Crie o STAB em Am no padrão sincopado e toque com o groove","Crie o PAD com a progressão de 4 acordes em 16 compassos e toque sem kick (seu futuro breakdown)","Adicione uma atmosfera a −22 dB"]},
+ {g:"Construindo os elementos", t:"O riff: a melodia brincalhona", s:"Riff pentatônico, timbres estranhos e três versões",
+  tips:["Riff de 1–2 compassos, 3–4 notas da pentatônica entre A3 e A4 (ex.: E4 G4 A4 C5), tempo 1 vazio.","Ritmo antes da altura. Repita 3 vezes, varie na 4ª. Termine “aberto” (G4 ou E4).","Estranheza está no timbre: pluck desafinado, sino, pitch bend, glide 10–25%. Teste 10 presets.","Três versões: fantasma (filtro 30%, −10 dB, final da intro/builds) · completo (drop 1) · dobrado (+12, drop 2 e 3).","Echo 35–40% + Reverb 20%; high-pass 200–300 Hz."],
+  ex:["Componha três riffs pentatônicos de 1 compasso em pergunta e resposta com o bass; grave cada um numa região","Deixe passar um dia; ouça sem olhar a tela e escolha o que você cantarola sem querer","Teste 10 presets no riff escolhido; fique com o mais estranho que ainda soa bem; adicione glide, delay e, se couber, bitcrusher","Crie as três versões (fantasma, completo, dobrado) e toque o completo com todos os elementos"]},
+ {g:"Construindo os elementos", t:"Vocal chops, delays e arpejos", s:"Voz como instrumento, delay como compositor, arpejador",
+  tips:["Grave 2–3 palavras curtas, corte com ⌘T nas sílabas, posicione no ritmo (snap 1/16) e transponha cada chop (0, +3, +5, +7, +10 na pentatônica).","Vocal Transformer: Pitch −5 a −12; HP 300 Hz, LP 6–8 kHz; Echo 40–50%.","Voz como percussão (baixo volume, muito delay) ou como riff (2–4 sílabas em alturas diferentes).","Delay compõe: 3 notas + Echo 60% (1/8 pontuada) = padrão de 8–10 “notas”.","ARP: Rate 1/16, Note Order Up & Down, Octave Range 2; Cutoff começa em 25%."],
+  ex:["Grave 3 palavras, corte em chops, posicione em ritmo e repita na pentatônica","Processe com Vocal Transformer, EQ, Echo e pan alternado; crie um ratchet vocal","Reduza o riff a 3 notas e deixe o delay compor o resto; compare com o riff completo","Crie o ARP sobre a progressão do pad e toque sem kick — é o seu build de volta do breakdown"]},
+ {g:"Construindo os elementos", t:"Transições no estilo minimal", s:"Subtração, fills, mini-breaks, sweeps e o riser único",
+  tips:["Subtração é a transição número 1: tire um elemento 4 ou 8 compassos antes da mudança.","Corte de kick no último compasso antes de todo drop. Silêncio prevê a batida.","Mini-break de 2–8 compassos no meio do drop: kick e shaker somem, kick volta com fill e velocity 127.","Riser feito à mão: nota longa (A4) de 8 compassos, Cutoff 10%→100%, volume −30→−8 dB, reverb send até 70%. Só no retorno do breakdown principal.","GarageBand não inverte áudio: loops “reverse” ou Audacity."],
+  ex:["Crie um mini-break de 4 compassos no meio do seu groove de 16, com fill e retorno","Faça uma saída por subtração + sweep de filtro em 8 compassos","Crie um riser de 8 compassos à mão terminando num corte de kick","Ouça em loop: groove → mini-break → retorno → sweep → silêncio → riser → drop (deve dar frio na barriga)"]},
+ {g:"Da ideia à faixa", t:"Arranjo: de loop a faixa de 9 minutos", s:"Estrutura compasso a compasso e trilha de arranjo",
+  tips:["Estrutura de clube (336 compassos ≈ 10:40 a 126 BPM): Intro 64 · Bass in 32 · Drop 1 32 · Break 32 · Build 16 · Drop 2 64 · Mini 16 · Drop 3 32 · Outro 48.","Versão de ~9 min: intro 48, drop 2 de 48, outro 32 (288 compassos).","Track › Show Arrangement Track (⇧⌘A): marcadores nomeados; arrastar marcador move a seção toda.","Arranjar é 80% subtração: faça loop de tudo e apague (⌘T) onde o elemento não toca.","Regras: algo muda a cada 8 · adicione antes de tirar · cada drop tem algo novo · guarde um segredo para depois do minuto 6."],
+  ex:["Crie os marcadores de arranjo com os comprimentos da tabela (versão de 288 ou 336 compassos)","Faça loop de tudo e depois subtraia por seção; posicione as variações de riff e bass","Coloque fills, ratchets, mini-breaks, cortes de kick e o riser único","Exporte um rascunho em MP3 e ouça no celular, do início ao fim, sem tocar em nada; anote três coisas para mudar — e mude"]},
+ {g:"Da ideia à faixa", t:"Automação: a faixa ganha vida", s:"Os seis movimentos do estilo",
+  tips:["Tecla A mostra automação. Automatize na trilha, não na região.","Seis movimentos: (1) filtro lento no bass · (2) abertura de filtro no riff/arp · (3) delay que cresce e some · (4) fade de entrada −20→0 dB · (5) sweep de saída · (6) pan em movimento.","Sempre automatize: cutoff do bass e melódicos, sends de Echo antes de cortes, pans da percussão.","Quase nunca: volume do kick, BPM, volume do bass fora do sidechain.","Micro-automação: ±2 dB no riff a cada 4 compassos, Resonance do bass a cada 2."],
+  ex:["Aplique os seis movimentos nos pontos indicados na tabela do Módulo 10","Adicione micro-automação de Resonance no bass durante o Drop 2","Ouça a faixa inteira de olhos fechados: onde a atenção cai? Coloque uma automação lá"]},
+ {g:"Da ideia à faixa", t:"Mixagem", s:"Gain staging, mapa de EQ, compressão, espaço e checagem em mono",
+  tips:["Ordem: zere tudo → kick em −8 dB → bass → percussão → melódicos → FX. Pico da Master em ~−6 dB no Drop 2.","Só kick e bass têm graves; todo o resto recebe high-pass. Região 200–500 Hz quase vazia fora do bass.","Compressão: kick 3:1–4:1; bass 4:1 attack 5 ms release 100 ms; riff 2:1; pad/arp não precisam. Na dúvida, não comprima.","Pan: kick, bass e riff no centro; hat/rim ±10; shaker/noise/pad ±40.","Cheque em mono e em volume baixo. Use faixa de referência (REF) e mute antes de exportar."],
+  ex:["Passe 1 (volume): zere tudo, kick em −8 e balanceie apenas com faders — não toque no EQ","Passe 2 (EQ): aplique high-pass em tudo que não é kick/bass e siga a tabela","Passe 3 (espaço): pan, sends de reverb e compressão onde a tabela indica","Checagem: mono, volume baixo, comparação com a referência; exporte um rascunho “mix_v1”"]},
+ {g:"Da ideia à faixa", t:"Masterização e exportação", s:"Cadeia na Master, LUFS e exportação",
+  tips:["Antes: Master com pico máx. −6 dB, Auto Normalize desligado, REF mutada, salve MT_Faixa01_master.band.","Cadeia: EQ (HP 25–30 Hz, shelf +1 dB acima de 10 kHz) → Compressor (2:1, attack 30 ms, release 100–200 ms, 1–2 dB) → Limiter LoudMax (3–6 dB de redução, saída −0,3 dB).","Alvo prático: −9 a −8 LUFS integrado, pico −0,3 dB (use Youlean Loudness Meter).","Share › Export Song to Disk: WAV 24-bit “Artista - Título (Original Mix).wav” + MP3 320 kbps.","Ouça o arquivo exportado em pelo menos dois sistemas diferentes."],
+  ex:["Monte a cadeia EQ → Compressor → Limiter na Master e alcance cerca de −9 LUFS","Exporte WAV 24-bit e MP3 320","Ouça o MP3 no celular, em fones baratos e numa caixa Bluetooth; anote o que incomoda e corrija na mix (não no master)","Exporte a versão final — você tem uma faixa!"]},
+ {g:"Da ideia à faixa", t:"Projeto final e plano de 30 dias", s:"Cinco sessões, checklist e rotina",
+  tips:["Regra das sessões: não misture na sessão 1. Se um som não está perfeito, anote e siga.","A faixa pronta e imperfeita ensina mais que dez loops perfeitos.","Depois dos 30 dias: uma faixa por semana por dois meses. Quando sentir o teto, o Logic Pro abre seus projetos (90 dias de teste)."],
+  ex:["Sessão 1 · Fundação (1h30): template, tonalidade nova, 6 camadas de percussão, kick em camadas, bass com filtro e Tremolo → groove de 16 compassos que aguenta 3 min","Sessão 2 · Harmonia e gancho (2h): Echo/Reverb mestre, stab, pad, atmosfera, 3 riffs, vocal chops e arp → loop de 16 compassos com todos os elementos","Sessão 3 · Arranjo (2h): marcadores, loop e subtração, todas as transições, exportar rascunho → faixa de 9–10 min “dura”","Sessão 4 · Vida (1h30): seis movimentos de automação, micro-automação, ajustes → nada soa estático por mais de 8 compassos","Sessão 5 · Mix e master (2h): mix em 3 passes com referência, master, WAV + MP3, teste em 3 sistemas → arquivo para mandar a um DJ",
+      "✔ Intro e outro mixáveis por DJ (groove claro, 48–64 compassos, sem melodia forte)","✔ Há um riff cantarolável em três versões (fantasma, completo, dobrado)","✔ Bass sincopado com pelo menos duas variações e filtro que nunca fica parado","✔ Pelo menos seis camadas de percussão, com ratchets e fills a cada 8 ou 16 compassos","✔ Algo muda a cada 8 compassos, sem exceção","✔ Kick e bass funcionam em mono e em volume baixo","✔ Nada além de kick e bass abaixo de 150 Hz; 200–500 Hz quase vazio fora do bass","✔ Master em −9 a −8 LUFS, pico −0,3 dB, sem distorção no drop 2","✔ Ouvido em pelo menos três sistemas diferentes","✔ Arquivo final nomeado com versão, pasta organizada e projeto .band com backup"]},
+ {g:"Rumo ao playa", t:"Rumo ao playa: versão Burning Man", s:"Som do deserto, Playa Edit, mix ao ar livre, DJ e plano de 12 meses",
+  tips:["O horário define a música: pôr do sol 115–120 BPM · noite 120–124 · pico da madrugada 124–128 · nascer do sol 118–122.","Playa Edit: Save As Faixa01_PlayaEdit.band, 120 BPM, riff em timbre orgânico (marimba, kalimba, flauta), percussão orgânica, kick mais redondo, break de 48–64 compassos com cordas/coro.","Mix ao ar livre: grave viaja longe, agudos não; mono importa ainda mais; master por volta de −9 LUFS; teste em caixa grande.","DJ: rekordbox ou Mixxx, biblioteca por momento do dia, mixagens longas (32–64 compassos), um mix gravado por semana.","Caminho real: vá como participante, entre num camp, comece na cena regional, tenha portfólio."],
+  ex:["Crie a Playa Edit da sua Faixa 01 a 120 BPM, com riff em timbre orgânico e breakdown de 64 compassos","Exporte as duas versões (original e Playa Edit), ouça uma depois da outra e anote o que mudou na sensação","No rekordbox ou Mixxx, grave um mix de 30 minutos que comece na versão original e termine na Playa Edit, passando por 4 ou 5 faixas de outros artistas","Acorde cedo num fim de semana, coloque o mix numa caixa de som ao ar livre durante o nascer do sol e escute do começo ao fim"]}
+];
+
+const PLAN = [
+ {w:"Semana 1", f:"Módulos 0 a 4, um por dia, com os exercícios.", tasks:["Dia 1: Módulo 0","Dia 2: Módulo 1","Dia 3: Módulo 2","Dia 4: Módulo 3","Dia 5: Módulo 4","Dias 6 e 7: refazer percussão + kick + bass em duas tonalidades e dois BPMs (124 e 128)"], e:"Três grooves de 16 compassos salvos como projetos separados."},
+ {w:"Semana 2", f:"Módulos 5 a 8, um por dia.", tasks:["Módulo 5","Módulo 6","Módulo 7","Módulo 8","Sessão 1 do projeto final (Fundação)","Sessão 2 do projeto final (Harmonia e gancho)"], e:"Loop completo de 16 compassos da Faixa 01."},
+ {w:"Semana 3", f:"Módulos 9 e 10 e sessões 3 e 4.", tasks:["Módulo 9","Módulo 10","Sessão 3 do projeto final (Arranjo)","Sessão 4 do projeto final (Vida)","Dia 7: recriar de ouvido a estrutura de “Purple Noise” ou “Gravity” e comparar com a sua"], e:"Faixa 01 arranjada e automatizada."},
+ {w:"Semana 4", f:"Módulos 11 e 12 e sessão 5. Depois, Faixa 02.", tasks:["Módulo 11","Módulo 12","Sessão 5 do projeto final (Mix e master)","Dias 4 a 7: começar a Faixa 02 do zero, em uma única sessão de 3 h por dia, sem reler o curso"], e:"Faixa 01 finalizada e exportada; Faixa 02 com loop e arranjo."}
+];
+
+const PLAYA = [
+ {p:"Meses 1–3", f:"Terminar o curso e produzir mais duas faixas no estilo (madrugada/pico).", e:"3 faixas autorais finalizadas."},
+ {p:"Meses 4–6", f:"Criar a Playa Edit de cada faixa. Instalar o software de DJ e aprender a mixar longo.", e:"3 faixas × 2 versões; primeiro mix gravado de 30 min."},
+ {p:"Meses 7–9", f:"Um mix gravado por semana. Biblioteca organizada por momento do dia. Tocar em festas pequenas.", e:"Perfil no SoundCloud/Mixcloud com 4 mixes; primeiro set de 2 horas."},
+ {p:"Meses 10–12", f:"Conectar-se com a comunidade: evento regional, grupos de camps, conversar com quem já foi. Garantir ingresso e camp.", e:"Um camp confirmado e um set de nascer do sol pronto."}
+];
+
+const PLUGINS = [
+ {n:"Surge XT", d:"Sintetizador (pads, texturas)", u:"https://surge-synthesizer.github.io", dl:"https://github.com/surge-synthesizer/releases-xt/releases/latest"},
+ {n:"Vital (versão Basic grátis)", d:"Sintetizador (leads, arps, bass, pads)", u:"https://vital.audio"},
+ {n:"TAL-NoiseMaker", d:"Sintetizador (acid, plucks)", u:"https://tal-software.com"},
+ {n:"Valhalla Supermassive", d:"Reverb / delay", u:"https://valhalladsp.com/shop/reverb/valhalla-supermassive/"},
+ {n:"LoudMax", d:"Limiter da Master", u:"https://loudmax.blogspot.com"},
+ {n:"Youlean Loudness Meter (free)", d:"Medidor de LUFS", u:"https://youlean.co/"},
+ {n:"TDR Nova", d:"EQ dinâmico", u:"https://www.tokyodawn.net"},
+ {n:"RIPPLES Pulse", d:"Sidechain / volume shaper (AU)", u:"https://blog.dubspot.com/plugins/ripples-pulse"}
+];
+const SAMPLES = [
+ {n:"Free Techno Tools V2", d:"10 kicks, snares, hats e mais", u:"https://undergroundtalent.gumroad.com/l/FreeTechnoSamplePack-FreeTechnoToolsV2"},
+ {n:"2022 Techno Essentials", d:"64 kicks, 76 sons de 909, +300 WAVs", u:"https://technosupps.gumroad.com/l/free-2022-techno-essentials"},
+ {n:"Free Techno Kicks", d:"15 kicks de techno", u:"https://borivers.gumroad.com/l/techno-kicks-collection"},
+ {n:"Loopmasters · Organic Melodic Techno (taster)", d:"Pack grátis de amostra", u:"https://www.loopmasters.com/genres/168-Melodic-Techno/products/18847-Organic-Melodic-Techno?bid=14625"}
+];
+const ARTISTS = [
+ {a:"Boris Brejcha", n:"percussão em camadas, ratchets, bass sincopado", t:["Gravity","Purple Noise","Happinezz","Lieblingsmensch","Gods Night","Lost Memory","Never Look Back","Take It Smart","Nexus","Space Diver"]},
+ {a:"Anyma", n:"breakdowns cinematográficos, leads em oitava, arpejos", t:["Consciousness","Eternity","Welcome to the Opera","Explore Your Future","Syren"]},
+ {a:"Charlotte de Witte", n:"kick pesado e hipnose da repetição", t:["Doppler","Rave On Time","Sgadi Li Mi","Formula","Asura"]},
+ {a:"Vintage Culture", n:"gancho que gruda, drops limpos", t:["Cali","Weak","It Is What It Is","Tina","Nothing Else Matters"]},
+ {a:"Tale of Us", n:"a origem do som Afterlife", t:["Nova Two","Monument","Time"]},
+ {a:"Artbat", n:"ponte entre melodic techno e festival", t:["Return to Oz (remix)","Horizon","Best of Me"]},
+ {a:"Kevin de Vries / Massano", n:"rolling bass com pump forte", t:["Dance With Me","The Feeling"]},
+ {a:"Adriatique / Mind Against", n:"arpejos, atmosferas, arranjos pacientes", t:["Home","Colder"]}
+];
+const STRUCT = [["Intro",64,"#6b5fa8"],["Bass in",32,"#4f2fd9"],["Drop 1",32,"#e83e8c"],["Break",32,"#14b8c4"],["Build",16,"#4f2fd9"],["Drop 2",64,"#e83e8c"],["Mini",16,"#14b8c4"],["Drop 3",32,"#e83e8c"],["Outro",48,"#6b5fa8"]];
+const MIX = [["Kick","−8 dB (referência)","HP 30 Hz","Centro"],["Bass","−10 a −12 dB","HP 35–40 Hz","Centro"],["Hat","−14 a −16 dB","HP 400–600 Hz","+10 a +15"],["Shaker","−18 dB","HP 400–600 Hz","−25"],["Rim / clap","−12 dB","HP 250 Hz","−10"],["Tom","−14 dB","HP 120 Hz","Centro"],["Noise","−20 dB","HP 300 Hz, LP 10 kHz","±40"],["Riff","−10 dB","HP 200–300 Hz","Centro / +10"],["Vox","−12 dB","HP 300 Hz, LP 7 kHz","Alternado ±30"],["Stab","−14 dB","HP 250–400 Hz","—"],["Arp","−14 dB","HP 250–400 Hz","—"],["Pad","−16 dB","HP 150–200 Hz, LP 8 kHz","±40"],["FX / atmosfera","−20 a −26 dB","HP 100–200 Hz","Largo"]];
+const KEYS = [["A (lá menor)","Am – F – C – G"],["G","Gm – Eb – Bb – F"],["F","Fm – Db – Ab – Eb"],["D","Dm – Bb – F – C"],["E","Em – C – G – D"]];
+const QUANT = [
+ ["Semibreve","1","4 tempos"],["Mínima","1/2","2 tempos"],["Semínima","1/4","1 tempo — a batida do kick"],["Colcheia","1/8","meio tempo — offbeats do hat"],
+ ["Semicolcheia","1/16","¼ de tempo — a grade padrão do curso (e, &, a)"],["Fusa","1/32","⅛ de tempo — ratchets e fills de hat/rim"],["Semifusa","1/64","raro — ratchets extremos"],
+ ["Tercina de Semínimas","1/6","3 notas no lugar de 2 semínimas — não usada no curso"],["Tercina de Colcheias","1/12","swing de tercina — não usada no curso"],
+ ["Quintina/4 e Septina/Nonina","—","grupos de 5, 7 ou 9 — deixar desmarcado"],["Suingue de Semicolcheias / Colcheias","—","swing: use só em shaker e hat (Módulo 4)"]
+];
+const QUANT_TIP = "A fração é a parte de um compasso inteiro. 1/16 = um dezesseis avos de compasso = 4 notas por tempo. O menu mostra o nome (Semicolcheia), não a fração. Para escolher, pense no que você quer ouvir.";
+const SHORT = [["Play / pausa","Espaço"],["Gravar","R"],["Metrônomo","K"],["Ciclo","C"],["Nova trilha","⌥⌘N"],["Duplicar trilha","⌘D"],["Musical Typing","⌘K"],["Library","Y"],["Smart Controls","B"],["Editor (piano roll)","E"],["Loop Browser","O"],["Automação","A"],["Trilha Master","⇧⌘M"],["Trilha de arranjo","⇧⌘A"],["Dividir região","⌘T"],["Juntar regiões","⌘J"],["Loop da região","L"],["Copiar região","⌥ + arrastar"],["Exportar","Share › Export Song to Disk"]];
+const GM = [["Kick","C1"],["Rimshot","C#1"],["Snare","D1"],["Clap","D#1"],["Hi-hat fechado","F#1"],["Hi-hat pedal","G#1"],["Hi-hat aberto","A#1"],["Crash","C#2"],["Ride","D#2"],["Toms","A1 / C2"]];
+
+/* ───────────── ESTADO ───────────── */
+const KEY = "htm_progress_v1";
+function blank(){ return {done:{},notes:{},plug:{},sample:{},listen:{},plan:{},min:{},run:null,quiz:{c:0,t:0,best:0,cur:0},seq:null}; }
+let S = load();
+function load(){
+  try{ const r = JSON.parse(localStorage.getItem(KEY)); if(r && typeof r==="object") return Object.assign(blank(),r); }catch(e){}
+  return blank();
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+const $ = (s,r=document)=>r.querySelector(s);
+function toast(m){ let t=$("#toast"); if(!t){ t=document.createElement("div"); t.id="toast"; t.style.cssText="position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--text);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:20;max-width:90vw"; document.body.appendChild(t); } t.textContent=m; t.hidden=false; clearTimeout(toast.h); toast.h=setTimeout(()=>{t.hidden=true;},3500); }
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const today = () => { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
+
+function modProg(i){ const t=MODULES[i].ex.length; let d=0; for(let k=0;k<t;k++) if(S.done["m"+i+"-"+k]) d++; return {d,t,p:t?Math.round(d/t*100):0}; }
+function overall(){ let d=0,t=0; MODULES.forEach((_,i)=>{const p=modProg(i); d+=p.d; t+=p.t;}); return {d,t,p:t?Math.round(d/t*100):0}; }
+function modsDone(){ return MODULES.filter((_,i)=>modProg(i).p===100).length; }
+function nextMod(){ const i = MODULES.findIndex((_,i)=>modProg(i).p<100); return i; }
+function totalMin(){ return Object.values(S.min).reduce((a,b)=>a+b,0) + runningMin(); }
+function runningMin(){ return S.run ? Math.floor((Date.now()-S.run)/60000) : 0; }
+function streak(){
+  let n=0; const d=new Date();
+  const k = x => x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0");
+  if(!(S.min[k(d)]>0) && !(S.run && k(d)===today())) d.setDate(d.getDate()-1);
+  while((S.min[k(d)]||0)>0 || (S.run && k(d)===today())){ n++; d.setDate(d.getDate()-1); }
+  return n;
+}
+function fmtMin(m){ const h=Math.floor(m/60), r=m%60; return h? h+"h"+String(r).padStart(2,"0") : r+" min"; }
+function fmtSec(s){ s=Math.round(s); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
+
+/* ───────────── ROTAS ───────────── */
+const TABS = [["home","🏠","Início"],["mods","🎓","Módulos"],["plan","🗓️","Plano"],["tools","🧰","Ferramentas"],["train","🥁","Treino"],["listen","🎧","Escuta"],["setup","⚙️","Setup"]];
+let route = {tab:"home", mod:null};
+function go(tab,mod=null){ route={tab,mod}; location.hash = mod!==null? tab+"/"+mod : tab; render(); window.scrollTo(0,0); }
+function fromHash(){ const [t,m]=(location.hash||"#home").slice(1).split("/"); route={tab:TABS.some(x=>x[0]===t)?t:"home", mod: m!==undefined && MODULES[+m]? +m : null}; }
+window.addEventListener("hashchange",()=>{fromHash();render();});
+
+function render(){
+  $("#tabs").innerHTML = TABS.map(([k,ic,l])=>`<button class="${route.tab===k?"on":""}" data-go="${k}"><span class="ic">${ic}</span>${l}</button>`).join("");
+  stopSeq();
+  const v = {home:vHome,mods:vMods,plan:vPlan,tools:vTools,train:vTrain,listen:vListen,setup:vSetup}[route.tab];
+  $("#app").innerHTML = v();
+  if(route.tab==="mods" && route.mod!==null){ const ta=$("#note"); if(ta) ta.value = S.notes["m"+route.mod]||""; }
+  if(route.tab==="tools") calc();
+}
+
+/* ───────────── VIEWS ───────────── */
+function vHome(){
+  const o=overall(), n=nextMod(), nm = n>=0? MODULES[n]:null, p = n>=0? modProg(n):null;
+  const first = n>=0 ? MODULES[n].ex.findIndex((_,k)=>!S.done["m"+n+"-"+k]) : -1;
+  return `
+  <section class="card">
+    <div class="row"><div class="big">${o.p}%</div><div class="grow"><div class="muted">Curso concluído · ${o.d} de ${o.t} exercícios</div><div class="bar" style="margin-top:8px"><i style="width:${o.p}%"></i></div></div></div>
+    <div class="stats">
+      <div class="stat"><b>${modsDone()}/${MODULES.length}</b><span>módulos</span></div>
+      <div class="stat"><b id="sStreak">${streak()}</b><span>dias seguidos</span></div>
+      <div class="stat"><b id="sTotal">${fmtMin(totalMin())}</b><span>praticados</span></div>
+    </div>
+  </section>
+  ${nm? `<section class="card">
+    <h2>Próximo passo</h2>
+    <div class="muted">Módulo ${n} · ${esc(nm.t)} — ${p.d}/${p.t} exercícios</div>
+    <p style="margin:10px 0 14px"><b>${esc(nm.ex[first])}</b></p>
+    <button class="btn" data-go="mods" data-mod="${n}">Abrir módulo ${n}</button>
+  </section>` : `<section class="card"><h2>🎉 Curso completo</h2><p class="muted">Todos os exercícios concluídos. Próxima meta: uma faixa por semana e a Playa Edit.</p></section>`}
+  <section class="card">
+    <h2>Sessão de estudo</h2>
+    ${timerHtml()}
+  </section>
+  <section class="card">
+    <h2>Últimos 14 dias</h2>
+    ${histHtml()}
+  </section>
+  <section class="card">
+    <h2>Atalhos rápidos</h2>
+    <div class="row"><button class="btn ghost sm" data-go="tools">Calculadora de BPM</button><button class="btn ghost sm" data-go="setup">Plug-ins e samples</button><button class="btn ghost sm" data-go="listen">Lista de escuta</button></div>
+  </section>`;
+}
+function histHtml(){
+  const days=[]; const d=new Date(); d.setDate(d.getDate()-13);
+  for(let i=0;i<14;i++){ const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); days.push([k,(S.min[k]||0)+(k===today()?runningMin():0)]); d.setDate(d.getDate()+1); }
+  const mx=Math.max(30,...days.map(x=>x[1]));
+  return `<div class="hist">${days.map(([k,m])=>`<div class="${m?"":"z"}" style="height:${m?Math.max(6,Math.round(m/mx*100)):3}%" title="${k}: ${m} min"></div>`).join("")}</div><div class="legend" style="margin-top:6px">Total na janela: ${fmtMin(days.reduce((a,b)=>a+b[1],0))}</div>`;
+}
+function timerHtml(){
+  const t = S.min[today()]||0;
+  return `<div class="row">
+    <div class="grow"><div class="muted">Hoje: <b id="tToday">${fmtMin(t + runningMin())}</b>${S.run? ' · <span class="chip ok">cronômetro rodando</span>':''}</div></div>
+    ${S.run? `<button class="btn stop sm" data-act="stop">Parar e registrar</button>` : `<button class="btn sm" data-act="start">Iniciar</button>`}
+  </div>
+  <div class="row" style="margin-top:10px"><span class="muted">Adicionar manualmente:</span>
+    <button class="btn ghost sm" data-act="add" data-v="15">+15</button><button class="btn ghost sm" data-act="add" data-v="30">+30</button><button class="btn ghost sm" data-act="add" data-v="60">+60</button></div>`;
+}
+
+function vMods(){
+  if(route.mod!==null) return vMod(route.mod);
+  let last="", h="";
+  MODULES.forEach((m,i)=>{
+    if(m.g!==last){ h+=`<div class="group">${m.g}</div>`; last=m.g; }
+    const p=modProg(i);
+    h+=`<button class="mod ${p.p===100?"done":""}" data-go="mods" data-mod="${i}"><div class="n">${p.p===100?"✓":i}</div><div class="t"><b>${esc(m.t)}</b><small>${esc(m.s)}</small></div><div class="pct">${p.d}/${p.t}</div></button>`;
+  });
+  return h;
+}
+function vMod(i){
+  const m=MODULES[i], p=modProg(i);
+  return `
+  <button class="back" data-go="mods">← Módulos</button>
+  <section class="card">
+    <div class="muted">MÓDULO ${i}</div>
+    <h2 style="font-size:22px;margin:4px 0 6px">${esc(m.t)}</h2>
+    <div class="muted">${esc(m.s)}</div>
+    <div class="bar" style="margin-top:12px"><i style="width:${p.p}%"></i></div>
+  </section>
+  <section class="card"><h2>Lembretes-chave</h2><ul class="tips">${m.tips.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></section>
+  <section class="card"><h2>${i===14?"Sessões e checklist final":"Exercício "+i}</h2>
+    ${m.ex.map((e,k)=>`<label class="check"><input type="checkbox" data-ck="m${i}-${k}" ${S.done["m"+i+"-"+k]?"checked":""}><span>${esc(e)}</span></label>`).join("")}
+  </section>
+  <section class="card"><h2>Minhas anotações</h2><textarea id="note" data-note="m${i}" placeholder="O que funcionou, presets que gostei, dúvidas…"></textarea></section>
+  <div class="row" style="justify-content:space-between">
+    ${i>0?`<button class="btn ghost sm" data-go="mods" data-mod="${i-1}">← Módulo ${i-1}</button>`:"<span></span>"}
+    ${i<MODULES.length-1?`<button class="btn ghost sm" data-go="mods" data-mod="${i+1}">Módulo ${i+1} →</button>`:""}
+  </div>`;
+}
+
+function vPlan(){
+  const wk = PLAN.map((w,wi)=>`
+  <section class="card"><h2>${w.w}</h2><div class="muted" style="margin-bottom:6px">${esc(w.f)}</div>
+    ${w.tasks.map((t,k)=>`<label class="check"><input type="checkbox" data-pk="p${wi}-${k}" ${S.plan["p"+wi+"-"+k]?"checked":""}><span>${esc(t)}</span></label>`).join("")}
+    <div class="muted" style="margin-top:8px">🎯 Entrega: ${esc(w.e)}</div>
+  </section>`).join("");
+  const pl = PLAYA.map(r=>`<tr><td><b>${r.p}</b></td><td>${esc(r.f)}</td><td>${esc(r.e)}</td></tr>`).join("");
+  return `<p class="muted" style="margin:4px 2px 14px">Plano de 30 dias do curso (Módulo 14). Marque conforme avança.</p>${wk}
+  <section class="card"><h2>Depois dos 30 dias</h2><p class="muted">Produza uma faixa por semana durante dois meses, mesmo que ruins. A décima vai ser boa.</p></section>
+  <section class="card"><h2>Plano de 12 meses até o playa</h2><div class="scroll"><table><tr><th>Período</th><th>Foco</th><th>Entrega</th></tr>${pl}</table></div></section>`;
+}
+
+function vTools(){
+  const struct = STRUCT.map(([n,b,c])=>`<div style="flex:${b};background:${c}" title="${n} ${b}c">${n}</div>`).join("");
+  return `
+  <section class="card"><h2>Calculadora de BPM</h2>
+    <div class="row"><label for="bpm" class="muted">BPM</label><input id="bpm" type="number" min="60" max="200" value="${S.bpm||126}" style="max-width:110px" inputmode="numeric"></div>
+    <div class="kv" id="calc" style="margin-top:12px"></div>
+  </section>
+  <section class="card"><h2>Estrutura da faixa (336 compassos)</h2>
+    <div class="seg">${struct}</div>
+    <div class="scroll"><table id="structT"></table></div>
+  </section>
+  <section class="card"><h2>Mapa de mixagem</h2><div class="scroll"><table><tr><th>Elemento</th><th>Nível</th><th>EQ</th><th>Pan</th></tr>${MIX.map(r=>`<tr>${r.map((c,i)=>`<td>${i?esc(c):"<b>"+esc(c)+"</b>"}</td>`).join("")}</tr>`).join("")}</table></div>
+    <p class="muted" style="margin-top:8px">Pico da Master ~−6 dB no drop 2. Só kick e bass têm graves.</p></section>
+  <section class="card"><h2>Notas de bateria (kits GM)</h2><div class="kv">${GM.map(([a,b])=>`<div>${a}</div><div>${b}</div>`).join("")}</div></section>
+  <section class="card"><h2>Progressões (i – VI – III – VII)</h2><div class="kv">${KEYS.map(([a,b])=>`<div>${a}</div><div>${b}</div>`).join("")}</div>
+    <p class="muted" style="margin-top:8px">Pentatônica de Lá menor: A C D E G.</p></section>
+  <section class="card"><h2>Quantização: nomes do menu</h2>
+    <p class="muted">${QUANT_TIP}</p>
+    <div class="scroll"><table><tr><th>Nome no menu</th><th>Fração</th><th>Uso no curso</th></tr>${QUANT.map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</table></div>
+    <p class="muted" style="margin-top:8px">Dica: se o menu estiver com “Quintina/4” marcado, troque para Semicolcheia (ou Fusa, para ratchets).</p></section>
+  <section class="card"><h2>Atalhos do GarageBand</h2><div class="kv">${SHORT.map(([a,b])=>`<div>${a}</div><div><kbd>${esc(b)}</kbd></div>`).join("")}</div></section>`;
+}
+function calc(){
+  const el=$("#bpm"); if(!el) return;
+  const bpm = Math.max(40, Math.min(240, +el.value||126)); S.bpm=bpm; save();
+  const bar = 240/bpm, beat = 60/bpm;
+  $("#calc").innerHTML = [
+    ["1 compasso", bar.toFixed(2)+" s"],["8 compassos", fmtSec(bar*8)],["16 compassos", fmtSec(bar*16)],["32 compassos", fmtSec(bar*32)],["64 compassos", fmtSec(bar*64)],
+    ["Delay 1/4", Math.round(beat*1000)+" ms"],["Delay 1/8", Math.round(beat*500)+" ms"],["Delay 1/8 pontuada", Math.round(beat*750)+" ms"],["Delay 1/16", Math.round(beat*250)+" ms"]
+  ].map(([a,b])=>`<div>${a}</div><div>${b}</div>`).join("");
+  let c=1; $("#structT").innerHTML = `<tr><th>Seção</th><th>Compassos</th><th>Duração</th></tr>` + STRUCT.map(([n,b])=>{const r=`<tr><td><b>${n}</b></td><td>${c}–${c+b-1}</td><td>${fmtSec(bar*b)}</td></tr>`; c+=b; return r;}).join("") + `<tr><td><b>Total</b></td><td>336</td><td><b>${fmtSec(bar*336)}</b></td></tr>`;
+}
+
+function vListen(){
+  let done=0,total=0;
+  const body = ARTISTS.map((a,ai)=>`
+    <section class="card"><h2>${esc(a.a)}</h2><div class="muted" style="margin-bottom:6px">${esc(a.n)}</div>
+    ${a.t.map((t,ti)=>{ const id=ai+"-"+ti; return `<div class="track"><div class="nm">${esc(t)}</div><div class="dots">${["B","R","E"].map((l,k)=>{ const on=S.listen[id+":"+k]; total++; if(on) done++; return `<label class="${on?"on":""}" title="${["Bateria/percussão","Bass/riff","Estrutura"][k]}"><input type="checkbox" data-ls="${id}:${k}" ${on?"checked":""}>${l}</label>`; }).join("")}</div></div>`; }).join("")}
+    </section>`).join("");
+  return `<section class="card"><h2>Escuta ativa</h2>
+    <p class="muted">Ouça cada faixa 3 vezes, cada vez com um foco só: <b>B</b> bateria e percussão · <b>R</b> bass e riff · <b>E</b> estrutura (com cronômetro).</p>
+    <div class="bar" style="margin-top:10px"><i style="width:${total?Math.round(done/total*100):0}%"></i></div><div class="legend" style="margin-top:6px">${done} de ${total} escutas</div></section>${body}`;
+}
+
+function vSetup(){
+  const mk=(arr,key)=>arr.map((x,i)=>`<label class="check"><input type="checkbox" data-st="${key}:${i}" ${S[key][i]?"checked":""}><span><b>${esc(x.n)}</b><br><span class="muted">${esc(x.d)}</span><br><a href="${x.u}" target="_blank" rel="noopener">site oficial ↗</a>${x.dl?` · <a href="${x.dl}" target="_blank" rel="noopener">releases (GitHub) ↗</a>`:""}</span></label>`).join("");
+  return `
+  <section class="card"><h2>Plug-ins gratuitos (Audio Units)</h2>
+    <p class="muted">Baixe só dos sites oficiais. Marque quando estiver instalado e aparecendo no GarageBand.</p>${mk(PLUGINS,"plug")}</section>
+  <section class="card"><h2>Como instalar no GarageBand</h2>
+    <ul class="tips">
+      <li>Baixe o instalador para Mac e instale o formato <b>AU</b>; reinicie o GarageBand.</li>
+      <li>GarageBand › Configurações › Áudio/MIDI: confirme <b>Ativar Audio Units</b>.</li>
+      <li>Se o macOS bloquear: Ajustes do Sistema › Privacidade e Segurança › <b>Abrir mesmo assim</b>.</li>
+      <li>Instrumento: trilha Software Instrument → Library (<kbd>Y</kbd>) → campo de plug-in de instrumento (AU).</li>
+      <li>Efeitos: Smart Controls (<kbd>B</kbd>) → Plug-ins → slot vazio. Limiter e medidor de LUFS vão na Master (<kbd>⇧⌘M</kbd>).</li>
+    </ul></section>
+  <section class="card"><h2>Samples e kits gratuitos</h2>
+    <p class="muted">Confira a licença de cada pack. Nas páginas do Gumroad, digite 0 no preço para baixar de graça.</p>${mk(SAMPLES,"sample")}
+    <p class="muted" style="margin-top:8px">Arraste os .wav para uma trilha de áudio ou solte o kick num <b>Quick Sampler</b> para programar a batida no piano roll.</p></section>
+  <section class="card"><h2>Seus dados</h2>
+    <p class="muted">O progresso fica salvo neste navegador. Exporte um backup para não perder se limpar os dados do site.</p>
+    <div class="row"><button class="btn ghost sm" data-act="export">Exportar backup</button><button class="btn ghost sm" data-act="import">Importar backup</button><button class="btn ghost sm" data-act="reset">Zerar tudo</button></div>
+    <input type="file" id="file" accept="application/json" class="hidden"></section>`;
+}
+
+/* ───────────── TREINO: QUIZ + LABORATÓRIO DE RITMO ───────────── */
+const SOLF={C:"dó",D:"ré",E:"mi",F:"fá",G:"sol",A:"lá",B:"si"}, LET=Object.keys(SOLF);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const STATIC_Q=[
+ ["Qual nota o teclado do Mac toca na tecla A (Musical Typing)?","Dó (C)",["Lá (A)","Sol (G)","Si (B)"],"A tecla A do Mac é só o “endereço”: ela toca dó."],
+ ["Em que tecla do Mac fica a nota lá (A)?","H",["A","L","J"],"A nota lá fica na tecla H."],
+ ["Quantos Hz tem o A1 (lá grave do bass)?","55 Hz",["110 Hz","220 Hz","27 Hz"],"A1=55 Hz, A2=110 Hz, A3=220 Hz."],
+ ["Quanto dura 1 compasso em 126 BPM?","1,90 s",["1,00 s","2,40 s","0,95 s"],"240 ÷ 126 ≈ 1,90 s; 32 compassos ≈ 61 s."],
+ ["O que faz Transpose +12 no editor?","Sobe uma oitava",["Sobe um tom","Sobe uma quinta","Desce uma oitava"],"+12 semitons = 1 oitava; +7 = quinta; −2 = um tom abaixo."],
+ ["Em que nota fica o kick num kit GM?","C1",["D1","F#1","A#1"],"C1 = kick, D1 = snare, F#1 = hat fechado, A#1 = hat aberto."],
+ ["Em que nota fica o hi-hat aberto num kit GM?","A#1",["F#1","C#1","D#1"],"F#1 é o hat fechado; A#1 o aberto."],
+ ["Em que nota fica o rimshot?","C#1",["D1","D#1","G#1"],"C#1 = rimshot, D#1 = clap."],
+ ["Quais notas formam a pentatônica menor de Lá?","A C D E G",["A B C D E","A C E F G","A B D E G"],"A · C · D · E · G — qualquer ordem soa bem sobre um bass em A."],
+ ["Quais notas formam o acorde de Lá menor (Am)?","A C E",["A B D","A C# E","A D F"],"Am = A C E."],
+ ["Quantas semicolcheias (1/16) cabem num compasso 4/4?","16",["8","4","32"],"4 tempos × 4 subdivisões = 16."],
+ ["Qual a escala do curso (só teclas brancas)?","Lá menor",["Dó maior com sustenidos","Sol maior","Ré menor"],"A minor não tem # nem b."],
+ ["Quanto vale 1 oitava acima em semitons?","12",["7","5","8"],"12 semitons."],
+ ["Em que tecla do Mac fica Z / X?","Descem / sobem oitava",["Mais / menos força","Sustain / metrônomo","Gravar / ciclo"],"C/V mudam a força (velocity); Tab é sustain."]
+];
+function genQ(){
+  const t=Math.random();
+  if(t<0.3){ const l=pick(LET); const opts=shuffle(LET.filter(x=>x!==l)).slice(0,3).map(x=>SOLF[x]).concat(SOLF[l]); return {q:`Qual é o nome em solfejo da nota ${l}?`,a:SOLF[l],o:shuffle(opts),e:`${l} = ${SOLF[l]}. A é lá: A B C D E F G = lá si dó ré mi fá sol.`}; }
+  if(t<0.55){ const l=pick(LET); const opts=shuffle(LET.filter(x=>x!==l)).slice(0,3).concat(l); return {q:`Qual é a cifra da nota “${SOLF[l]}”?`,a:l,o:shuffle(opts),e:`${SOLF[l]} = ${l}.`}; }
+  if(t<0.7){ const up={C:"C#",D:"D#",F:"F#",G:"G#",A:"A#"}; const l=pick(Object.keys(up)); const opts=shuffle(["C#","D#","F#","G#","A#","Db","Bb"].filter(x=>x!==up[l])).slice(0,3).concat(up[l]); return {q:`Um semitom acima de ${l} é…`,a:up[l],o:shuffle(opts),e:`${l} → ${up[l]}: a tecla preta logo à direita. Entre E-F e B-C não há tecla preta.`}; }
+  if(t<0.8){ const dn={D:"Db",E:"Eb",G:"Gb",A:"Ab",B:"Bb"}; const l=pick(Object.keys(dn)); const opts=shuffle(["Db","Eb","Gb","Ab","Bb","C#","F#"].filter(x=>x!==dn[l])).slice(0,3).concat(dn[l]); return {q:`Um semitom abaixo de ${l} é…`,a:dn[l],o:shuffle(opts),e:`${l} → ${dn[l]} (bemol). Db e C# são a mesma tecla.`}; }
+  const s=pick(STATIC_Q); return {q:s[0],a:s[1],o:shuffle(s[2].concat(s[1])),e:s[3]};
+}
+let Q=null;
+function quizCard(){
+  if(!Q) Q=genQ();
+  const z=S.quiz, acc=z.t?Math.round(z.c/z.t*100):0;
+  const ans=Q.picked!==undefined;
+  return `<div class="muted">Acertos: <b>${z.c}/${z.t}</b> (${acc}%) · sequência: <b>${z.cur}</b> · melhor: <b>${z.best}</b></div>
+  <h3 style="text-transform:none;letter-spacing:0;font-size:17px;color:var(--text);margin:14px 0">${esc(Q.q)}</h3>
+  <div style="display:grid;gap:8px">${Q.o.map((o,i)=>{ let st=""; if(ans){ if(o===Q.a) st="background:var(--ok);color:#08090d;border-color:var(--ok)"; else if(i===Q.picked) st="background:var(--accent-3);color:#fff;border-color:var(--accent-3)"; }
+    return `<button class="btn ghost" style="text-align:left;${st}" data-quiz="${i}" ${ans?"disabled":""}>${esc(o)}</button>`; }).join("")}</div>
+  ${ans?`<p class="muted" style="margin-top:12px">${Q.picked!==undefined&&Q.o[Q.picked]===Q.a?"✅ Correto. ":"❌ Não foi dessa vez. "}${esc(Q.e)}</p><button class="btn sm" data-act="qnext">Próxima</button>`:""}`;
+}
+
+/* áudio */
+const ROWS=[["Kick","kick"],["Hat fechado","hat"],["Hat aberto","ohat"],["Shaker","shk"],["Rim","rim"],["Bass","bass"]];
+const BASSN={A1:55,A2:110,C2:65.41,G1:49};
+const PRESETS={
+  base:{n:"Drop base (Módulo 4)",g:{kick:[0,4,8,12],hat:[1,3,5,7,9,11,13,15],ohat:[2,6,10,14],shk:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],rim:[3,6,11,14],bass:[]}},
+  bassA:{n:"+ Bass A (síncope)",g:{kick:[0,4,8,12],hat:[],ohat:[2,6,10,14],shk:[],rim:[3,6,11,14],bass:[1,3,5,7,9,11,13,15]},b:{15:"G1"}},
+  bassB:{n:"+ Bass B (oitavas)",g:{kick:[0,4,8,12],hat:[],ohat:[2,6,10,14],shk:[],rim:[3,6,11,14],bass:[1,2,5,6,9,10,13,14]},b:{2:"A2",6:"A2",10:"A2",14:"C2"}},
+  kick:{n:"Só kick 4×4",g:{kick:[0,4,8,12],hat:[],ohat:[],shk:[],rim:[],bass:[]}}
+};
+function setPreset(k){ const p=PRESETS[k]; S.seq={g:{},b:p.b||{}}; ROWS.forEach(([,id])=>S.seq.g[id]=(p.g[id]||[]).slice()); save(); }
+function seqState(){ if(!S.seq) setPreset("base"); return S.seq; }
+let AC=null, seqTimer=null, seqNext=0, seqStep=0, seqQueue=[], seqRAF=null, click=false;
+function noise(ctx,dur){ const b=ctx.createBuffer(1,Math.ceil(ctx.sampleRate*dur),ctx.sampleRate), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; const s=ctx.createBufferSource(); s.buffer=b; return s; }
+function voice(id,t,ctx,step){
+  const g=ctx.createGain(); g.connect(ctx.destination);
+  if(id==="kick"){ const o=ctx.createOscillator(); o.frequency.setValueAtTime(160,t); o.frequency.exponentialRampToValueAtTime(48,t+0.12); g.gain.setValueAtTime(0.9,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.28); o.connect(g); o.start(t); o.stop(t+0.3); }
+  else if(id==="hat"||id==="ohat"||id==="shk"){ const n=noise(ctx,0.3), f=ctx.createBiquadFilter(); f.type=id==="shk"?"bandpass":"highpass"; f.frequency.value=id==="shk"?5500:7500; const d=id==="hat"?0.04:id==="ohat"?0.16:0.05; const v=id==="shk"?(step%4===2?0.22:0.1):0.28; g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(0.001,t+d); n.connect(f); f.connect(g); n.start(t); n.stop(t+d+0.02); }
+  else if(id==="rim"){ const o=ctx.createOscillator(); o.type="triangle"; o.frequency.value=820; g.gain.setValueAtTime(0.35,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.06); o.connect(g); o.start(t); o.stop(t+0.07); }
+  else if(id==="bass"){ const note=(seqState().b||{})[step]||"A1"; const o=ctx.createOscillator(); o.type="sawtooth"; o.frequency.value=BASSN[note]; const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.value=420; f.Q.value=6; g.gain.setValueAtTime(0.3,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.14); o.connect(f); f.connect(g); o.start(t); o.stop(t+0.15); }
+}
+function clickSound(t,ctx,accent){ const o=ctx.createOscillator(), g=ctx.createGain(); o.frequency.value=accent?1600:1100; g.gain.setValueAtTime(0.18,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.03); o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+0.04); }
+function sched(){
+  const sec=60/(S.bpm||126)/4, sq=seqState();
+  while(seqNext<AC.currentTime+0.12){
+    ROWS.forEach(([,id])=>{ if(sq.g[id].includes(seqStep)) voice(id,seqNext,AC,seqStep); });
+    if(click && seqStep%4===0) clickSound(seqNext,AC,seqStep===0);
+    seqQueue.push({s:seqStep,t:seqNext});
+    seqNext+=sec; seqStep=(seqStep+1)%16;
+  }
+}
+function paint(){
+  if(!seqTimer) return;
+  while(seqQueue.length && seqQueue[0].t<=AC.currentTime){ const {s}=seqQueue.shift(); document.querySelectorAll(".sq-cell.cur").forEach(c=>c.classList.remove("cur")); document.querySelectorAll(`.sq-cell[data-s="${s}"]`).forEach(c=>c.classList.add("cur")); }
+  seqRAF=requestAnimationFrame(paint);
+}
+function startSeq(){
+  const C=window.AudioContext||window.webkitAudioContext; if(!C){ toast("Seu navegador não suporta áudio Web."); return; }
+  AC=AC||new C(); AC.resume();
+  seqStep=0; seqNext=AC.currentTime+0.06; seqQueue=[]; sched(); seqTimer=setInterval(sched,25); paint();
+  const b=$("#sqPlay"); if(b){ b.textContent="■ Parar"; b.classList.add("stop"); }
+}
+function stopSeq(){
+  if(seqTimer){ clearInterval(seqTimer); seqTimer=null; cancelAnimationFrame(seqRAF); }
+  document.querySelectorAll(".sq-cell.cur").forEach(c=>c.classList.remove("cur"));
+  const b=$("#sqPlay"); if(b){ b.textContent="▶ Tocar"; b.classList.remove("stop"); }
+}
+function gridHtml(){
+  const sq=seqState();
+  return `<div class="scroll"><div style="min-width:520px">`+ROWS.map(([lab,id])=>`<div class="sq-row"><div class="sq-lab">${lab}</div>${Array.from({length:16},(_,s)=>`<div class="sq-cell ${sq.g[id].includes(s)?"on":""} ${s%4===0?"beat":""}" data-sq="${id}:${s}" data-s="${s}"></div>`).join("")}</div>`).join("")
+   +`<div class="sq-row"><div class="sq-lab"></div>${Array.from({length:16},(_,s)=>`<div class="sq-n">${["1","e","&","a"][s%4]}</div>`).join("")}</div></div></div>`;
+}
+function vTrain(){
+  Q=null;
+  return `
+  <section class="card"><h2>Quiz de notas e teoria</h2><div id="quiz">${quizCard()}</div></section>
+  <section class="card"><h2>Laboratório de ritmo</h2>
+    <p class="muted">Clique nas casas para ligar/desligar. Cada coluna é uma semicolcheia (1/16): <b>1 e &amp; a</b>. O andamento é o mesmo da calculadora.</p>
+    <div class="row" style="margin:12px 0">
+      <button class="btn" id="sqPlay" data-act="sqplay">▶ Tocar</button>
+      <label class="row muted" style="gap:6px">BPM <input id="sqBpm" type="number" min="60" max="200" value="${S.bpm||126}" style="width:80px" inputmode="numeric"></label>
+      <label class="row muted" style="gap:6px"><input type="checkbox" id="sqClick" style="width:auto"> clique</label>
+    </div>
+    <div class="row" style="margin-bottom:12px">${Object.entries(PRESETS).map(([k,p])=>`<button class="btn ghost sm" data-act="sqpreset" data-k="${k}">${p.n}</button>`).join("")}<button class="btn ghost sm" data-act="sqclear">Limpar</button></div>
+    <div id="grid">${gridHtml()}</div>
+    <p class="muted" style="margin-top:10px">Os sons são sintetizados no navegador, só para treinar o desenho do groove. Com tudo desligado, vira um metrônomo (ligue “clique”). Os padrões de bass aproximam o desenho do Módulo 5.</p>
+  </section>`;
+}
+
+/* ───────────── EVENTOS ───────────── */
+document.addEventListener("click",e=>{
+  const g=e.target.closest("[data-go]"); if(g){ go(g.dataset.go, g.dataset.mod!==undefined? +g.dataset.mod : null); return; }
+  const qz=e.target.closest("[data-quiz]");
+  if(qz && Q && Q.picked===undefined){ const i=+qz.dataset.quiz; Q.picked=i; const ok=Q.o[i]===Q.a, z=S.quiz; z.t++; if(ok){ z.c++; z.cur++; z.best=Math.max(z.best,z.cur); } else z.cur=0; save(); $("#quiz").innerHTML=quizCard(); return; }
+  const sq=e.target.closest("[data-sq]");
+  if(sq){ const [id,st]=sq.dataset.sq.split(":"), n=+st, arr=seqState().g[id], ix=arr.indexOf(n); if(ix>=0) arr.splice(ix,1); else arr.push(n); sq.classList.toggle("on",ix<0); save(); return; }
+  const a=e.target.closest("[data-act]"); if(!a) return;
+  const act=a.dataset.act;
+  if(act==="start"){ S.run=Date.now(); save(); render(); }
+  else if(act==="stop"){ const m=runningMin(); S.run=null; if(m>0) S.min[today()]=(S.min[today()]||0)+m; save(); render(); }
+  else if(act==="add"){ S.min[today()]=(S.min[today()]||0)+ +a.dataset.v; save(); render(); }
+  else if(act==="export"){
+    const blob=new Blob([JSON.stringify(S,null,2)],{type:"application/json"}), u=URL.createObjectURL(blob), l=document.createElement("a");
+    l.href=u; l.download="melodic-techno-progresso-"+today()+".json"; l.click(); setTimeout(()=>URL.revokeObjectURL(u),1000);
+  }
+  else if(act==="import"){ $("#file").click(); }
+  else if(act==="qnext"){ Q=genQ(); $("#quiz").innerHTML=quizCard(); }
+  else if(act==="sqplay"){ seqTimer? stopSeq() : startSeq(); }
+  else if(act==="sqpreset"){ setPreset(a.dataset.k); $("#grid").innerHTML=gridHtml(); }
+  else if(act==="sqclear"){ S.seq={g:{kick:[],hat:[],ohat:[],shk:[],rim:[],bass:[]},b:{}}; save(); $("#grid").innerHTML=gridHtml(); }
+  else if(act==="reset"){ if(a.dataset.sure){ S=blank(); save(); render(); toast("Progresso zerado."); } else { a.dataset.sure="1"; a.textContent="Confirmar: apagar tudo"; a.classList.add("stop"); setTimeout(()=>{ if(a.isConnected){ delete a.dataset.sure; a.textContent="Zerar tudo"; a.classList.remove("stop"); } },4000); } }
+});
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.dataset.ck){ S.done[t.dataset.ck]=t.checked||undefined; save(); render(); keepScroll(t); }
+  else if(t.dataset.pk){ S.plan[t.dataset.pk]=t.checked||undefined; save(); }
+  else if(t.dataset.ls){ S.listen[t.dataset.ls]=t.checked||undefined; save(); const l=t.closest("label"); l.classList.toggle("on",t.checked); }
+  else if(t.dataset.st){ const [k,i]=t.dataset.st.split(":"); S[k][i]=t.checked||undefined; save(); }
+  else if(t.id==="file"){
+    const f=t.files[0]; if(!f) return;
+    f.text().then(x=>{ const r=JSON.parse(x); if(!r||typeof r!=="object"||!r.done) throw 0; S=Object.assign(blank(),r); save(); render(); toast("Backup importado."); }).catch(()=>toast("Arquivo inválido."));
+  }
+});
+function keepScroll(){ /* render() preserva a posição; função mantida para clareza */ }
+document.addEventListener("input",e=>{
+  const t=e.target;
+  if(t.dataset.note){ S.notes[t.dataset.note]=t.value; save(); }
+  else if(t.id==="bpm") calc();
+  else if(t.id==="sqBpm"){ const v=Math.max(40,Math.min(240,+t.value||126)); S.bpm=v; save(); }
+  else if(t.id==="sqClick") click=t.checked;
+});
+setInterval(()=>{ if(S.run && route.tab==="home"){ const a=$("#tToday"); if(a) a.textContent=fmtMin((S.min[today()]||0)+runningMin()); const b=$("#sTotal"); if(b) b.textContent=fmtMin(totalMin()); } },30000);
+
+fromHash(); render();
+if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
