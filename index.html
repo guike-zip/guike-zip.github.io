@@ -1,195 +1,665 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Guilherme Santos · Crio apps e sites</title>
-<meta name="description" content="Crio apps iOS/Android e sites para empresas e empreendedores — do desenho à publicação nas lojas. Engenheiro de software há +7 anos, criador do Blindado, Movase e IAURA." />
-<meta property="og:title" content="Guilherme Santos · Crio apps e sites" />
-<meta property="og:description" content="Apps iOS/Android e sites, do zero até as lojas. Criador do Blindado, Movase e IAURA." />
-<meta property="og:image" content="https://guike-zip.github.io/assets/guia-do-zero-ao-app-publicado.png" />
-<link rel="icon" href="assets/apps/blindado-icon.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css" />
-<link rel="stylesheet" href="hub.css" />
-</head>
-<body>
-
-<div id="bg-canvas"></div>
-<div class="grain"></div>
-
-<main class="hub">
-
-  <header class="hub-head">
-    <div class="avatar"><img src="assets/guilherme.jpg" alt="Foto de Guilherme Santos" width="104" height="104" /></div>
-    <h1>Guilherme Santos</h1>
-    <p class="handle">@guike.zip · Curitiba/PR</p>
-    <p class="lead">Crio apps e sites para empresas e empreendedores — do desenho à publicação nas lojas.
-      Engenheiro de software há +7 anos. Três produtos próprios em produção e o LashFlow em beta.</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="https://ig.me/m/guike.zip" target="_blank" rel="noopener">Falar comigo no Instagram</a>
-    </div>
-  </header>
-
-  <span class="hub-label" id="apps">Apps que eu construí e publiquei</span>
-
-  <section class="card app-card">
-    <div class="app-head">
-      <img class="app-icon-img" src="assets/apps/movase-icon.png" alt="Ícone do Movase" width="64" height="64" />
-      <div>
-        <h2><a class="card-link" href="https://instagram.com/movase_app" target="_blank" rel="noopener">Movase</a></h2>
-        <p class="app-sub">iOS · Android · Web · Fitness</p>
-      </div>
-    </div>
-    <p>Encontre academias e parceiros de treino perto de você — mapa, match por geolocalização,
-      chat, planos e pagamento no app.</p>
-    <div class="shots">
-      <img src="assets/apps/movase-1.jpg?v=3" alt="Movase — mapa de academias e parceiros" loading="lazy" />
-      <img src="assets/apps/movase-2.jpg?v=3" alt="Movase — check-in e treino do dia" loading="lazy" />
-      <img src="assets/apps/movase-3.jpg?v=3" alt="Movase — parceiros perto de você" loading="lazy" />
-    </div>
-    <div class="app-links">
-      <a href="https://apps.apple.com/br/app/movase/id6799579336" target="_blank" rel="noopener">App Store</a>
-      <a href="https://play.google.com/store/apps/details?id=fit.movase.app" target="_blank" rel="noopener">Google Play</a>
-      <a href="https://movase.fit" target="_blank" rel="noopener">movase.fit</a>
-      <span class="chip">Next.js · Supabase · Stripe</span>
-    </div>
-  </section>
-  <section class="card app-card">
-    <div class="app-head">
-      <img class="app-icon-img" src="assets/apps/iaura-icon.png" alt="Ícone do IAURA" width="64" height="64" />
-      <div>
-        <h2><a class="card-link" href="https://instagram.com/iaura.com.br" target="_blank" rel="noopener">IAURA</a></h2>
-        <p class="app-sub">iOS · Android · Saúde mental</p>
-      </div>
-    </div>
-    <p>"Nenhum sentimento é final." Encontre psicólogos, veja perfil e formação, salve favoritos e
-      entre em contato — tudo num só app.</p>
-    <div class="shots">
-      <img src="assets/apps/iaura-1.jpg?v=3" alt="IAURA — encontrar psicólogos por tema" loading="lazy" />
-      <img src="assets/apps/iaura-2.jpg?v=3" alt="IAURA — lista de psicólogos" loading="lazy" />
-      <img src="assets/apps/iaura-3.jpg?v=3" alt="IAURA — perfil do psicólogo" loading="lazy" />
-    </div>
-    <div class="app-links">
-      <a href="https://apps.apple.com/br/app/iaura/id6749513100" target="_blank" rel="noopener">App Store</a>
-      <a href="https://play.google.com/store/apps/details?id=com.iaura.app" target="_blank" rel="noopener">Google Play</a>
-      <a href="https://www.iaura.com.br" target="_blank" rel="noopener">iaura.com.br</a>
-      <span class="chip">Kotlin · SwiftUI · Go</span>
-    </div>
-  </section>
-  <section class="card app-card">
-    <div class="app-head">
-      <img class="app-icon-img" src="assets/apps/blindado-icon.png" alt="Ícone do Blindado" width="64" height="64" />
-      <div>
-        <h2><a class="card-link" href="https://instagram.com/blindado.app" target="_blank" rel="noopener">Blindado</a></h2>
-        <p class="app-sub">iOS · macOS · Privacidade</p>
-      </div>
-    </div>
-    <p>DNS criptografado no iPhone inteiro — Wi-Fi e rede celular — e bloqueador de conteúdo nativo
-      para o Safari. Zero coleta de dados, sem servidor próprio, pagamento único.</p>
-    <div class="shots">
-      <img src="assets/apps/blindado-1.jpg?v=2" alt="Blindado — iPhone protegido com DNS criptografado" loading="lazy" />
-      <img src="assets/apps/blindado-2.jpg?v=2" alt="Blindado — filtros de conteúdo no Safari" loading="lazy" />
-      <img src="assets/apps/blindado-3.jpg?v=2" alt="Blindado — página bloqueada com pedido de liberação" loading="lazy" />
-    </div>
-    <div class="app-links">
-      <a href="https://apps.apple.com/br/app/blindado/id6814943917?mt=12" target="_blank" rel="noopener">Mac App Store</a>
-      <a href="https://testflight.apple.com/join/Evt1DGrb" target="_blank" rel="noopener">Beta no iPhone</a>
-      <a href="https://guike-zip.github.io/blindado/" target="_blank" rel="noopener">Site</a>
-      <span class="chip">Android em teste fechado</span>
-      <span class="chip">Swift · SwiftUI · Kotlin</span>
-    </div>
-  </section>
-  <section class="card app-card">
-    <div class="app-head">
-      <img class="app-icon-img" src="assets/apps/lashflow-icon.png" alt="Ícone do LashFlow" width="64" height="64" />
-      <div>
-        <h2><a class="card-link" href="https://instagram.com/lashflow.com.br" target="_blank" rel="noopener">LashFlow</a></h2>
-        <p class="app-sub">iPhone · Android · Agenda para lash designers</p>
-      </div>
-    </div>
-    <p>Agenda, anamnese digital com assinatura da cliente e histórico de atendimentos — tudo num só app.
-      Beta grátis: no iPhone, entre pelo TestFlight.</p>
-    <div class="shots">
-      <img src="assets/apps/lashflow-1.webp" alt="LashFlow — agenda de atendimentos" loading="lazy" />
-      <img src="assets/apps/lashflow-2.webp" alt="LashFlow — lista de clientes" loading="lazy" />
-      <img src="assets/apps/lashflow-3.webp" alt="LashFlow — ficha da cliente com anamnese" loading="lazy" />
-    </div>
-    <div class="app-links">
-      <a href="https://testflight.apple.com/join/G9wFGhkK" target="_blank" rel="noopener">Beta no iPhone</a>
-      <a href="https://lashflow.com.br" target="_blank" rel="noopener">lashflow.com.br</a>
-      <span class="chip">Android em breve</span>
-    </div>
-  </section>
-
-<span class="hub-label">Precisa de um app ou site?</span>
-  <section class="card product">
-    <h2>Eu construo pra você</h2>
-    <p>App iOS e Android, site ou PWA — do zero até estar no ar e nas lojas. Ou consultoria de
-      arquitetura pra quem já tem produto e travou.</p>
-    <ul>
-      <li>Conversa inicial de 30 min, sem custo, pra entender o que você precisa</li>
-      <li>Proposta com escopo, prazo e preço fechado — sem surpresa</li>
-      <li>Você acompanha o app rodando no seu celular desde as primeiras semanas</li>
-      <li>Publicação nas lojas e suporte pós-lançamento incluídos</li>
-    </ul>
-    <a class="btn btn-primary btn-block" href="https://ig.me/m/guike.zip" target="_blank" rel="noopener">Chamar na DM do Instagram</a>
-    <a class="more" href="mailto:guilherme.avieiras@gmail.com?subject=Quero%20conversar%20sobre%20um%20app">ou manda um e-mail →</a>
-  </section>
-
-  <span class="hub-label">Prefere fazer você mesmo? · Guia PDF</span>
-  <section class="card product">
-    <img class="cover" src="assets/guia-do-zero-ao-app-publicado.png" alt="Capa do guia Do Zero ao App Publicado" width="600" height="600" />
-    <h2>Do Zero ao App Publicado</h2>
-    <p>Guia em PDF para criar seu site ou app com IA, até as lojas.</p>
-    <div class="price-row">
-      <span class="price">R$ 27</span>
-      <span class="price-note">entrega imediata · garantia de 7 dias</span>
-    </div>
-    <a class="btn btn-primary btn-block" href="https://pay.hotmart.com/S107766721V" target="_blank" rel="noopener">Quero o guia</a>
-  </section>
-
-  <span class="hub-label">Quem sou</span>
-  <section class="card">
-    <ul class="proof">
-      <li><strong>+7 anos</strong> construindo produtos digitais em produção</li>
-      <li>Referência técnica de um super app com <strong>1,8 milhão de usuários ativos</strong> por mês</li>
-      <li>Apps publicados em <strong>6 setores</strong>: seguros, energia, educação, saúde, e-commerce e recrutamento</li>
-      <li>Flutter, Swift, Kotlin e IA aplicada no dia a dia — <a href="curriculo/" style="color:var(--accent-2)">trajetória completa →</a></li>
-    </ul>
-  </section>
-
-  <span class="hub-label">Fala comigo</span>
-  <nav class="social">
-    <a href="https://instagram.com/guike.zip" target="_blank" rel="noopener">Instagram</a>
-    <a href="mailto:guilherme.avieiras@gmail.com">E-mail</a>
-    <a href="https://www.linkedin.com/in/guilherme-av-santos/" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://github.com/guike-zip" target="_blank" rel="noopener">GitHub</a>
-  </nav>
-
-  <p class="hub-foot">guilherme.avieiras@gmail.com · <a href="curriculo/">currículo e portfólio</a></p>
-
-</main>
-
-</main>
-
-<script type="module" src="script.js?v=2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-/* Navegador do Instagram/Facebook não é o Safari nem o Chrome: tira o visitante de lá ao abrir a página.
-   Android: abre o Chrome (intent). iPhone: tenta abrir o Safari (x-safari-https). */
+/* Sai do navegador embutido do Instagram */
 (function () {
   var ua = navigator.userAgent || '';
-  if (!/Instagram|FBAN|FBAV/.test(ua)) return;
-  var clean = location.host + location.pathname;
-  if (/Android/.test(ua)) {
-    if (/[?&]fora=1/.test(location.search)) return;
-    var fallback = 'https://' + clean + '?fora=1';
-    location.replace('intent://' + clean + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end');
-  } else {
-    location.replace('x-safari-https://' + clean);
+  if (!/Instagram|FBAN|FBAV/i.test(ua)) return;
+  var host = location.host, path = location.pathname;
+  if (/Android/i.test(ua)) {
+    if (location.search.indexOf('fora=1') > -1) return;
+    location.replace('intent://' + host + path + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent('https://' + host + path + '?fora=1') + ';end');
+  } else if (/iPhone|iPad|iPod/i.test(ua)) {
+    location.replace('x-safari-https://' + host + path);
   }
+})();
+document.documentElement.className += ' js';
+</script>
+<title>Guilherme Santos · Crio apps e sites</title>
+<meta name="description" content="Guilherme Santos (@guike.zip), engenheiro de software em Curitiba/PR. Crio apps iOS e Android e sites para empresas e empreendedores, do desenho à publicação nas lojas.">
+<meta name="theme-color" content="#0b0e17">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Guilherme Santos · Crio apps e sites">
+<meta property="og:description" content="Apps iOS e Android e sites, do desenho à publicação nas lojas. Veja os projetos em andamento.">
+<meta property="og:url" content="https://guike-zip.github.io/">
+<meta property="og:image" content="https://guike-zip.github.io/assets/guia-do-zero-ao-app-publicado.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/apps/blindado-icon.png">
+<style>
+:root{
+  --bg:oklch(0.15 0.02 265);
+  --surface:oklch(0.2 0.025 265);
+  --surface-2:oklch(0.25 0.03 265);
+  --fg:oklch(0.96 0.01 265);
+  --muted:oklch(0.76 0.02 265);
+  --border:oklch(1 0 0 / .11);
+  --accent:oklch(0.83 0.14 195);
+  --accent-hi:oklch(0.9 0.12 195);
+  --on-accent:oklch(0.16 0.03 265);
+  --ok:oklch(0.84 0.16 155); --ok-bg:oklch(0.32 0.07 155);
+  --warn:oklch(0.87 0.14 85); --warn-bg:oklch(0.34 0.06 85);
+  --info:oklch(0.84 0.1 245); --info-bg:oklch(0.32 0.07 245);
+  --prep:oklch(0.84 0.12 305); --prep-bg:oklch(0.32 0.08 305);
+  --display:"SF Pro Display","Segoe UI Variable Display","Avenir Next","Helvetica Neue",system-ui,sans-serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:20px; --wrap:1160px;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font:400 1rem/1.6 var(--body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.wrap{width:min(var(--wrap),100% - 40px);margin-inline:auto}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;text-wrap:balance}
+p{text-wrap:pretty}
+
+/* fundo 3D */
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity .8s}
+.gl #gl{opacity:1}
+.gl.past #gl{opacity:0}
+.fallback{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.gl .fallback{display:none}
+.fallback i{position:absolute;border-radius:50%;border:1px solid var(--border);right:-8vmax;top:50%;translate:0 -50%;animation:spin 40s linear infinite}
+.fallback i:nth-child(1){width:34vmax;height:34vmax}
+.fallback i:nth-child(2){width:52vmax;height:52vmax;animation-duration:70s;animation-direction:reverse}
+.fallback i:nth-child(3){width:70vmax;height:70vmax;animation-duration:100s}
+.fallback i::after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:var(--b,var(--accent));top:12%;left:50%;box-shadow:0 0 24px var(--b,var(--accent))}
+.fallback i:nth-child(2)::after{--b:#f58220}.fallback i:nth-child(3)::after{--b:#E5A9B4}
+.fallback::before{content:"";position:absolute;right:-10vmax;top:50%;translate:0 -50%;width:40vmax;height:40vmax;border-radius:50%;background:radial-gradient(circle,oklch(0.5 0.12 250 / .35),transparent 65%)}
+@keyframes spin{to{rotate:360deg}}
+main,header.top,footer{position:relative;z-index:1}
+
+/* nav */
+header.top{position:sticky;top:0;z-index:20;background:oklch(0.15 0.02 265 / .72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:60px}
+.brand{font:700 1.1rem var(--display);text-decoration:none;letter-spacing:-.02em;padding:10px 0}
+.brand span{color:var(--muted);font-weight:500}
+.nav ul{display:flex;gap:6px;list-style:none;padding:0}
+.nav ul a{display:block;padding:10px 14px;border-radius:999px;text-decoration:none;font-size:.92rem;color:var(--muted);transition:background .2s,color .2s}
+.nav ul a:hover{background:var(--surface-2);color:var(--fg)}
+@media(max-width:760px){.nav ul{display:none}}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 24px;border-radius:999px;font:600 .98rem var(--body);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .2s,box-shadow .2s}
+.btn .ar{transition:transform .25s}
+.btn:hover .ar{transform:translateX(4px)}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{background:var(--accent-hi);color:var(--on-accent);box-shadow:0 8px 30px oklch(0.83 0.14 195 / .35);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--fg);border-color:oklch(1 0 0 / .28)}
+.btn-ghost:hover{background:var(--surface-2);border-color:oklch(1 0 0 / .5);color:var(--fg)}
+
+/* hero */
+.hero{min-height:calc(100svh - 60px);display:flex;align-items:center;padding:56px 0 72px}
+.hero-inner{max-width:620px}
+.id{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.id img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--border);outline:2px solid oklch(0.83 0.14 195 / .6);outline-offset:3px}
+.id span{font:500 .98rem var(--mono);color:var(--muted)}
+.hero h1{font-size:clamp(2.9rem,9.5vw,6rem);font-weight:800;margin-bottom:22px}
+.hero p.lead{font-size:clamp(1.05rem,2.4vw,1.28rem);color:var(--muted);max-width:34em;margin-bottom:34px}
+.hero p.lead b{color:var(--fg);font-weight:600}
+.scrim{position:absolute;inset:0;background:linear-gradient(90deg,oklch(0.15 0.02 265 / .75),transparent 70%);z-index:-1;pointer-events:none}
+@media(max-width:760px){.scrim{background:linear-gradient(0deg,oklch(0.15 0.02 265 / .9) 35%,transparent)}.hero{align-items:flex-end}}
+.hero-wrap,section,footer{position:relative;z-index:1}
+
+/* seções */
+section{padding:96px 0;position:relative}
+.eyebrow{font:600 .8rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.sec-head{max-width:46em;margin-bottom:48px}
+.sec-head h2{font-size:clamp(2rem,5.5vw,3.4rem);font-weight:750;margin-bottom:14px}
+.sec-head p{color:var(--muted);font-size:1.08rem}
+.solid{background:linear-gradient(var(--bg),oklch(0.17 0.025 265) 12%,oklch(0.17 0.025 265) 88%,var(--bg))}
+
+/* projetos */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;list-style:none;padding:0}
+.cards>li{display:flex;perspective:1100px}
+.cards>li.feat{grid-column:1/-1}
+.card{--brand:#6b9bd1;position:relative;width:100%;display:flex;flex-direction:column;gap:18px;padding:28px;background:linear-gradient(160deg,var(--surface-2),var(--surface) 55%);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out,border-color .25s,box-shadow .25s;will-change:transform}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,var(--brand),transparent 75%)}
+.card::after{content:"";position:absolute;inset:0;background:radial-gradient(360px circle at var(--mx,50%) var(--my,0%),oklch(1 0 0 / .08),transparent 60%);opacity:0;transition:opacity .25s;pointer-events:none}
+.card:hover{border-color:oklch(1 0 0 / .22);box-shadow:0 24px 60px -20px #000}
+.card:hover::after{opacity:1}
+.feat .card{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px 40px}
+.feat .card .col-r{display:flex;flex-direction:column;justify-content:center}
+@media(max-width:900px){.cards{grid-template-columns:1fr}.feat .card{display:flex}}
+.c-head{display:flex;gap:16px;align-items:center}
+.icon{flex:none;width:60px;height:60px;border-radius:14px;object-fit:cover;box-shadow:0 0 0 1px var(--border),0 10px 30px -8px var(--brand)}
+.mono-ic{display:grid;place-items:center;background:var(--brand);color:var(--on-accent);font:800 1.15rem var(--display)}
+.c-head h3{font-size:1.7rem;font-weight:750}
+.plat{font:.78rem var(--mono);color:var(--muted);margin-top:2px}
+.desc{color:var(--muted)}
+.desc b{color:var(--fg);font-weight:600}
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:999px;font:700 .72rem var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.b-ok{background:var(--ok-bg);color:var(--ok)}
+.b-warn{background:var(--warn-bg);color:var(--warn)}
+.b-info{background:var(--info-bg);color:var(--info)}
+.b-prep{background:var(--prep-bg);color:var(--prep)}
+.live::before{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.tl{list-style:none;padding:0 0 0 22px;position:relative;display:grid;gap:12px}
+.tl::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:2px;background:var(--border)}
+.tl li{position:relative;font-size:.94rem;color:var(--muted)}
+.tl li::before{content:"";position:absolute;left:-22px;top:.42em;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid oklch(1 0 0 / .35)}
+.tl li.done::before{background:var(--ok);border-color:var(--ok)}
+.tl li.now::before{background:var(--brand);border-color:var(--brand);box-shadow:0 0 0 4px color-mix(in oklab,var(--brand) 30%,transparent)}
+.tl li.now{color:var(--fg)}
+.tl b{color:var(--fg);font-weight:600}
+.tl code,.chip{font:.8rem var(--mono)}
+.tl code{background:var(--surface-2);color:var(--fg);padding:1px 7px;border-radius:6px}
+.stack{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:4px 11px;border:1px solid var(--border);border-radius:999px;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.links a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid oklch(1 0 0 / .22);font:600 .88rem var(--body);text-decoration:none;transition:background .2s,border-color .2s}
+.links a:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.links a::after{content:"↗";margin-left:8px;font-size:.9em;transition:transform .2s}
+.links a:hover::after{transform:translate(2px,-2px)}
+.soon{font-size:.88rem;color:var(--muted);min-height:44px;display:flex;align-items:center}
+.shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start}
+.shots img{width:100%;border-radius:12px;border:1px solid var(--border);background:var(--surface)}
+.shots-ph{display:grid;place-items:center;aspect-ratio:16/7;border:1px dashed oklch(1 0 0 / .22);border-radius:12px;color:var(--muted);font:.8rem var(--mono);text-align:center;padding:12px}
+
+/* constrói */
+.offer{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;list-style:none;padding:0;margin-bottom:40px}
+.offer li{padding:26px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);transition:transform .25s,border-color .25s}
+.offer li:hover{transform:translateY(-4px);border-color:oklch(1 0 0 / .25)}
+.offer .n{font:600 .8rem var(--mono);color:var(--muted);display:block;margin-bottom:18px}
+.offer h3{font-size:1.28rem;font-weight:700;margin-bottom:8px;letter-spacing:-.015em}
+.offer p{color:var(--muted);font-size:.96rem}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+
+/* guia */
+.guide{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px;align-items:center;padding:clamp(24px,5vw,56px);border:1px solid var(--border);border-radius:28px;background:linear-gradient(135deg,var(--surface-2),var(--surface))}
+.cover{perspective:1000px}
+.cover img{max-width:100%;max-height:520px;width:auto;margin-inline:auto;border-radius:10px;box-shadow:0 40px 80px -24px #000,0 0 0 1px var(--border);transform:rotateY(-12deg) rotateX(3deg);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.cover:hover img{transform:rotateY(0) rotateX(0) scale(1.02)}
+.guide h2{font-size:clamp(1.9rem,4.5vw,3rem);font-weight:750;margin-bottom:16px}
+.guide .price{display:flex;align-items:baseline;gap:14px;margin:22px 0 8px;flex-wrap:wrap}
+.price strong{font:800 3rem var(--display);letter-spacing:-.03em;line-height:1}
+.price span{color:var(--muted)}
+.perks{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin-bottom:28px}
+.perks li{padding:5px 13px;border-radius:999px;background:var(--ok-bg);color:var(--ok);font-size:.86rem;font-weight:600}
+@media(max-width:820px){.guide{grid-template-columns:1fr;gap:32px}.cover img{max-height:420px}}
+
+/* sobre */
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+.about h2{font-size:clamp(2rem,5vw,3.2rem);font-weight:750;margin-bottom:20px}
+.about p{color:var(--muted);font-size:1.08rem;margin-bottom:16px}
+.about p b{color:var(--fg);font-weight:600}
+.about a.more{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-weight:600;text-decoration:underline;text-underline-offset:5px;text-decoration-color:oklch(1 0 0 / .35);transition:text-decoration-color .2s,gap .2s}
+.about a.more:hover{text-decoration-color:var(--accent);gap:14px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{padding:24px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface)}
+.stat strong{display:block;font:800 clamp(2.2rem,6vw,3.2rem) var(--display);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{display:block;margin-top:10px;font-size:.9rem;color:var(--muted)}
+.sectors{grid-column:1/-1;margin-top:4px;padding:20px 24px;border:1px solid var(--border);border-radius:var(--r);font-size:.92rem;color:var(--muted)}
+.sectors b{color:var(--fg)}
+@media(max-width:820px){.about{grid-template-columns:1fr;gap:36px}}
+@media(max-width:420px){.stats{grid-template-columns:1fr}}
+
+/* rodapé */
+footer{padding:48px 0 56px;border-top:1px solid var(--border);background:var(--bg)}
+.foot{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
+.foot ul{display:flex;flex-wrap:wrap;gap:4px;list-style:none;padding:0}
+.foot ul a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;text-decoration:none;color:var(--muted);transition:background .2s,color .2s}
+.foot ul a:hover{background:var(--surface-2);color:var(--fg)}
+.foot small{display:block;color:var(--muted);margin-top:6px}
+
+/* reveal */
+.js .rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease-out,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js .rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .js .rv{opacity:1;transform:none}
+  .card{transform:none!important}
+  .cover img{transform:none}
+}
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="fallback" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="#topo" data-od-id="nav-brand">guike<span>.zip</span></a>
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#construo">Eu construo pra você</a></li>
+        <li><a href="#guia">Guia</a></li>
+        <li><a href="#quem-sou">Quem sou</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="topo">
+<section class="hero" data-od-id="hero">
+  <div class="wrap hero-wrap">
+    <div class="scrim"></div>
+    <div class="hero-inner">
+      <div class="id rv">
+        <img src="assets/guilherme.jpg" width="64" height="64" alt="Foto de Guilherme Santos">
+        <span>@guike.zip · Curitiba/PR</span>
+      </div>
+      <h1 class="rv" style="--d:.08s" data-od-id="hero-title">Guilherme Santos</h1>
+      <p class="lead rv" style="--d:.16s">Crio apps e sites para empresas e empreendedores — do desenho à publicação nas lojas. Engenheiro de software há <b>+7 anos</b>.</p>
+      <div class="rv" style="--d:.24s">
+        <a class="btn btn-primary" href="https://ig.me/m/guike.zip" target="_blank" rel="noopener" data-od-id="hero-cta">Falar comigo no Instagram <span class="ar" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projetos" class="solid" data-od-id="projects">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="eyebrow">Projetos</p>
+      <h2>Meus projetos — status de andamento</h2>
+      <p>Cinco produtos em estágios diferentes, do que já está nas lojas ao que ainda está sendo preparado.</p>
+    </div>
+
+    <ul class="cards">
+      <li class="feat rv">
+        <article class="card" style="--brand:#6b9bd1" data-od-id="project-iaura">
+          <div>
+            <div class="c-head">
+              <img class="icon" src="assets/apps/iaura-icon.png" width="60" height="60" alt="Ícone do app IAURA" loading="lazy">
+              <div><h3>IAURA</h3><p class="plat">iOS · Android · Web</p></div>
+            </div>
+            <div style="height:18px"></div>
+            <p class="desc" style="margin-bottom:16px">Diretório de psicólogos. <b>Projeto principal.</b> Pagamento dos profissionais com Pix, cartão, Apple Pay e Google Pay.</p>
+            <div class="badges" style="margin-bottom:20px"><span class="badge b-ok live">Em produção</span></div>
+            <ol class="tl" style="margin-bottom:20px">
+              <li class="done"><b>Android</b> <code>6.15.0</code> em produção</li>
+              <li class="now"><b>iOS</b> <code>5.10.0</code> em revisão na Apple</li>
+            </ol>
+            <div class="stack" style="margin-bottom:20px"><span class="chip">Kotlin</span><span class="chip">SwiftUI</span><span class="chip">Go</span><span class="chip">Next.js</span></div>
+            <div class="links">
+              <a href="https://apps.apple.com/br/app/iaura/id6749513100" target="_blank" rel="noopener">App Store</a>
+              <a href="https://play.google.com/store/apps/details?id=com.iaura.app" target="_blank" rel="noopener">Google Play</a>
+              <a href="https://www.iaura.com.br" target="_blank" rel="noopener">iaura.com.br</a>
+            </div>
+          </div>
+          <div class="col-r">
+            <div class="shots">
+              <img src="assets/apps/iaura-1.jpg" alt="Tela do app IAURA" loading="lazy" onerror="this.remove()">
+              <img src="assets/apps/iaura-2.jpg" alt="Segunda tela do app IAURA" loading="lazy" onerror="this.remove()">
+              <img src="assets/apps/iaura-3.jpg" alt="Terceira tela do app IAURA" loading="lazy" onerror="this.remove()">
+            </div>
+          </div>
+        </article>
+      </li>
+
+      <li class="rv" style="--d:.05s">
+        <article class="card" style="--brand:#f58220" data-od-id="project-movase">
+          <div class="c-head">
+            <img class="icon" src="assets/apps/movase-icon.png" width="60" height="60" alt="Ícone do app Movase" loading="lazy">
+            <div><h3>Movase</h3><p class="plat">iOS · Android · Web</p></div>
+          </div>
+          <p class="desc">Encontre academias e parceiros de treino.</p>
+          <div class="badges"><span class="badge b-ok live">Em produção</span><span class="badge b-info">Em manutenção</span></div>
+          <ol class="tl">
+            <li class="done"><b>iOS</b> <code>2.1.2</code> publicado</li>
+            <li class="done"><b>Android</b> <code>2.2.30</code> publicado</li>
+            <li class="done">Diretório de academias no ar no site</li>
+          </ol>
+          <div class="stack"><span class="chip">Next.js</span><span class="chip">Supabase</span><span class="chip">Stripe</span></div>
+          <div class="shots">
+            <img src="assets/apps/movase-1.jpg" alt="Tela do app Movase" loading="lazy" onerror="this.remove()">
+            <img src="assets/apps/movase-2.jpg" alt="Segunda tela do app Movase" loading="lazy" onerror="this.remove()">
+            <img src="assets/apps/movase-3.jpg" alt="Terceira tela do app Movase" loading="lazy" onerror="this.remove()">
+          </div>
+          <div class="links">
+            <a href="https://apps.apple.com/br/app/movase/id6799579336" target="_blank" rel="noopener">App Store</a>
+            <a href="https://play.google.com/store/apps/details?id=fit.movase.app" target="_blank" rel="noopener">Google Play</a>
+            <a href="https://movase.fit" target="_blank" rel="noopener">movase.fit</a>
+          </div>
+        </article>
+      </li>
+
+      <li class="rv" style="--d:.1s">
+        <article class="card" style="--brand:#4ade80" data-od-id="project-blindado">
+          <div class="c-head">
+            <img class="icon" src="assets/apps/blindado-icon.png" width="60" height="60" alt="Ícone do app Blindado" loading="lazy">
+            <div><h3>Blindado</h3><p class="plat">iOS · macOS · Android</p></div>
+          </div>
+          <p class="desc">DNS criptografado e bloqueador de conteúdo. <b>Pagamento único, zero coleta de dados.</b></p>
+          <div class="badges"><span class="badge b-info">Na loja</span><span class="badge b-warn">Beta</span></div>
+          <ol class="tl">
+            <li class="done"><b>Mac</b> na Mac App Store</li>
+            <li class="now"><b>iPhone</b> em beta via TestFlight</li>
+            <li class="now"><b>Android</b> em teste fechado <code>2.0.8</code></li>
+          </ol>
+          <div class="stack"><span class="chip">Swift</span><span class="chip">SwiftUI</span><span class="chip">Kotlin</span></div>
+          <div class="shots">
+            <img src="assets/apps/blindado-1.jpg" alt="Tela do app Blindado" loading="lazy" onerror="this.remove()">
+            <img src="assets/apps/blindado-2.jpg" alt="Segunda tela do app Blindado" loading="lazy" onerror="this.remove()">
+            <img src="assets/apps/blindado-3.jpg" alt="Terceira tela do app Blindado" loading="lazy" onerror="this.remove()">
+          </div>
+          <div class="links">
+            <a href="https://apps.apple.com/br/app/blindado/id6814943917?mt=12" target="_blank" rel="noopener">Mac App Store</a>
+            <a href="https://testflight.apple.com/join/Evt1DGrb" target="_blank" rel="noopener">Beta iPhone</a>
+            <a href="https://guike-zip.github.io/blindado/" target="_blank" rel="noopener">Site</a>
+          </div>
+        </article>
+      </li>
+
+      <li class="rv" style="--d:.05s">
+        <article class="card" style="--brand:#E5A9B4" data-od-id="project-lashflow">
+          <div class="c-head">
+            <img class="icon" src="assets/apps/lashflow-icon.png" width="60" height="60" alt="Ícone do app LashFlow" loading="lazy">
+            <div><h3>LashFlow</h3><p class="plat">iPhone · Android</p></div>
+          </div>
+          <p class="desc">Agenda, anamnese digital e histórico para lash designers.</p>
+          <div class="badges"><span class="badge b-warn">Beta grátis</span></div>
+          <ol class="tl">
+            <li class="done">Site novo no ar</li>
+            <li class="now"><b>iPhone</b> no TestFlight</li>
+            <li><b>Android</b> em breve</li>
+            <li>Planos via Stripe em preparação</li>
+          </ol>
+          <div class="shots">
+            <img src="assets/apps/lashflow-1.webp" alt="Tela do app LashFlow" loading="lazy" onerror="this.remove()">
+            <img src="assets/apps/lashflow-2.webp" alt="Segunda tela do app LashFlow" loading="lazy" onerror="this.remove()">
+            <img src="assets/apps/lashflow-3.webp" alt="Terceira tela do app LashFlow" loading="lazy" onerror="this.remove()">
+          </div>
+          <div class="links">
+            <a href="https://testflight.apple.com/join/G9wFGhkK" target="_blank" rel="noopener">Beta iPhone</a>
+            <a href="https://lashflow.com.br" target="_blank" rel="noopener">lashflow.com.br</a>
+          </div>
+        </article>
+      </li>
+
+      <li class="rv" style="--d:.1s">
+        <article class="card" style="--brand:#2fae8f" data-od-id="project-estacione-facil">
+          <div class="c-head">
+            <div class="icon mono-ic" aria-hidden="true">EF</div>
+            <div><h3>Estacione Fácil</h3><p class="plat">iOS · Android</p></div>
+          </div>
+          <p class="desc">Marketplace de vagas de estacionamento por hora, dia ou mês, com Pix, cartão e carteiras.</p>
+          <div class="badges"><span class="badge b-prep">Em preparação para as lojas</span></div>
+          <ol class="tl">
+            <li class="now"><b>Versão 1.0</b> · iOS build <code>3</code></li>
+            <li class="now"><b>Android</b> em teste interno na Google Play</li>
+            <li>Publicação nas lojas</li>
+          </ol>
+          <div class="stack"><span class="chip">Swift</span><span class="chip">Kotlin</span><span class="chip">Supabase</span><span class="chip">Stripe</span></div>
+          <div class="shots-ph">Prints em breve</div>
+          <p class="soon">Sem link público ainda.</p>
+        </article>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="construo" data-od-id="services">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="eyebrow">Trabalhe comigo</p>
+      <h2>Eu construo pra você</h2>
+      <p>Do primeiro rascunho ao app na loja, com uma pessoa só conduzindo o projeto de ponta a ponta.</p>
+    </div>
+    <ul class="offer">
+      <li class="rv"><span class="n">01</span><h3>App iOS e Android</h3><p>Do zero às lojas.</p></li>
+      <li class="rv" style="--d:.06s"><span class="n">02</span><h3>Site ou PWA</h3><p>Para apresentar, vender ou operar o seu negócio.</p></li>
+      <li class="rv" style="--d:.12s"><span class="n">03</span><h3>Conversa inicial de 30 min</h3><p>Sem custo, para entender o que você precisa.</p></li>
+      <li class="rv" style="--d:.18s"><span class="n">04</span><h3>Proposta fechada</h3><p>Escopo, prazo e preço definidos antes de começar.</p></li>
+      <li class="rv" style="--d:.24s"><span class="n">05</span><h3>Publicação e suporte</h3><p>Publicação nas lojas e suporte pós-lançamento.</p></li>
+    </ul>
+    <div class="cta-row rv">
+      <a class="btn btn-primary" href="https://ig.me/m/guike.zip" target="_blank" rel="noopener" data-od-id="services-cta-instagram">Instagram DM <span class="ar" aria-hidden="true">→</span></a>
+      <a class="btn btn-ghost" href="mailto:guilherme.avieiras@gmail.com" data-od-id="services-cta-email">guilherme.avieiras@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+<section id="guia" class="solid" data-od-id="guide">
+  <div class="wrap">
+    <div class="guide rv">
+      <div class="cover"><img src="assets/guia-do-zero-ao-app-publicado.png" alt="Capa do guia em PDF Do Zero ao App Publicado" loading="lazy"></div>
+      <div>
+        <p class="eyebrow">Guia em PDF</p>
+        <h2>Do Zero ao App Publicado</h2>
+        <div class="price"><strong>R$ 27</strong><span>entrega imediata</span></div>
+        <ul class="perks"><li>Entrega imediata</li><li>Garantia de 7 dias</li></ul>
+        <a class="btn btn-primary" href="https://pay.hotmart.com/S107766721V" target="_blank" rel="noopener" data-od-id="guide-cta">Quero o guia <span class="ar" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="quem-sou" data-od-id="about">
+  <div class="wrap about">
+    <div class="rv">
+      <p class="eyebrow">Quem sou</p>
+      <h2>Produto digital, do código à loja</h2>
+      <p><b>+7 anos</b> em produtos digitais. Fui a referência técnica de um super app com <b>1,8 milhão de usuários ativos por mês</b>.</p>
+      <p>Já entreguei apps em 6 setores, com <b>Flutter, Swift, Kotlin e IA</b> no dia a dia.</p>
+      <a class="more" href="curriculo/">trajetória completa <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="stats">
+      <div class="stat rv"><strong data-count="7" data-prefix="+">+7</strong><span>anos em produtos digitais</span></div>
+      <div class="stat rv" style="--d:.06s"><strong data-count="1.8" data-dec="1" data-suffix=" mi">1,8 mi</strong><span>usuários ativos por mês no super app</span></div>
+      <div class="stat rv" style="--d:.12s"><strong data-count="6">6</strong><span>setores atendidos</span></div>
+      <div class="stat rv" style="--d:.18s"><strong data-count="5">5</strong><span>projetos em andamento</span></div>
+      <p class="sectors rv" style="--d:.24s"><b>Setores:</b> seguros, energia, educação, saúde, e-commerce e recrutamento.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer data-od-id="footer">
+  <div class="wrap foot">
+    <div><a class="brand" href="#topo">guike<span>.zip</span></a><small>Guilherme Santos · Curitiba/PR</small></div>
+    <nav aria-label="Contato">
+      <ul>
+        <li><a href="https://instagram.com/guike.zip" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="mailto:guilherme.avieiras@gmail.com">E-mail</a></li>
+        <li><a href="https://www.linkedin.com/in/guilherme-av-santos/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/guike-zip" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* reveal */
+  var rv = [].slice.call(document.querySelectorAll('.rv'));
+  if (!('IntersectionObserver' in window) || reduce) {
+    rv.forEach(function (e) { e.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+    rv.forEach(function (e) { io.observe(e); });
+  }
+
+  /* contadores */
+  var fmt = function (el, v) {
+    var d = +el.dataset.dec || 0;
+    el.textContent = (el.dataset.prefix || '') + v.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }) + (el.dataset.suffix || '');
+  };
+  var counters = [].slice.call(document.querySelectorAll('[data-count]'));
+  if ('IntersectionObserver' in window && !reduce) {
+    var co = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        co.unobserve(e.target);
+        var el = e.target, end = +el.dataset.count, t0 = performance.now(), dur = 1400;
+        (function step(t) {
+          var p = Math.min((t - t0) / dur, 1), k = 1 - Math.pow(1 - p, 3);
+          fmt(el, end * k);
+          if (p < 1) requestAnimationFrame(step); else fmt(el, end);
+        })(t0);
+      });
+    }, { threshold: .6 });
+    counters.forEach(function (c) { fmt(c, 0); co.observe(c); });
+  }
+
+  /* tilt 3D nos cartões */
+  if (!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    [].forEach.call(document.querySelectorAll('.card'), function (c) {
+      c.addEventListener('pointermove', function (e) {
+        var r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        c.style.setProperty('--ry', ((x - .5) * 7).toFixed(2) + 'deg');
+        c.style.setProperty('--rx', ((.5 - y) * 7).toFixed(2) + 'deg');
+        c.style.setProperty('--mx', (x * 100) + '%');
+        c.style.setProperty('--my', (y * 100) + '%');
+      });
+      c.addEventListener('pointerleave', function () {
+        c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg');
+      });
+    });
+  }
+
+  /* cena 3D: órbita de projetos */
+  function loadThree(cb) {
+    var s = document.createElement('script');
+    s.src = 'assets/vendor/three.min.js';
+    s.async = true; s.onload = cb; s.onerror = function () {};
+    document.head.appendChild(s);
+  }
+
+  function scene() {
+    var T = window.THREE, canvas = document.getElementById('gl'), renderer;
+    if (!T) return;
+    var small = Math.min(innerWidth, innerHeight) < 700;
+    try {
+      renderer = new T.WebGLRenderer({ canvas: canvas, antialias: !small, alpha: true, powerPreference: 'high-performance' });
+    } catch (e) { return; }
+    if (!renderer.getContext()) return;
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, small ? 1.5 : 2));
+
+    var sc = new T.Scene(), cam = new T.PerspectiveCamera(45, 1, .1, 100);
+    cam.position.set(0, 0, 10);
+    sc.add(new T.AmbientLight(0xffffff, .9));
+    var dl = new T.DirectionalLight(0xffffff, 1.6); dl.position.set(3, 4, 6); sc.add(dl);
+
+    var world = new T.Group(); sc.add(world);
+
+    /* núcleo */
+    var core = new T.Mesh(new T.IcosahedronGeometry(.75, 1), new T.MeshBasicMaterial({ color: 0x5eead4, wireframe: true, transparent: true, opacity: .55 }));
+    world.add(core);
+    world.add(new T.Mesh(new T.SphereGeometry(.45, 24, 24), new T.MeshBasicMaterial({ color: 0x0b1020 })));
+    var gc = document.createElement('canvas'); gc.width = gc.height = 128;
+    var g = gc.getContext('2d'), gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    gr.addColorStop(0, 'rgba(94,234,212,.55)'); gr.addColorStop(1, 'rgba(94,234,212,0)');
+    g.fillStyle = gr; g.fillRect(0, 0, 128, 128);
+    var glow = new T.Sprite(new T.SpriteMaterial({ map: new T.CanvasTexture(gc), transparent: true, depthWrite: false, blending: T.AdditiveBlending }));
+    glow.scale.setScalar(4.4); world.add(glow);
+
+    /* estrelas */
+    var N = small ? 160 : 420, pos = new Float32Array(N * 3);
+    for (var i = 0; i < N; i++) {
+      var r = 9 + Math.random() * 18, a = Math.random() * 6.283, b = Math.acos(2 * Math.random() - 1);
+      pos[i * 3] = r * Math.sin(b) * Math.cos(a); pos[i * 3 + 1] = r * Math.cos(b); pos[i * 3 + 2] = r * Math.sin(b) * Math.sin(a);
+    }
+    var sg = new T.BufferGeometry(); sg.setAttribute('position', new T.BufferAttribute(pos, 3));
+    var stars = new T.Points(sg, new T.PointsMaterial({ color: 0xcbd5e1, size: .05, transparent: true, opacity: .7 }));
+    sc.add(stars);
+
+    /* projetos em órbita */
+    var projects = [
+      { c: '#6b9bd1', r: 2.5, tilt: [.35, 0, .2], sp: .28, ph: 0 },
+      { c: '#f58220', r: 3.2, tilt: [-.5, 0, -.15], sp: -.22, ph: 1.4 },
+      { c: '#4ade80', r: 3.9, tilt: [.9, 0, .3], sp: .18, ph: 2.9 },
+      { c: '#E5A9B4', r: 4.5, tilt: [-.25, 0, .5], sp: -.15, ph: 4.2 },
+      { c: '#2fae8f', r: 5.1, tilt: [.6, 0, -.4], sp: .12, ph: 5.4 }
+    ];
+    function screenTex(col) {
+      var c = document.createElement('canvas'); c.width = 96; c.height = 192;
+      var x = c.getContext('2d'), gg = x.createLinearGradient(0, 0, 0, 192);
+      gg.addColorStop(0, col); gg.addColorStop(1, '#0b1020');
+      x.fillStyle = gg; x.fillRect(0, 0, 96, 192);
+      x.fillStyle = 'rgba(255,255,255,.9)'; x.beginPath(); x.arc(22, 26, 10, 0, 6.283); x.fill();
+      x.fillRect(38, 20, 38, 5); x.fillStyle = 'rgba(255,255,255,.4)'; x.fillRect(38, 30, 26, 4);
+      x.fillStyle = 'rgba(255,255,255,.22)';
+      for (var k = 0; k < 4; k++) x.fillRect(10, 56 + k * 30, 76, 22);
+      return new T.CanvasTexture(c);
+    }
+    var bodyGeo = new T.BoxGeometry(.62, 1.2, .08), scrGeo = new T.PlaneGeometry(.55, 1.12);
+    projects.forEach(function (p) {
+      var col = new T.Color(p.c), ph = new T.Group();
+      ph.add(new T.Mesh(bodyGeo, new T.MeshStandardMaterial({ color: 0x151b2b, metalness: .7, roughness: .35, emissive: col, emissiveIntensity: .12 })));
+      var s = new T.Mesh(scrGeo, new T.MeshBasicMaterial({ map: screenTex(p.c) })); s.position.z = .045; ph.add(s);
+      var s2 = new T.Mesh(scrGeo, new T.MeshBasicMaterial({ color: col })); s2.position.z = -.045; s2.rotation.y = Math.PI; ph.add(s2);
+      ph.scale.setScalar(1.15);
+      p.m = ph; p.e = new T.Euler(p.tilt[0], p.tilt[1], p.tilt[2]);
+      world.add(ph);
+      var pts = []; for (var j = 0; j <= 96; j++) { var q = j / 96 * 6.283; pts.push(new T.Vector3(Math.cos(q) * p.r, 0, Math.sin(q) * p.r).applyEuler(p.e)); }
+      world.add(new T.Line(new T.BufferGeometry().setFromPoints(pts), new T.LineBasicMaterial({ color: col, transparent: true, opacity: .22 })));
+    });
+
+    /* estado */
+    var mx = 0, my = 0, tx = 0, ty = 0, sy = 0, t = 0, last = performance.now(), run = false, vis = true, v = new T.Vector3();
+    function layout() {
+      var w = innerWidth, h = innerHeight; small = Math.min(w, h) < 700;
+      renderer.setSize(w, h, false); cam.aspect = w / h;
+      if (w / h < .85) { world.position.set(0, 1.7, 0); world.scale.setScalar(.62); cam.position.z = 10; }
+      else { world.position.set(Math.min(3.2, w / 380), 0, 0); world.scale.setScalar(Math.min(1, w / 1200 + .35)); cam.position.z = 10; }
+      cam.updateProjectionMatrix();
+    }
+    function frame(now) {
+      var dt = Math.min((now - last) / 1000, .05); last = now;
+      if (!reduce) t += dt;
+      mx += (tx - mx) * .06; my += (ty - my) * .06;
+      var p = Math.min(sy / innerHeight, 1.3);
+      world.rotation.y = t * .06 + mx * .35 + p * 1.1;
+      world.rotation.x = my * .22 + p * .25;
+      core.rotation.y = t * .3; core.rotation.x = t * .18;
+      stars.rotation.y = t * .01 + p * .2;
+      cam.position.y = -p * 1.2;
+      projects.forEach(function (o) {
+        var a = o.ph + t * o.sp * 2;
+        v.set(Math.cos(a) * o.r, 0, Math.sin(a) * o.r).applyEuler(o.e);
+        o.m.position.copy(v);
+        o.m.rotation.set(my * .2 - world.rotation.x, Math.sin(t * .7 + o.ph) * .35 - world.rotation.y + mx * .3, Math.sin(t * .5 + o.ph) * .08);
+        o.m.position.y += Math.sin(t * 1.1 + o.ph) * .12;
+      });
+      renderer.render(sc, cam);
+    }
+    function loop(now) { if (!run) return; frame(now); requestAnimationFrame(loop); }
+    function start() { if (run || reduce) return; run = true; last = performance.now(); requestAnimationFrame(loop); }
+    function stop() { run = false; }
+    function check() {
+      var past = sy > innerHeight * 1.15;
+      root.classList.toggle('past', past);
+      var should = !past && !document.hidden;
+      if (should) start(); else stop();
+    }
+
+    layout(); frame(performance.now());
+    root.classList.add('gl');
+    if (!reduce) {
+      addEventListener('pointermove', function (e) { tx = e.clientX / innerWidth * 2 - 1; ty = e.clientY / innerHeight * 2 - 1; }, { passive: true });
+    }
+    addEventListener('scroll', function () { sy = scrollY; check(); if (reduce && !root.classList.contains('past')) frame(performance.now()); }, { passive: true });
+    document.addEventListener('visibilitychange', check);
+    var rt, lw = innerWidth, lh = innerHeight;
+    addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { if (innerWidth !== lw || Math.abs(innerHeight - lh) > 140) { lw = innerWidth; lh = innerHeight; layout(); frame(performance.now()); } }, 150);
+    });
+    canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); stop(); root.classList.remove('gl'); });
+    check();
+  }
+
+  /* carrega three.js depois do primeiro desenho, para não pesar no LCP */
+  var go = function () { loadThree(scene); };
+  if ('requestIdleCallback' in window) requestIdleCallback(go, { timeout: 1500 }); else setTimeout(go, 300);
 })();
 </script>
 </body>
