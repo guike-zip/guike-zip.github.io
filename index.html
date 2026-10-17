@@ -165,6 +165,50 @@ section{padding:96px 0;position:relative}
 .shots img{width:100%;border-radius:12px;border:1px solid var(--border);background:var(--surface)}
 .shots-ph{display:grid;place-items:center;aspect-ratio:16/7;border:1px dashed oklch(1 0 0 / .22);border-radius:12px;color:var(--muted);font:.8rem var(--mono);text-align:center;padding:12px}
 
+/* beta */
+.beta-wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:start}
+@media(max-width:900px){.beta-wrap{grid-template-columns:1fr;gap:32px}}
+.beta-intro p{color:var(--muted);margin-bottom:14px}
+.beta-intro .priv{font-size:.86rem;border-left:2px solid var(--border);padding-left:14px}
+.beta-card{padding:28px;background:linear-gradient(160deg,var(--surface-2),var(--surface) 55%);border:1px solid var(--border);border-radius:var(--r)}
+.bf-field{display:grid;gap:8px;margin-bottom:22px;border:0;padding:0;min-width:0}
+.bf-field>label,.bf-field>legend{font:600 .95rem var(--body);padding:0}
+.bf-all{justify-self:start;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid oklch(1 0 0 / .22);background:transparent;color:var(--fg);font:600 .88rem var(--body);cursor:pointer}
+.bf-all:hover{background:var(--surface-2)}
+.bf-hint{font-size:.84rem;color:var(--muted)}
+.bf-apps{display:grid;gap:10px}
+.bf-app{display:flex;gap:14px;align-items:center;min-height:56px;padding:10px 14px;border:1px solid var(--border);border-radius:14px;cursor:pointer;background:var(--surface);transition:border-color .2s,background .2s}
+.bf-app:hover{border-color:oklch(1 0 0 / .3)}
+.bf-app:has(input:checked){border-color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,var(--surface))}
+.bf-app:has(input:disabled){opacity:.55;cursor:not-allowed}
+.bf-app input{width:22px;height:22px;accent-color:var(--accent);flex:none}
+.bf-app img{width:36px;height:36px;border-radius:9px;flex:none}
+.bf-app b{display:block;font-weight:650}
+.bf-app small{color:var(--muted);font-size:.82rem}
+.bf-row{display:flex;gap:10px;flex-wrap:wrap}
+.bf-choice{display:inline-flex;gap:10px;align-items:center;min-height:48px;padding:0 18px;border:1px solid var(--border);border-radius:999px;cursor:pointer;background:var(--surface)}
+.bf-choice:has(input:checked){border-color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,var(--surface))}
+.bf-choice input{accent-color:var(--accent);width:18px;height:18px}
+.bf-input{width:100%;min-height:52px;padding:0 16px;font:1rem var(--body);color:var(--fg);background:var(--surface);border:1px solid oklch(1 0 0 / .22);border-radius:14px}
+.bf-input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.bf-consent{display:flex;gap:12px;align-items:flex-start;margin-bottom:22px;font-size:.92rem;color:var(--muted)}
+.bf-consent input{width:22px;height:22px;margin-top:2px;accent-color:var(--accent);flex:none}
+.bf-consent a{color:var(--accent)}
+.bf-err{color:oklch(0.8 0.15 25);font-size:.86rem}
+[aria-invalid="true"]{border-color:oklch(0.8 0.15 25)!important}
+.bf-trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.bf-status{margin-top:18px}
+.bf-status:focus{outline:none}
+.bf-ok{padding:20px;border:1px solid var(--ok);border-radius:14px;background:var(--ok-bg)}
+.bf-ok h3{font-size:1.3rem;margin-bottom:10px}
+.bf-ok ul{list-style:none;padding:0;display:grid;gap:14px;margin-top:12px}
+.bf-ok li span{display:block;color:var(--muted);font-size:.92rem;margin-bottom:6px}
+.bf-info{color:var(--muted)}
+.bf-fail{padding:14px 16px;border:1px solid oklch(0.8 0.15 25);border-radius:14px}
+.bf-direct{margin-top:14px;font-size:.86rem;color:var(--muted)}
+.bf-direct a{color:var(--accent)}
+.btn:disabled{opacity:.6;cursor:wait;transform:none;box-shadow:none}
+
 /* constrói */
 .offer{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;list-style:none;padding:0;margin-bottom:40px}
 .offer li{padding:26px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);transition:transform .25s,border-color .25s}
@@ -234,6 +278,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--border);background:var(--b
     <nav aria-label="Principal">
       <ul>
         <li><a href="#projetos">Projetos</a></li>
+        <li id="nav-beta" hidden><a href="#beta">Beta</a></li>
         <li><a href="#construo">Eu construo pra você</a></li>
         <li><a href="#guia">Guia</a></li>
         <li><a href="#quem-sou">Quem sou</a></li>
@@ -348,7 +393,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--border);background:var(--b
           </div>
           <div class="links">
             <a href="https://apps.apple.com/br/app/blindado/id6814943917?mt=12" target="_blank" rel="noopener">Mac App Store</a>
-            <a href="https://testflight.apple.com/join/Evt1DGrb" target="_blank" rel="noopener">Beta iPhone</a>
+            <a href="https://testflight.apple.com/join/Evt1DGrb" target="_blank" rel="noopener" data-beta-app="blindado">Beta iPhone</a>
             <a href="https://guike-zip.github.io/blindado/" target="_blank" rel="noopener">Site</a>
           </div>
         </article>
@@ -374,7 +419,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--border);background:var(--b
             <img src="assets/apps/lashflow-3.webp?v=20261017" alt="Terceira tela do app LashFlow" loading="lazy" onerror="this.remove()">
           </div>
           <div class="links">
-            <a href="https://testflight.apple.com/join/G9wFGhkK" target="_blank" rel="noopener">Beta iPhone</a>
+            <a href="https://testflight.apple.com/join/G9wFGhkK" target="_blank" rel="noopener" data-beta-app="lashflow">Beta iPhone</a>
             <a href="https://lashflow.com.br" target="_blank" rel="noopener">lashflow.com.br</a>
           </div>
         </article>
@@ -399,10 +444,55 @@ footer{padding:48px 0 56px;border-top:1px solid var(--border);background:var(--b
             <img src="assets/apps/estacione-2.jpg?v=20261017" alt="Tela de uma vaga no Estacione Fácil" loading="lazy" onerror="this.remove()">
             <img src="assets/apps/estacione-3.jpg?v=20261017" alt="Reserva confirmada com QR de acesso" loading="lazy" onerror="this.remove()">
           </div>
-          <p class="soon">Sem link público ainda.</p>
+          <div class="links"><a href="#beta" data-beta-app="estacione" data-beta-only hidden>Entrar no beta</a></div>
+          <p class="soon" data-beta-hide>Sem link público ainda.</p>
         </article>
       </li>
     </ul>
+  </div>
+</section>
+
+<section id="beta" class="solid" data-od-id="beta" hidden>
+  <div class="wrap beta-wrap">
+    <div class="beta-intro rv">
+      <p class="eyebrow">Beta</p>
+      <h2 style="font-size:clamp(2rem,5.5vw,3.4rem);font-weight:750;margin-bottom:14px">Teste um app antes de todo mundo</h2>
+      <p>Escolha o projeto que quer testar (pode marcar mais de um), diga o aparelho e o e-mail. O convite chega para você, sem conversa e sem cadastro no app.</p>
+      <p class="priv"><b>Seus dados:</b> guardo só app, aparelho, e-mail e data, só para mandar o convite. Apago <span id="bf-days">90</span> dias depois do fim do beta daquele app. Para pedir exclusão, escreva para <a id="bf-mail" href="mailto:guilherme.avieiras@gmail.com" style="color:var(--accent)">guilherme.avieiras@gmail.com</a>.</p>
+    </div>
+    <div class="beta-card rv" style="--d:.08s">
+      <form id="bf" novalidate>
+        <fieldset class="bf-field" aria-describedby="bf-apps-err">
+          <legend>Qual projeto você quer testar?</legend>
+          <div class="bf-apps" id="bf-apps"></div>
+          <button class="bf-all" type="button" id="bf-all">Marcar todos</button>
+          <p class="bf-err" id="bf-apps-err" hidden></p>
+        </fieldset>
+        <fieldset class="bf-field" aria-describedby="bf-plat-err">
+          <legend>Seu aparelho</legend>
+          <div class="bf-row">
+            <label class="bf-choice"><input type="radio" name="plat" value="iphone"> iPhone</label>
+            <label class="bf-choice"><input type="radio" name="plat" value="android"> Android</label>
+          </div>
+          <p class="bf-err" id="bf-plat-err" hidden></p>
+        </fieldset>
+        <div class="bf-field">
+          <label for="bf-email" id="bf-email-l">Seu e-mail</label>
+          <input class="bf-input" id="bf-email" name="email" type="email" inputmode="email" autocomplete="email" required aria-describedby="bf-email-h bf-email-err">
+          <p class="bf-hint" id="bf-email-h">No Android, use o e-mail da conta Google que você usa na Google Play.</p>
+          <p class="bf-err" id="bf-email-err" hidden></p>
+        </div>
+        <div class="bf-trap" aria-hidden="true"><label>Não preencha <input type="text" name="site" tabindex="-1" autocomplete="off"></label></div>
+        <div class="bf-consent">
+          <input id="bf-consent" type="checkbox" required aria-describedby="bf-consent-err">
+          <label for="bf-consent">Concordo em receber o convite do beta neste e-mail e que ele fique guardado como descrito em "Seus dados".</label>
+        </div>
+        <p class="bf-err" id="bf-consent-err" hidden style="margin:-14px 0 18px"></p>
+        <button class="btn btn-primary" type="submit" id="bf-submit">Quero entrar no beta <span class="ar" aria-hidden="true">→</span></button>
+      </form>
+      <div class="bf-status" id="bf-status" role="status" tabindex="-1"></div>
+      <p class="bf-direct">Se o envio não funcionar, <a id="bf-view" href="#">preencha direto no Google Forms</a>.</p>
+    </div>
   </div>
 </section>
 
@@ -666,6 +756,163 @@ footer{padding:48px 0 56px;border-top:1px solid var(--border);background:var(--b
   /* carrega three.js depois do primeiro desenho, para não pesar no LCP */
   var go = function () { loadThree(scene); };
   if ('requestIdleCallback' in window) requestIdleCallback(go, { timeout: 1500 }); else setTimeout(go, 300);
+})();
+</script>
+<script>
+/* Formulário único de beta (spec 001). Config num lugar só; sem valor obrigatório, a seção não aparece. */
+(function () {
+  var REAL = {
+    betaOpen: true,
+    formResponseUrl: "https://docs.google.com/forms/d/e/1FAIpQLSePt0xdT0wyxOhGY2GTjMpveQ3Dgxq9c2x-7cnaR40DhWN44g/formResponse",
+    formViewUrl: "https://docs.google.com/forms/d/e/1FAIpQLSePt0xdT0wyxOhGY2GTjMpveQ3Dgxq9c2x-7cnaR40DhWN44g/viewform",
+    entries: { email: "emailAddress", app: "entry.763509101", platform: "entry.1961710880", consent: "entry.1750147069" },
+    consentValue: "Concordo",
+    privacyEmail: "guilherme.avieiras@gmail.com",
+    retentionDays: 90
+  };
+  var TEST = {
+    betaOpen: true,
+    formResponseUrl: "https://docs.google.com/forms/d/e/TESTE/formResponse",
+    formViewUrl: "https://docs.google.com/forms/d/e/TESTE/viewform",
+    entries: { email: "emailAddress", app: "entry.1", platform: "entry.2", consent: "entry.3" },
+    consentValue: "Concordo", privacyEmail: "guilherme.avieiras@gmail.com", retentionDays: 90
+  };
+  var APPS = [
+    { id: "blindado", name: "Blindado", icon: "assets/apps/blindado-icon.png", open: true, platforms: ["iphone", "android"],
+      testflight: "https://testflight.apple.com/join/Evt1DGrb", note: "iPhone, iPad, Mac e Android" },
+    { id: "lashflow", name: "LashFlow", icon: "assets/apps/lashflow-icon.png", open: true, platforms: ["iphone"],
+      testflight: "https://testflight.apple.com/join/G9wFGhkK", note: "iPhone (Android em breve)" },
+    { id: "estacione", name: "Estacione Fácil", icon: "assets/apps/estacione-icon.png", open: true, platforms: ["iphone", "android"],
+      testflight: null, note: "iPhone e Android" },
+    { id: "movase", name: "Movase", icon: "assets/apps/movase-icon.png", open: false, platforms: [], note: "já está nas lojas" },
+    { id: "iaura", name: "IAURA", icon: "assets/apps/iaura-icon.png", open: false, platforms: [], note: "já está nas lojas" }
+  ];
+  var PLAT = { iphone: "iPhone", android: "Android" };
+
+  var q = new URLSearchParams(location.search);
+  var local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+  var testMode = local && q.get("betatest") === "1";   /* nunca vale em produção */
+  var C = testMode ? TEST : REAL;
+
+  function missing(c) {
+    var m = [];
+    if (!c.formResponseUrl) m.push("formResponseUrl");
+    if (!c.formViewUrl) m.push("formViewUrl");
+    ["email", "app", "platform", "consent"].forEach(function (k) { if (!c.entries[k]) m.push("entries." + k); });
+    if (!c.consentValue) m.push("consentValue");
+    return m;
+  }
+  var miss = missing(C);
+  var active = C.betaOpen && miss.length === 0;
+  if (C.betaOpen && miss.length) console.warn("[beta] formulário desligado, falta: " + miss.join(", "));
+  window.__betaSent = [];
+  if (!active) return;   /* cartões mantêm os links diretos de hoje */
+
+  var sec = document.getElementById("beta"), form = document.getElementById("bf");
+  var box = document.getElementById("bf-apps"), status = document.getElementById("bf-status");
+  var email = document.getElementById("bf-email"), consent = document.getElementById("bf-consent");
+  var btn = document.getElementById("bf-submit"), trap = form.querySelector("[name=site]");
+  var radios = form.querySelectorAll("input[name=plat]");
+  var t0 = Date.now(), sending = false;
+
+  sec.hidden = false; document.getElementById("nav-beta").hidden = false;
+  document.getElementById("bf-days").textContent = C.retentionDays;
+  var mail = document.getElementById("bf-mail"); mail.href = "mailto:" + C.privacyEmail; mail.textContent = C.privacyEmail;
+  document.getElementById("bf-view").href = C.formViewUrl;
+
+  APPS.forEach(function (a) {
+    var l = document.createElement("label"); l.className = "bf-app";
+    var i = document.createElement("input"); i.type = "checkbox"; i.name = "app"; i.value = a.id; i.disabled = !a.open;
+    var im = document.createElement("img"); im.src = a.icon; im.alt = ""; im.width = 36; im.height = 36;
+    var d = document.createElement("span"), b = document.createElement("b"), s = document.createElement("small");
+    b.textContent = a.name; s.textContent = a.open ? a.note : "Beta fechado: " + a.note; d.append(b, s);
+    l.append(i, im, d); box.append(l); a.input = i; a.small = s;
+  });
+
+  function plat() { for (var i = 0; i < radios.length; i++) if (radios[i].checked) return radios[i].value; return null; }
+  function err(id, text) {
+    var el = document.getElementById("bf-" + id + "-err"); el.textContent = text || ""; el.hidden = !text;
+    var t = id === "email" ? [email] : id === "consent" ? [consent] : id === "plat" ? radios : [];
+    for (var i = 0; i < t.length; i++) text ? t[i].setAttribute("aria-invalid", "true") : t[i].removeAttribute("aria-invalid");
+  }
+  function sync() {   /* desliga o app que não tem beta no aparelho escolhido */
+    var p = plat();
+    APPS.forEach(function (a) {
+      if (!a.open) return;
+      var ok = !p || a.platforms.indexOf(p) > -1;
+      a.input.disabled = !ok; if (!ok) a.input.checked = false;
+      a.small.textContent = ok ? a.note : "Ainda sem beta no " + PLAT[p];
+    });
+    document.getElementById("bf-email-l").textContent = p === "android" ? "E-mail da sua conta Google (Play)" : "Seu e-mail";
+  }
+  radios.forEach(function (r) { r.addEventListener("change", function () { sync(); err("plat"); }); });
+  var all = document.getElementById("bf-all");
+  all.addEventListener("click", function () {
+    var av = APPS.filter(function (a) { return a.open && !a.input.disabled; });
+    var every = av.length && av.every(function (a) { return a.input.checked; });
+    av.forEach(function (a) { a.input.checked = !every; });
+    all.textContent = every ? "Marcar todos" : "Desmarcar todos"; err("apps");
+  });
+  box.addEventListener("change", function () { err("apps"); });
+  email.addEventListener("input", function () { err("email"); });
+  consent.addEventListener("change", function () { err("consent"); });
+
+  var ua = navigator.userAgent || "";
+  var guess = /iPhone|iPad|iPod/.test(ua) ? "iphone" : /Android/.test(ua) ? "android" : null;
+  if (guess) radios.forEach(function (r) { r.checked = r.value === guess; });
+  var pre = q.get("app");
+  APPS.forEach(function (a) { if (a.open && a.id === pre) a.input.checked = true; });
+  sync();
+
+  /* cartões: o link direto do TestFlight vira "Entrar no beta" com o app marcado */
+  document.querySelectorAll("[data-beta-app]").forEach(function (a) {
+    var id = a.getAttribute("data-beta-app"); a.hidden = false;
+    a.removeAttribute("target"); a.removeAttribute("rel"); a.textContent = "Entrar no beta"; a.href = "#beta";
+    a.addEventListener("click", function () { APPS.forEach(function (x) { if (x.open && !x.input.disabled) x.input.checked = x.id === id; }); });
+  });
+  document.querySelectorAll("[data-beta-hide]").forEach(function (e) { e.hidden = true; });
+
+  function say(cls, nodes) { status.className = "bf-status " + cls; status.textContent = ""; nodes.forEach(function (n) { status.append(n); }); }
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text) e.textContent = text; if (cls) e.className = cls; return e; }
+
+  function post(a, p, mailv) {
+    var body = new URLSearchParams();
+    body.set(C.entries.email, mailv); body.set(C.entries.app, a.name); body.set(C.entries.platform, PLAT[p]); body.set(C.entries.consent, C.consentValue);
+    if (testMode) { window.__betaSent.push(body.toString()); return new Promise(function (r) { setTimeout(r, 300); }); }
+    return fetch(C.formResponseUrl, { method: "POST", mode: "no-cors", body: body });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); if (sending) return;
+    ["apps", "plat", "email", "consent"].forEach(function (k) { err(k); });
+    var picked = APPS.filter(function (a) { return a.open && a.input.checked; }), p = plat(), m = email.value.trim();
+    var bad = null;
+    if (!picked.length) bad = ["apps", "Marque pelo menos um projeto.", box.querySelector("input:not(:disabled)")];
+    else if (!p) bad = ["plat", "Escolha iPhone ou Android.", radios[0]];
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(m)) bad = ["email", "Digite um e-mail válido, como nome@exemplo.com.", email];
+    else if (!consent.checked) bad = ["consent", "Marque a caixa para eu poder mandar o convite.", consent];
+    if (bad) { err(bad[0], bad[1]); if (bad[2]) bad[2].focus(); return; }
+    if (trap.value || Date.now() - t0 < 2500) { say("bf-info", [el("p", "Confira os dados e envie de novo.")]); return; }   /* robô: sem aviso detalhado */
+    sending = true; btn.disabled = true; say("bf-info", [el("p", "Enviando…")]);
+    Promise.all(picked.map(function (a) { return post(a, p, m); })).then(function () {
+      var h = el("div", "", "bf-ok"); h.append(el("h3", "Pedido enviado"));
+      h.append(el("p", "Guardei " + m + " para o convite."));
+      var ul = el("ul");
+      picked.forEach(function (a) {
+        var li = el("li"); li.append(el("b", a.name));
+        if (p === "iphone" && a.testflight) {
+          li.append(el("span", "Instale o TestFlight na App Store e abra o convite."));
+          var l = el("a", "Abrir o beta do " + a.name, "btn btn-primary"); l.href = a.testflight; l.target = "_blank"; l.rel = "noopener"; li.append(l);
+        } else {
+          li.append(el("span", "O convite chega por e-mail em alguns dias. Não precisa fazer mais nada."));
+        }
+        ul.append(li);
+      });
+      h.append(ul); form.hidden = true; say("", [h]); status.focus();
+    }).catch(function () {
+      sending = false; btn.disabled = false; say("bf-fail", [el("p", "Não consegui enviar agora. Tente de novo ou use o link do Google Forms abaixo.")]);
+    });
+  });
 })();
 </script>
 </body>
